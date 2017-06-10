@@ -8,12 +8,12 @@ namespace Config
   {
     namespace Logger
     {
-      constexpr const char detailed_log_prefix[] ("L");
-      constexpr const char short_log_prefix[] ("L");
-      constexpr const char expression_log_prefix[] ("E");
-      constexpr const char timer_log_prefix[] ("T");
-      constexpr const char assert_prefix[] ("A");
-      constexpr const char check_prefix[] ("C");
+      constexpr const char Detailed_log_prefix[] ("L");
+      constexpr const char Short_log_prefix[] ("L");
+      constexpr const char Expression_log_prefix[] ("E");
+      constexpr const char Timer_log_prefix[] ("T");
+      constexpr const char Assert_prefix[] ("A");
+      constexpr const char Check_prefix[] ("C");
     }
   }
 }

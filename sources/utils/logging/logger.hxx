@@ -36,16 +36,16 @@ namespace Utils
        */
       template <typename ... TArgs>
       static void
-      printDetailedLog (
+      printLog_Detailed (
         const SourceLocation & source_location,
         const std::string & prefix, const std::string & format, const TArgs & ... args
       )
       {
-        ++messageID ();
+        ++messageId_ ();
 
         fmt::print (
-          output_stream, "{0}/{1} {2}\n{{in `{3}' at `{4}:{5}'}}\n",
-          messageID (), prefix, fmt::format (format, args ...),
+          output_stream_, "{0}/{1} {2}\n{{in `{3}' at `{4}:{5}'}}\n",
+          messageId_ (), prefix, fmt::format (format, args ...),
           source_location.function (), source_location.file (), source_location.line ()
         );
       }
@@ -59,13 +59,13 @@ namespace Utils
        */
       template <typename ... TArgs>
       static void
-      printShortLog (const std::string & prefix, const std::string & format, const TArgs & ... args)
+      printLog_Short (const std::string & prefix, const std::string & format, const TArgs & ... args)
       {
-        ++messageID ();
+        ++messageId_ ();
 
         fmt::print (
-          output_stream, "{0}/{1} {2}\n",
-          messageID (), prefix, fmt::format (format, args ...)
+          output_stream_, "{0}/{1} {2}\n",
+          messageId_ (), prefix, fmt::format (format, args ...)
         );
       }
 
@@ -78,7 +78,7 @@ namespace Utils
        * @return
        */
       static std::size_t &
-      messageID (void)
+      messageId_ (void)
       {
         static std::size_t message_id (0);
 
@@ -89,7 +89,7 @@ namespace Utils
       /**
        * @brief
        */
-      static constexpr std::ostream & output_stream = std::clog;
+      static constexpr std::ostream & output_stream_ { std::clog };
   };
 }
 

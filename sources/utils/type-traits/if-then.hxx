@@ -12,7 +12,7 @@ namespace Utils
   template <bool TCondition, typename TType>
   struct IfThen
   {
-    static constexpr bool condition = TCondition;
+    static constexpr bool condition { TCondition };
   };
 
 
@@ -23,7 +23,7 @@ namespace Utils
   template <typename TType>
   struct IfThen <true, TType>
   {
-    static constexpr bool condition = true;
+    static constexpr bool condition { true };
 
     using type = TType;
   };

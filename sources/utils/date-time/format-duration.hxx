@@ -28,54 +28,60 @@ namespace Utils
 
     bool is_zero (true);
 
-    const hours as_hours (duration_cast <hours> (duration));
-    if (as_hours != 0h)
+    const hours duration_hours (duration_cast <hours> (duration));
+    if (duration_hours != 0h)
     {
-      memory_writer.write ("{0:d}h", as_hours.count ());
+      memory_writer.write ("{0:d}h", duration_hours.count ());
 
       is_zero = false;
     }
 
-    const minutes as_minutes (duration_cast <minutes> (duration - as_hours));
-    if (as_minutes != 0min)
+    const minutes duration_minutes (duration_cast <minutes> (duration - duration_hours));
+    if (duration_minutes != 0min)
     {
-      memory_writer.write ("{0:s}{1:d}min", ((is_zero) ? "" : " "), as_minutes.count ());
+      memory_writer.write ("{0:s}{1:d}min", ((is_zero) ? "" : " "), duration_minutes.count ());
 
       is_zero = false;
     }
 
-    const seconds as_seconds (duration_cast <seconds> (duration - as_hours - as_minutes));
-    if (as_seconds != 0s)
+    const seconds duration_seconds (duration_cast <seconds> (duration - duration_hours - duration_minutes));
+    if (duration_seconds != 0s)
     {
-      memory_writer.write ("{0:s}{1:d}s", ((is_zero) ? "" : " "), as_seconds.count ());
+      memory_writer.write ("{0:s}{1:d}s", ((is_zero) ? "" : " "), duration_seconds.count ());
 
       is_zero = false;
     }
 
-    const milliseconds as_milliseconds (duration_cast <milliseconds> (duration - as_hours - as_minutes - as_seconds));
-    if (as_milliseconds != 0ms)
-    {
-      memory_writer.write ("{0:s}{1:d}ms", ((is_zero) ? "" : " "), as_milliseconds.count ());
-
-      is_zero = false;
-    }
-
-    const microseconds as_microseconds (
-      duration_cast <microseconds> (duration - as_hours - as_minutes - as_seconds - as_milliseconds)
+    const milliseconds duration_milliseconds (
+      duration_cast <milliseconds> (duration - duration_hours - duration_minutes - duration_seconds)
     );
-    if (as_microseconds != 0us)
+    if (duration_milliseconds != 0ms)
     {
-      memory_writer.write ("{0:s}{1:d}us", ((is_zero) ? "" : " "), as_microseconds.count ());
+      memory_writer.write ("{0:s}{1:d}ms", ((is_zero) ? "" : " "), duration_milliseconds.count ());
 
       is_zero = false;
     }
 
-    const nanoseconds as_nanoseconds (
-      duration_cast <nanoseconds> (duration - as_hours - as_minutes - as_seconds - as_milliseconds - as_microseconds)
+    const microseconds duration_microseconds (
+      duration_cast <microseconds> (
+        duration - duration_hours - duration_minutes - duration_seconds - duration_milliseconds
+      )
     );
-    if (as_nanoseconds != 0ns)
+    if (duration_microseconds != 0us)
     {
-      memory_writer.write ("{0:s}{1:d}ns", ((is_zero) ? "" : " "), as_nanoseconds.count ());
+      memory_writer.write ("{0:s}{1:d}us", ((is_zero) ? "" : " "), duration_microseconds.count ());
+
+      is_zero = false;
+    }
+
+    const nanoseconds duration_nanoseconds (
+      duration_cast <nanoseconds> (
+        duration - duration_hours - duration_minutes - duration_seconds - duration_milliseconds - duration_microseconds
+      )
+    );
+    if (duration_nanoseconds != 0ns)
+    {
+      memory_writer.write ("{0:s}{1:d}ns", ((is_zero) ? "" : " "), duration_nanoseconds.count ());
     }
 
     return memory_writer.str ();

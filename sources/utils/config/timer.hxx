@@ -8,7 +8,7 @@ namespace Config
   {
     namespace Timer
     {
-      constexpr const char default_description[] ("(no description)");
+      constexpr const char Default_description[] ("(no description)");
     }
   }
 }

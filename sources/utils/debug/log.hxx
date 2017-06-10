@@ -2,7 +2,7 @@
 #define UTILS_DEBUG_LOG_HXX
 
 
-#include "../logging/logger.hxx" // ::Utils::Logger::printDetailedLog, ::Config::Utils::Logger::*
+#include "../logging/logger.hxx" // ::Utils::Logger::printLog_Detailed, ::Config::Utils::Logger::*
 #include "../logging/source-location.hxx" // ::Utils::SourceLocation
 #include "../preproc/stringify.hxx" // STRINGIFY_E
 
@@ -14,9 +14,9 @@
   #define LOG_F_V(format, ...) \
     do \
     { \
-      ::Utils::Logger::printDetailedLog ( \
+      ::Utils::Logger::printLog_Detailed ( \
         ::Utils::SourceLocation (__PRETTY_FUNCTION__, __FILE__, __LINE__), \
-        ::Config::Utils::Logger::detailed_log_prefix, \
+        ::Config::Utils::Logger::Detailed_log_prefix, \
         (format), __VA_ARGS__ \
       ); \
     } \
@@ -29,8 +29,8 @@
   #define LOG_F_NV(format, ...) \
     do \
     { \
-      ::Utils::Logger::printShortLog ( \
-        ::Config::Utils::Logger::short_log_prefix, \
+      ::Utils::Logger::printLog_Short ( \
+        ::Config::Utils::Logger::Short_log_prefix, \
         (format), __VA_ARGS__ \
       ); \
     } \
@@ -43,9 +43,9 @@
   #define LOG_NF_V(message) \
     do \
     { \
-      ::Utils::Logger::printDetailedLog ( \
+      ::Utils::Logger::printLog_Detailed ( \
         ::Utils::SourceLocation (__PRETTY_FUNCTION__, __FILE__, __LINE__), \
-        ::Config::Utils::Logger::detailed_log_prefix, \
+        ::Config::Utils::Logger::Detailed_log_prefix, \
         (message) \
       ); \
     } \
@@ -58,8 +58,8 @@
   #define LOG_NF_NV(message) \
     do \
     { \
-      ::Utils::Logger::printShortLog ( \
-        ::Config::Utils::Logger::short_log_prefix, \
+      ::Utils::Logger::printLog_Short ( \
+        ::Config::Utils::Logger::Short_log_prefix, \
         (message) \
       ); \
     } \
@@ -72,8 +72,8 @@
   #define LOG_EXPR(expr) \
     do \
     { \
-      ::Utils::Logger::printShortLog ( \
-        ::Config::Utils::Logger::expression_log_prefix, \
+      ::Utils::Logger::printLog_Short ( \
+        ::Config::Utils::Logger::Expression_log_prefix, \
         "`{0}' == `{1}'", (STRINGIFY_E (expr)), (expr) \
       ); \
     } \

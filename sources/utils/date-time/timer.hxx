@@ -5,7 +5,7 @@
 #include <chrono> // std::chrono::steady_clock
 #include <string> // std::string
 
-#include "../config/timer.hxx" // Config::Utils::Timer::default_description
+#include "../config/timer.hxx" // Config::Utils::Timer::Default_description
 #include "../preproc/paste.hxx" // PASTE_E
 
 
@@ -43,14 +43,14 @@ namespace Utils
        * @param that
        * @return
        */
-      Timer (const Timer & that);
+      Timer (const self_type & that);
 
       /**
        * @brief
        * @param that
        * @return
        */
-      Timer (Timer && that);
+      Timer (self_type && that);
 
 //      /**
 //       * @brief
@@ -151,7 +151,7 @@ namespace Utils
       /**
        * @brief
        */
-      std::string description_ = Config::Utils::Timer::default_description;
+      std::string description_ = Config::Utils::Timer::Default_description;
 
       /**
        * @brief

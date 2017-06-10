@@ -38,8 +38,8 @@ namespace Utils
 
         return (
           (abs_diff <= abs_tol) ||
-          (abs_diff <= rel_tol * std::fabs (x)) ||
-          (abs_diff <= rel_tol * std::fabs (y))
+          (abs_diff <= (rel_tol * std::fabs (x))) ||
+          (abs_diff <= (rel_tol * std::fabs (y)))
         );
       }
     }

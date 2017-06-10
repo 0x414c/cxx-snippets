@@ -26,7 +26,7 @@ namespace Utils
           return N;
         }
 
-        static constexpr int value = N;
+        static constexpr int value { N };
       };
 
 

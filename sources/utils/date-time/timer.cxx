@@ -1,10 +1,10 @@
 #include <string> // std::string
 #include <utility> // std::move
 
-#include "timer.hxx" // Utils::Timer
+#include "timer.hxx" // Utils::Timer::*
 
 #include "format-duration.hxx" // formatDuration
-#include "../logging/logger.hxx" // Logger::printShortLog
+#include "../logging/logger.hxx" // Logger::printLog_Short
 
 
 namespace Utils
@@ -15,7 +15,7 @@ namespace Utils
   }
 
 
-  Timer::Timer (const Timer & that) :
+  Timer::Timer (const self_type & that) :
     description_ (that.description_),
     is_automatic_ (that.is_automatic_),
     time_started_ (that.time_started_)
@@ -24,7 +24,7 @@ namespace Utils
   }
 
 
-  Timer::Timer (Timer && that) :
+  Timer::Timer (self_type && that) :
     description_ (std::move (that.description_)),
     is_automatic_ (that.is_automatic_),
     time_started_ (that.time_started_)
@@ -107,8 +107,8 @@ namespace Utils
   {
     const clock_type::duration elapsed (time_stopped_ - time_started_);
 
-    Logger::printShortLog (
-      Config::Utils::Logger::timer_log_prefix,
+    Logger::printLog_Short (
+      Config::Utils::Logger::Timer_log_prefix,
       "Timer `{0}': time elapsed: {1}", description_, formatDuration (elapsed)
     );
   }
