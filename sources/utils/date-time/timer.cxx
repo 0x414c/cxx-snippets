@@ -11,7 +11,7 @@ namespace Utils
 {
   Timer::Timer (void)
   {
-    init_ ();
+    initialize_ ();
   }
 
 
@@ -20,7 +20,7 @@ namespace Utils
     is_automatic_ (that.is_automatic_),
     time_started_ (that.time_started_)
   {
-    init_ ();
+    initialize_ ();
   }
 
 
@@ -29,28 +29,28 @@ namespace Utils
     is_automatic_ (that.is_automatic_),
     time_started_ (that.time_started_)
   {
-    init_ ();
+    initialize_ ();
   }
 
 
 //  Timer::Timer (bool is_automatic) :
 //    is_automatic_ (is_automatic)
 //  {
-//    init_ ();
+//    initialize_ ();
 //  }
 
 
   Timer::Timer (const std::string & description) :
     description_ (description)
   {
-    init_ ();
+    initialize_ ();
   }
 
 
   Timer::Timer (std::string && description) :
     description_ (std::move (description))
   {
-    init_ ();
+    initialize_ ();
   }
 
 
@@ -58,7 +58,7 @@ namespace Utils
     description_ (description),
     is_automatic_ (is_automatic)
   {
-    init_ ();
+    initialize_ ();
   }
 
 
@@ -66,7 +66,7 @@ namespace Utils
     description_ (std::move (description)),
     is_automatic_ (is_automatic)
   {
-    init_ ();
+    initialize_ ();
   }
 
 
@@ -157,7 +157,7 @@ namespace Utils
 
 
   void
-  Timer::init_ (void)
+  Timer::initialize_ (void)
   {
     if (is_automatic_)
     {

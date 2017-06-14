@@ -12,6 +12,8 @@
 #endif // RESULT_WITH_EXCEPTIONS
 #include <utility> // std::{forward, move}
 
+#include "operation-status.hxx" // OperationStatus
+
 #include "../type-traits/aligned-union-storage-manager.hxx" // AlignedUnionStorageManager
 
 
@@ -19,19 +21,10 @@ namespace Utils
 {
   /**
    * @brief
-   */
-  enum struct BasicError
-  {
-    Success, Fail, Nothing
-  };
-
-
-  /**
-   * @brief
    * @tparam TResult
    * @tparam TError
    */
-  template <typename TResult, typename TError = BasicError>
+  template <typename TResult, typename TError = OperationStatus>
   class Result
   {
     public:
@@ -56,9 +49,7 @@ namespace Utils
        */
       Result (void)
       {
-        std::clog << "Result (void)" << std::endl;
-
-        init_ ();
+        initialize_ ();
       }
 
 
@@ -74,9 +65,7 @@ namespace Utils
       is_error_ (that.is_error_)
 #endif // RESULT_WITH_EXCEPTIONS
       {
-        std::clog << "Result (const self_type & that)" << std::endl;
-
-        if (that.isErrorNoCheck_ ())
+        if (that.isError_Unchecked_ ())
         {
           result_or_error_.template construct <error_type> (*that.result_or_error_.template get <error_type> ());
         }
@@ -99,9 +88,7 @@ namespace Utils
       is_error_ (that.is_error_)
 #endif // RESULT_WITH_EXCEPTIONS
       {
-        std::clog << "Result (self_type && that)" << std::endl;
-
-        if (that.isErrorNoCheck_ ())
+        if (that.isError_Unchecked_ ())
         {
           result_or_error_.template construct <error_type> (
             std::move (*that.result_or_error_.template get <error_type> ())
@@ -121,9 +108,7 @@ namespace Utils
        */
       ~Result (void)
       {
-        std::clog << "~Result (void)" << std::endl;
-
-        if (isErrorNoCheck_ ())
+        if (isError_Unchecked_ ())
         {
           result_or_error_.template destroy <error_type> ();
         }
@@ -144,9 +129,9 @@ namespace Utils
 #ifdef RESULT_WITH_EXCEPTIONS
         if (errorWasChecked_ ())
         {
-          if (!isErrorNoCheck_ ())
+          if (!isError_Unchecked_ ())
           {
-            return resultNoCheck_ ();
+            return result_Unchecked_ ();
           }
           else
           {
@@ -158,7 +143,7 @@ namespace Utils
           throw std::runtime_error ("Result should be checked for an error before calling `result ()'.");
         }
 #else // RESULT_WITH_EXCEPTIONS
-        return resultNoCheck_ ();
+        return result_Unchecked_ ();
 #endif // RESULT_WITH_EXCEPTIONS
       }
 
@@ -173,9 +158,9 @@ namespace Utils
 #ifdef RESULT_WITH_EXCEPTIONS
         if (errorWasChecked_ ())
         {
-          if (isErrorNoCheck_ ())
+          if (isError_Unchecked_ ())
           {
-            return errorNoCheck_ ();
+            return error_Unchecked_ ();
           }
           else
           {
@@ -187,7 +172,7 @@ namespace Utils
           throw std::runtime_error ("Result should be checked for an error before calling `error ()'.");
         }
 #else // RESULT_WITH_EXCEPTIONS
-        return errorNoCheck_ ();
+        return error_Unchecked_ ();
 #endif // RESULT_WITH_EXCEPTIONS
       }
 
@@ -203,7 +188,7 @@ namespace Utils
         errorWasChecked_ (true);
 #endif // RESULT_WITH_EXCEPTIONS
 
-        return isErrorNoCheck_ ();
+        return isError_Unchecked_ ();
       }
 
 
@@ -225,11 +210,9 @@ namespace Utils
       const self_type &
       operator = (const self_type & that)
       {
-        std::clog << "operator = (const self_type & that)" << std::endl;
-
         if (this != &that)
         {
-          if (that.isErrorNoCheck_ ())
+          if (that.isError_Unchecked_ ())
           {
             result_or_error_.template assign <error_type> (*that.result_or_error_.template get <error_type> ());
           }
@@ -256,11 +239,9 @@ namespace Utils
       const self_type &
       operator = (self_type && that)
       {
-        std::clog << "operator = (self_type && that)" << std::endl;
-
         if (this != &that)
         {
-          if (that.isErrorNoCheck_ ())
+          if (that.isError_Unchecked_ ())
           {
             result_or_error_.template assign <error_type> (
               std::move (*that.result_or_error_.template get <error_type> ())
@@ -292,13 +273,13 @@ namespace Utils
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
-        if (self.isErrorNoCheck_ ())
+        if (self.isError_Unchecked_ ())
         {
-          output << "error: " << self.errorNoCheck_ ();
+          output << "error: " << self.error_Unchecked_ ();
         }
         else
         {
-          output << "result: " << self.resultNoCheck_ ();
+          output << "result: " << self.result_Unchecked_ ();
         }
 
         return output;
@@ -317,8 +298,6 @@ namespace Utils
       static self_type
       makeResult (TArgs && ... args)
       {
-        std::clog << "makeResult (TArgs && ... args)" << std::endl;
-
         Result <TResult, TError> new_result;
 
         new_result.result_or_error_.template construct <TResult> (std::forward <TArgs> (args) ...);
@@ -338,8 +317,6 @@ namespace Utils
       static self_type
       makeError (TArgs && ... args)
       {
-        std::clog << "makeError (TArgs && ... args)" << std::endl;
-
         Result <TResult, TError> new_error;
 
         new_error.result_or_error_.template construct <TError> (std::forward <TArgs> (args) ...);
@@ -355,7 +332,7 @@ namespace Utils
        * @return
        */
       const result_type &
-      resultNoCheck_ (void) const
+      result_Unchecked_ (void) const
       {
         return *result_or_error_.template get <result_type> ();
       }
@@ -366,7 +343,7 @@ namespace Utils
        * @return
        */
       const error_type &
-      errorNoCheck_ (void) const
+      error_Unchecked_ (void) const
       {
         return *result_or_error_.template get <error_type> ();
       }
@@ -388,7 +365,7 @@ namespace Utils
        * @return
        */
       bool
-      isErrorNoCheck_ (void) const
+      isError_Unchecked_ (void) const
       {
         return is_error_;
       }
@@ -419,7 +396,7 @@ namespace Utils
 
 
       void
-      init_ (void)
+      initialize_ (void)
       {
 #ifdef RESULT_WITH_EXCEPTIONS
         errorWasChecked_ (false);

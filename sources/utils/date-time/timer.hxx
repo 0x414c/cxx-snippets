@@ -146,7 +146,7 @@ namespace Utils
       /**
        * @brief
        */
-      void init_ (void);
+      void initialize_ (void);
 
       /**
        * @brief
@@ -156,7 +156,7 @@ namespace Utils
       /**
        * @brief
        */
-      bool is_automatic_ = true;
+      bool is_automatic_ { true };
 
       /**
        * @brief
