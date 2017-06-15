@@ -48,14 +48,12 @@ namespace Utils
     /**
      * @brief
      */
-//    static constexpr std::size_t size { max (sizeof (TTypes) ...) };
-    static constexpr std::size_t size { 1 };
+    static constexpr std::size_t size { max (sizeof (TTypes) ...) };
 
     /**
      * @brief
      */
-//    static constexpr std::size_t alignment { max (alignof (TTypes) ...) };
-    static constexpr std::size_t alignment { 1 };
+    static constexpr std::size_t alignment { max (alignof (TTypes) ...) };
 
 
     /**
