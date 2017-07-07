@@ -137,4 +137,7 @@ namespace Utils
 }
 
 
+#define CURRENT_SOURCE_LOCATION() (::Utils::SourceLocation (__PRETTY_FUNCTION__, __FILE__, __LINE__))
+
+
 #endif // UTILS_LOGGING_SOURCELOCATION_HXX

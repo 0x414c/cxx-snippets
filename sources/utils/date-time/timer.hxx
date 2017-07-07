@@ -181,8 +181,7 @@ namespace Utils
   /**
    * @brief
    */
-  #define TIMER_CREATE(id, description) \
-    ::Utils::Timer (PASTE_E (timer_, id)) ((description), false)
+  #define TIMER_CREATE(id, description) ::Utils::Timer (PASTE_E (timer_, id)) ((description), false)
 
 
   /**

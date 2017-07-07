@@ -5,7 +5,7 @@
 #include <cstdlib> // ::std::exit, EXIT_FAILURE
 
 #include "../logging/logger.hxx" // ::Utils::Logger::printLog_Detailed
-#include "../logging/source-location.hxx" // ::Utils::SourceLocation
+#include "../logging/source-location.hxx" // CURRENT_SOURCE_LOCATION
 #include "../preproc/stringify.hxx" // STRINGIFY_E
 
 
@@ -19,7 +19,7 @@
       if (!(condition)) \
       { \
         ::Utils::Logger::printLog_Detailed ( \
-          ::Utils::SourceLocation (__PRETTY_FUNCTION__, __FILE__, __LINE__), \
+          CURRENT_SOURCE_LOCATION (), \
           ::Config::Utils::Logger::Assert_prefix, \
           "Assertion `{0}' failed: `{1}'", (STRINGIFY_E (condition)), (message) \
         ); \

@@ -25,7 +25,7 @@ namespace Utils
     ASSERT (!(x_max < x_min), "`x_max' should not be less than `x_min'");
     ASSERT (!(y_max < y_min), "`y_max' should not be less than `y_min'");
 
-    return (y_min + (y_max - y_min) * ((x - x_min) / (x_max - x_min)));
+    return (y_min + (x - x_min) * (y_max - y_min) / (x_max - x_min));
   }
 }
 

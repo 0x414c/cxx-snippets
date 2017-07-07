@@ -2,13 +2,13 @@
 #define UTILS_MISC_COUNTER_HXX
 
 
-#include <stdexcept> // std::runtime_error
-
-
 namespace Utils
 {
   namespace Counter
   {
+    constexpr int Max_value { 32 };
+
+
     namespace
     {
       template <int N>
@@ -52,7 +52,7 @@ namespace Utils
 
 
     template <int N = 1>
-    constexpr int next (int R = Writer <read (0, Flag <32> { }) + N>::value)
+    constexpr int next (int R = Writer <read (0, Flag <Max_value> { }) + N>::value)
     {
       return R;
     }

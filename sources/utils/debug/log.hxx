@@ -3,7 +3,7 @@
 
 
 #include "../logging/logger.hxx" // ::Utils::Logger::printLog_Detailed, ::Config::Utils::Logger::*
-#include "../logging/source-location.hxx" // ::Utils::SourceLocation
+#include "../logging/source-location.hxx" // CURRENT_SOURCE_LOCATION
 #include "../preproc/stringify.hxx" // STRINGIFY_E
 
 
@@ -15,7 +15,7 @@
     do \
     { \
       ::Utils::Logger::printLog_Detailed ( \
-        ::Utils::SourceLocation (__PRETTY_FUNCTION__, __FILE__, __LINE__), \
+        CURRENT_SOURCE_LOCATION (), \
         ::Config::Utils::Logger::Detailed_log_prefix, \
         (format), __VA_ARGS__ \
       ); \
@@ -44,7 +44,7 @@
     do \
     { \
       ::Utils::Logger::printLog_Detailed ( \
-        ::Utils::SourceLocation (__PRETTY_FUNCTION__, __FILE__, __LINE__), \
+        CURRENT_SOURCE_LOCATION (), \
         ::Config::Utils::Logger::Detailed_log_prefix, \
         (message) \
       ); \
