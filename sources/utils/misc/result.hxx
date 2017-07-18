@@ -5,10 +5,9 @@
 #include <cstddef> // std::size_t
 
 #include <algorithm> // std::max
-#include <iostream> // std::{clog, endl}
 #include <ostream> // std::ostream
 #ifdef RESULT_WITH_EXCEPTIONS
-#include <stdexcept> // std::runtime_error
+#include <stdexcept> // std::logic_error
 #endif // RESULT_WITH_EXCEPTIONS
 #include <utility> // std::{forward, move}
 
@@ -135,12 +134,12 @@ namespace Utils
           }
           else
           {
-            throw std::runtime_error ("Cannot access result because Result was initialized as an error.");
+            throw std::logic_error ("Cannot access result because Result was initialized as an error.");
           }
         }
         else
         {
-          throw std::runtime_error ("Result should be checked for an error before calling `result ()'.");
+          throw std::logic_error ("Result should be checked for an error before calling `result ()'.");
         }
 #else // RESULT_WITH_EXCEPTIONS
         return result_Unchecked_ ();
@@ -164,12 +163,12 @@ namespace Utils
           }
           else
           {
-            throw std::runtime_error ("Cannot access error because Result was initialized as a result.");
+            throw std::logic_error ("Cannot access error because Result was initialized as a result.");
           }
         }
         else
         {
-          throw std::runtime_error ("Result should be checked for an error before calling `error ()'.");
+          throw std::logic_error ("Result should be checked for an error before calling `error ()'.");
         }
 #else // RESULT_WITH_EXCEPTIONS
         return error_Unchecked_ ();
@@ -290,17 +289,17 @@ namespace Utils
        * NOTE: [1] We can make `make*' functions either:
        * templated in-class static functions with template parameters like `typename ... TArgs',
        * or freestanding friend functions with template parameters like
-       *   `typename TResult, typename TError, typename ... TArgs'.
+       *   `typename result_type, typename error_type, typename ... TArgs'.
        * The `make*' functions were made static methods, because otherwise we would have
-       * to specify `TResult' and `TError' template parameters manually each time we call a `make*' function.
+       * to specify `result_type' and `error_type' template parameters manually each time we call a `make*' function.
        */
       template <typename ... TArgs>
       static self_type
       makeResult (TArgs && ... args)
       {
-        Result <TResult, TError> new_result;
+        Result <result_type, error_type> new_result;
 
-        new_result.result_or_error_.template construct <TResult> (std::forward <TArgs> (args) ...);
+        new_result.result_or_error_.template construct <result_type> (std::forward <TArgs> (args) ...);
         new_result.isError_ (false);
 
         return new_result;
@@ -317,9 +316,9 @@ namespace Utils
       static self_type
       makeError (TArgs && ... args)
       {
-        Result <TResult, TError> new_error;
+        Result <result_type, error_type> new_error;
 
-        new_error.result_or_error_.template construct <TError> (std::forward <TArgs> (args) ...);
+        new_error.result_or_error_.template construct <error_type> (std::forward <TArgs> (args) ...);
         new_error.isError_ (true);
 
         return new_error;
