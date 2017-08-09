@@ -6,9 +6,9 @@
 
 #include <algorithm> // std::max
 #include <ostream> // std::ostream
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
 #include <stdexcept> // std::logic_error
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
 #include <utility> // std::{forward, move}
 
 #include "operation-status.hxx" // OperationStatus
@@ -57,12 +57,12 @@ namespace Utils
        * @param that
        */
       Result (const self_type & that) :
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
       is_error_ (that.is_error_),
       error_was_checked_ (that.error_was_checked_)
-#else // RESULT_WITH_EXCEPTIONS
+#else // RESULT_WITH_RUNTIME_CHECKS
       is_error_ (that.is_error_)
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
       {
         if (that.isError_Unchecked_ ())
         {
@@ -80,12 +80,12 @@ namespace Utils
        * @param that
        */
       Result (self_type && that) :
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
         is_error_ (that.is_error_),
         error_was_checked_ (that.error_was_checked_)
-#else // RESULT_WITH_EXCEPTIONS
+#else // RESULT_WITH_RUNTIME_CHECKS
       is_error_ (that.is_error_)
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
       {
         if (that.isError_Unchecked_ ())
         {
@@ -125,7 +125,7 @@ namespace Utils
       const result_type &
       result (void) const
       {
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
         if (errorWasChecked_ ())
         {
           if (!isError_Unchecked_ ())
@@ -141,9 +141,9 @@ namespace Utils
         {
           throw std::logic_error ("Result should be checked for an error before calling `result ()'.");
         }
-#else // RESULT_WITH_EXCEPTIONS
+#else // RESULT_WITH_RUNTIME_CHECKS
         return result_Unchecked_ ();
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
       }
 
 
@@ -154,7 +154,7 @@ namespace Utils
       const error_type &
       error (void) const
       {
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
         if (errorWasChecked_ ())
         {
           if (isError_Unchecked_ ())
@@ -170,9 +170,9 @@ namespace Utils
         {
           throw std::logic_error ("Result should be checked for an error before calling `error ()'.");
         }
-#else // RESULT_WITH_EXCEPTIONS
+#else // RESULT_WITH_RUNTIME_CHECKS
         return error_Unchecked_ ();
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
       }
 
 
@@ -183,9 +183,9 @@ namespace Utils
       bool
       isError (void) const
       {
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
         errorWasChecked_ (true);
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
 
         return isError_Unchecked_ ();
       }
@@ -221,9 +221,9 @@ namespace Utils
           }
 
           is_error_ = that.is_error_;
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
           error_was_checked_ = that.error_was_checked_;
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
         }
 
         return *this;
@@ -254,12 +254,23 @@ namespace Utils
           }
 
           is_error_ = that.is_error_;
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
           error_was_checked_ = that.error_was_checked_;
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
         }
 
         return *this;
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const result_type &
+      operator * (void) const
+      {
+        return result ();
       }
 
 
@@ -272,14 +283,16 @@ namespace Utils
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
+        output << "Result{";
         if (self.isError_Unchecked_ ())
         {
-          output << "error: " << self.error_Unchecked_ ();
+          output << "error:" << self.error_Unchecked_ ();
         }
         else
         {
-          output << "result: " << self.result_Unchecked_ ();
+          output << "result:" << self.result_Unchecked_ ();
         }
+        output << '}';
 
         return output;
       }
@@ -297,8 +310,7 @@ namespace Utils
       static self_type
       makeResult (TArgs && ... args)
       {
-        Result <result_type, error_type> new_result;
-
+        self_type new_result;
         new_result.result_or_error_.template construct <result_type> (std::forward <TArgs> (args) ...);
         new_result.isError_ (false);
 
@@ -316,8 +328,7 @@ namespace Utils
       static self_type
       makeError (TArgs && ... args)
       {
-        Result <result_type, error_type> new_error;
-
+        self_type new_error;
         new_error.result_or_error_.template construct <error_type> (std::forward <TArgs> (args) ...);
         new_error.isError_ (true);
 
@@ -370,7 +381,7 @@ namespace Utils
       }
 
 
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
       /**
        * @brief
        * @return
@@ -391,15 +402,15 @@ namespace Utils
       {
         error_was_checked_ = error_was_checked;
       }
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
 
 
       void
       initialize_ (void)
       {
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
         errorWasChecked_ (false);
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
       }
 
 
@@ -413,12 +424,12 @@ namespace Utils
        */
       bool is_error_;
 
-#ifdef RESULT_WITH_EXCEPTIONS
+#ifdef RESULT_WITH_RUNTIME_CHECKS
       /**
        * @brief
        */
       mutable bool error_was_checked_;
-#endif // RESULT_WITH_EXCEPTIONS
+#endif // RESULT_WITH_RUNTIME_CHECKS
   };
 }
 
