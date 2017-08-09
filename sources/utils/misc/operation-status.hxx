@@ -9,9 +9,9 @@ namespace Utils
  */
   enum struct OperationStatus
   {
-    Success = 1,
-    Failure = 2,
-    Nothing = 4
+    Success = 1 << 0,
+    Failure = 1 << 1,
+    Nothing = 1 << 2
   };
 }
 

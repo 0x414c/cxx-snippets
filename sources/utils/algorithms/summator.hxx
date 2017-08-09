@@ -4,6 +4,7 @@
 
 #include <ostream> // std::ostream
 #include <type_traits> // std::{is_integral, is_floating_point}
+#include <utility> // std::move
 
 #include "../type-traits/choose.hxx" // Choose
 #include "../type-traits/if-then.hxx" // IfThen
@@ -46,6 +47,16 @@ namespace Utils
        */
       constexpr NaiveSummationPolicy (const self_type & that) :
         sum_ (that.sum_)
+      { }
+
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr NaiveSummationPolicy (self_type && that) :
+        sum_ (std::move (that.sum_))
       { }
 
 
@@ -103,6 +114,24 @@ namespace Utils
       /**
        * @brief
        * TODO: [1;0] Const?
+       * @param that
+       * @return
+       */
+      constexpr const self_type &
+      operator = (self_type && that)
+      {
+        if (this != &that)
+        {
+          sum_ = std::move (that.sum_);
+        }
+
+        return *this;
+      }
+
+
+      /**
+       * @brief
+       * TODO: [1;0] Const?
        * @param new_initial_value
        * @return
        */
@@ -150,7 +179,8 @@ namespace Utils
        * @return
        */
       constexpr CompensatingSummationPolicy (void) :
-        sum_ (term_type (0)), correction_ (term_type (0))
+        sum_ (term_type (0)),
+        correction_ (term_type (0))
       { }
 
 
@@ -160,7 +190,19 @@ namespace Utils
        * @return
        */
       constexpr CompensatingSummationPolicy (const self_type & that) :
-        sum_ (that.sum_), correction_ (that.correction_)
+        sum_ (that.sum_),
+        correction_ (that.correction_)
+      { }
+
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr CompensatingSummationPolicy (self_type && that) :
+        sum_ (std::move (that.sum_)),
+        correction_ (std::move (that.correction_))
       { }
 
 
@@ -171,7 +213,8 @@ namespace Utils
        * @return
        */
       constexpr explicit CompensatingSummationPolicy (term_type initial_value) :
-        sum_ (initial_value), correction_ (term_type (0))
+        sum_ (initial_value),
+        correction_ (term_type (0))
       { }
 
 
@@ -249,6 +292,25 @@ namespace Utils
         {
           sum_ = that.sum_;
           correction_ = that.correction_;
+        }
+
+        return *this;
+      }
+
+
+      /**
+       * @brief
+       * TODO: [1;0] Const?
+       * @param that
+       * @return
+       */
+      constexpr const self_type &
+      operator = (self_type && that)
+      {
+        if (this != &that)
+        {
+          sum_ = std::move (that.sum_);
+          correction_ = std::move (that.correction_);
         }
 
         return *this;
@@ -339,11 +401,21 @@ namespace Utils
 
       /**
        * @brief
+       * @param that
+       * @return
+       */
+      constexpr Summator (self_type && that) :
+        summation_policy_ (std::move (that.summation_policy_))
+      { }
+
+
+      /**
+       * @brief
        * TODO: [1;0] Explicit?
        * @param initial_value
        * @return
        */
-      constexpr explicit Summator (TTerm initial_value) :
+      constexpr explicit Summator (term_type initial_value) :
         summation_policy_ (initial_value)
       { }
 
@@ -371,6 +443,24 @@ namespace Utils
         if (this != &that)
         {
           summation_policy_ = that.summation_policy_;
+        }
+
+        return *this;
+      }
+
+
+      /**
+       * @brief
+       * TODO: [1;0] Const?
+       * @param that
+       * @return
+       */
+      constexpr const self_type &
+      operator = (self_type && that)
+      {
+        if (this != &that)
+        {
+          summation_policy_ = std::move (that.summation_policy_);
         }
 
         return *this;
@@ -424,16 +514,19 @@ namespace Utils
 
       /**
        * @brief
-       * @param os
+       * @param output
        * @param self
        * @return
        */
       friend std::ostream &
-      operator << (std::ostream & os, const self_type & self)
+      operator << (std::ostream & output, const self_type & self)
       {
-        os << "total: " << self.summation_policy_.total ();
+        output
+          << "Summator{"
+          << "total:" << self.summation_policy_.total ()
+          << '}';
 
-        return os;
+        return output;
       }
 
 

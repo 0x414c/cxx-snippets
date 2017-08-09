@@ -26,8 +26,8 @@ namespace Utils
 
   Timer::Timer (self_type && that) :
     description_ (std::move (that.description_)),
-    is_automatic_ (that.is_automatic_),
-    time_started_ (that.time_started_)
+    is_automatic_ (std::move (that.is_automatic_)),
+    time_started_ (std::move (that.time_started_))
   {
     initialize_ ();
   }
@@ -148,8 +148,8 @@ namespace Utils
     if (this != &that)
     {
       description_ = std::move (that.description_);
-      is_automatic_ = that.is_automatic_;
-      time_started_ = that.time_started_;
+      is_automatic_ = std::move (that.is_automatic_);
+      time_started_ = std::move (that.time_started_);
     }
 
     return *this;

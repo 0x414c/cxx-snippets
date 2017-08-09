@@ -79,7 +79,7 @@ namespace Utils
     {
       function_ = std::move (that.function_);
       file_ = std::move (that.file_);
-      line_ = that.line_;
+      line_ = std::move (that.line_);
     }
 
     return *this;
@@ -90,9 +90,10 @@ namespace Utils
   operator << (std::ostream & output, const SourceLocation::self_type & self)
   {
     output
-      << "function: " << self.function_
-      << "; file: " << self.file_
-      << "; line: " << self.line_;
+      << "SourceLocation{function:" << self.function_
+      << ";file:" << self.file_
+      << ";line:" << self.line_
+      << '}';
 
     return output;
   }
