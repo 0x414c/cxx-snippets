@@ -7,8 +7,8 @@
 #include <string> // std::string
 #include <iostream> // std::{ostream, clog}
 
-#include "fmt/format.h" // fmt::print
-#include "fmt/ostream.h" // fmt::print[std::ostream]
+#include <fmt/format.h> // fmt::print
+#include <fmt/ostream.h> // fmt::print[std::ostream]
 
 #include "../config/logger.hxx" // Config::Utils::Logger
 #include "source-location.hxx" // SourceLocation

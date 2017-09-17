@@ -5,7 +5,7 @@
 #include <chrono> // std::chrono::{minutes, seconds, milliseconds, duration_cast}
 #include <string> // std::string
 
-#include "fmt/format.h" // fmt::MemoryWriter
+#include <fmt/format.h> // fmt::MemoryWriter
 
 
 namespace Utils
