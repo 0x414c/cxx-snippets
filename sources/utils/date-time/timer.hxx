@@ -98,55 +98,64 @@ namespace Utils
        * @brief
        * @return
        */
-      const std::string & description (void) const;
+      const std::string &
+      description (void) const;
 
       /**
        * @brief
        * @return
        */
-      bool isAutomatic (void) const;
+      bool
+      isAutomatic (void) const;
 
       /**
        * @brief
        * @return
        */
-      clock_type::duration timeElapsed (void) const;
+      clock_type::duration
+      timeElapsed (void) const;
 
       /**
        * @brief
        */
-      void logTimeElapsed (void) const;
+      void
+      logTimeElapsed (void) const;
 
       /**
        * @brief
        */
-      void start (void);
+      void
+      start (void);
 
       /**
        * @brief
        */
-      void stop (void);
+      void
+      stop (void);
 
       /**
        * @brief
        * @param that
        * @return
        */
-      const self_type & operator = (const self_type & that);
+      const self_type &
+      operator = (const self_type & that);
 
       /**
        * @brief
        * @param that
        * @return
        */
-      const self_type & operator = (self_type && that);
+      const self_type &
+      operator = (self_type && that);
 
 
     private:
       /**
        * @brief
        */
-      void initialize_ (void);
+      void
+      initialize_ (void);
 
       /**
        * @brief
