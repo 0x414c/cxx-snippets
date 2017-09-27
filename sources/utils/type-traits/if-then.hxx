@@ -23,9 +23,10 @@ namespace Utils
   template <typename TType>
   struct IfThen <true, TType>
   {
-    static constexpr bool condition { true };
-
     using type = TType;
+
+
+    static constexpr bool condition { true };
   };
 }
 

@@ -9,7 +9,7 @@
 
 namespace Utils
 {
-    /**
+  /**
    * @brief
    * @tparam TSize
    * @tparam TAlignment
@@ -20,12 +20,12 @@ namespace Utils
     /**
      * @brief
      */
-    static constexpr std::size_t size { TSize };
+    static constexpr std::size_t alignment { TAlignment };
 
     /**
      * @brief
      */
-    static constexpr std::size_t alignment { TAlignment };
+    static constexpr std::size_t size { TSize };
 
 
     /**
@@ -48,12 +48,12 @@ namespace Utils
     /**
      * @brief
      */
-    static constexpr std::size_t size { max (sizeof (TTypes) ...) };
+    static constexpr std::size_t alignment { max (alignof (TTypes) ...) };
 
     /**
      * @brief
      */
-    static constexpr std::size_t alignment { max (alignof (TTypes) ...) };
+    static constexpr std::size_t size { max (sizeof (TTypes) ...) };
 
 
     /**
