@@ -37,9 +37,9 @@ namespace Utils
         const TXY abs_diff (std::fabs (x - y));
 
         return (
-          (abs_diff <= abs_tol) ||
-          (abs_diff <= (rel_tol * std::fabs (x))) ||
-          (abs_diff <= (rel_tol * std::fabs (y)))
+             (abs_diff <= abs_tol)
+          || (abs_diff <= (rel_tol * std::fabs (x)))
+          || (abs_diff <= (rel_tol * std::fabs (y)))
         );
       }
     }

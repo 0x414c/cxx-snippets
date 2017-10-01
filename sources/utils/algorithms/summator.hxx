@@ -220,7 +220,7 @@ namespace Utils
 
       /**
        * @brief A variation of compensated summation in which the final sum is also corrected.
-       * For the reference see [5], [8].
+       * For the reference see: [5], [8].
        * @return
        */
       constexpr term_type
@@ -232,14 +232,16 @@ namespace Utils
 
       /**
        * @brief Kahan's compensated summation method employs the correction `e' on every step
-       * of a recursive summation. After each partial sum is formed, the correction is computed
+       * of a recursive summation.  After each partial sum is formed, the correction is computed
        * and immediately added to the next term `x[i]' before that term is added to the partial
-       * sum. Thus the idea is to capture the rounding errors and feed them back into the summation [5, p. 9].
-       * # Each term is first corrected for the error that has accumulated so far.
+       * sum.  Thus the idea is to capture the rounding errors and feed them back into the summation [5, p. 9].
+       *
+       * Each term is first corrected for the error that has accumulated so far.
        * Then the new sum is calculated by adding this corrected term to the running total.
        * Finally, a new correction term is calculated as the difference between
        * the change in the sums and the corrected term [1, p. 1].
-       * # For the reference see:
+       *
+       * For the reference see:
        * [1] `http://www.drdobbs.com/floating-point-summation';
        * [2] `https://en.wikipedia.org/wiki/Kahan_summation_algorithm';
        * [3] `http://www.phys.uconn.edu/~rozman/Courses/P2200_11F/downloads/sum-howto.pdf';
@@ -261,7 +263,7 @@ namespace Utils
         // (new_sum - sum_) cancels the high-order part of `corrected_term';
         // subtracting `corrected_term' recovers negative (low part of `corrected_term'):
         correction_ = (new_sum - sum_) - corrected_term;
-        // Algebraically, `correction_' should always be zero. Beware overly-aggressive optimizing compilers!
+        // Algebraically, `correction_' should always be zero.  Beware overly-aggressive optimizing compilers!
         sum_ = new_sum;
         // Next time around, the lost low part will be added to `corrected_term' in a fresh attempt.
 

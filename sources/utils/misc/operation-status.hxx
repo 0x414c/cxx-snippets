@@ -5,8 +5,8 @@
 namespace Utils
 {
   /**
- * @brief
- */
+   * @brief
+   */
   enum struct OperationStatus
   {
     Success = 1 << 0,

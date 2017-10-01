@@ -11,39 +11,39 @@ namespace Utils
 
     namespace
     {
-      template <int N>
+      template <int TValue>
       struct Flag
       {
         friend constexpr int
-        adlFlag (Flag <N>);
+        adlFlag (Flag <TValue>);
       };
 
 
-      template <int N>
+      template <int TValue>
       struct Writer
       {
         friend constexpr int
-        adlFlag (Flag <N>)
+        adlFlag (Flag <TValue>)
         {
-          return N;
+          return TValue;
         }
 
 
-        static constexpr int value { N };
+        static constexpr int value { TValue };
       };
 
 
-      template <int N, int = adlFlag (Flag <N> { })>
+      template <int TValue, int = adlFlag (Flag <TValue> { })>
       constexpr int
-      read (int, Flag <N>)
+      read (int, Flag <TValue>)
       {
-        return N;
+        return TValue;
       }
 
 
-      template <int N>
+      template <int TValue>
       constexpr int
-      read (float, Flag <N>, int R = read (0, Flag <N - 1> { }))
+      read (float, Flag <TValue>, int R = read (0, Flag <TValue - 1> { }))
       {
         return R;
       }
@@ -57,9 +57,9 @@ namespace Utils
     }
 
 
-    template <int N = 1>
+    template <int TValue = 1>
     constexpr int
-    next (int R = Writer <read (0, Flag <Max_value> { }) + N>::value)
+    next (int R = Writer <read (0, Flag <Max_value> { }) + TValue>::value)
     {
       return R;
     }
