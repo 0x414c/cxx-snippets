@@ -27,7 +27,7 @@ namespace Utils
   {
     static_assert (
       std::is_floating_point <TXY>::value,
-      "Type `TXY' should be floating-point type"
+      "Type `TXY' should be floating-point one"
     );
 
     ASSERT (!(rel_tol < 0.0), "`rel_tol' should not be less than 0.0");
