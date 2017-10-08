@@ -16,6 +16,9 @@
 
 namespace Utils
 {
+  /**
+   * @brief
+   */
   class Logger
   {
     public:
@@ -41,11 +44,11 @@ namespace Utils
         const std::string & prefix, const std::string & format, const TArgs & ... args
       )
       {
-        ++messageId_ ();
+        ++message_id_;
 
         fmt::print (
           output_stream_, "{0}/{1} {2}\n{{in `{3}' at `{4}:{5}'}}\n",
-          messageId_ (), prefix, fmt::format (format, args ...),
+          message_id_, prefix, fmt::format (format, args ...),
           source_location.function (), source_location.file (), source_location.line ()
         );
       }
@@ -61,11 +64,11 @@ namespace Utils
       static void
       printLog_Short (const std::string & prefix, const std::string & format, const TArgs & ... args)
       {
-        ++messageId_ ();
+        ++message_id_;
 
         fmt::print (
           output_stream_, "{0}/{1} {2}\n",
-          messageId_ (), prefix, fmt::format (format, args ...)
+          message_id_, prefix, fmt::format (format, args ...)
         );
       }
 
@@ -73,17 +76,8 @@ namespace Utils
     private:
       /**
        * @brief
-       * HACK: [0] Workaround for in-class initialization of non-const static member.
-       * TODO: [0;0] Remove this workaround and move initialization to the according .cxx file.
-       * @return
        */
-      static std::size_t &
-      messageId_ (void)
-      {
-        static std::size_t message_id (0);
-
-        return message_id;
-      }
+      inline static std::size_t message_id_ { 0 };
 
 
       /**
