@@ -24,7 +24,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator == (const self_type & that) const
+    operator == ([[maybe_unused]] const self_type & that) const
     {
       return true;
     }
@@ -48,7 +48,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator < (const self_type & that) const
+    operator < ([[maybe_unused]] const self_type & that) const
     {
       return false;
     }
@@ -60,7 +60,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator > (const self_type & that) const
+    operator > ([[maybe_unused]] const self_type & that) const
     {
       return false;
     }
@@ -97,7 +97,7 @@ namespace Utils
      * @return
      */
     friend std::ostream &
-    operator << (std::ostream & output, const self_type & unit)
+    operator << (std::ostream & output, [[maybe_unused]] const self_type & unit)
     {
       output << "Unit{}";
 
