@@ -2,8 +2,8 @@
 #define UTILS_ALGORITHMS_MAX_HXX
 
 
-//#include <type_traits> // std::common_type
-//#include <utility> // std::forward
+#include <type_traits> // std::common_type
+#include <utility> // std::forward
 
 #include "../debug/log.hxx" // LOG_EXPR
 
