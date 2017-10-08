@@ -14,7 +14,7 @@ namespace Utils
 {
   /**
    * @brief Unsafe union-like class that holds uninitialized storage and provides
-   * methods for constructing, accessing and destroying objects in that storage.
+   *   methods for constructing, accessing and destroying objects in that storage.
    * NOTE: [2] Does not manage memory by itself and does not track types of active objects!
    * TODO: [1] Shouldn't we use `std::allocator::{construct, destroy}' and `std::aligned_union' for this?
    * @tparam TTypes
@@ -34,20 +34,17 @@ namespace Utils
        */
       AlignedUnionStorageManager (void) = default;
 
-
       /**
        * @brief
        * @param that
        */
       AlignedUnionStorageManager (const self_type & that) = delete;
 
-
       /**
        * @brief
        * @param that
        */
       AlignedUnionStorageManager (self_type && that) = delete;
-
 
       /**
        * @brief
@@ -138,7 +135,6 @@ namespace Utils
        */
       const self_type &
       operator = (const self_type & that) = delete;
-
 
       /**
        * @brief
