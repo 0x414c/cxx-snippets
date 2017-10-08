@@ -211,13 +211,29 @@ namespace Utils
       {
         if (this != &that)
         {
-          if (that.isError_Unchecked_ ())
+          if (isError_Unchecked_ ())
           {
-            result_or_error_.template assign <error_type> (*that.result_or_error_.template get <error_type> ());
+            if (that.isError_Unchecked_ ())
+            {
+              result_or_error_.template assign <error_type> (*that.result_or_error_.template get <error_type> ());
+            }
+            else
+            {
+              result_or_error_.template destroy <error_type> ();
+              result_or_error_.template construct <result_type> (*that.result_or_error_.template get <result_type> ());
+            }
           }
           else
           {
-            result_or_error_.template assign <result_type> (*that.result_or_error_.template get <result_type> ());
+            if (that.isError_Unchecked_ ())
+            {
+              result_or_error_.template destroy <result_type> ();
+              result_or_error_.template construct <error_type> (*that.result_or_error_.template get <error_type> ());
+            }
+            else
+            {
+              result_or_error_.template assign <result_type> (*that.result_or_error_.template get <result_type> ());
+            }
           }
 
           is_error_ = that.is_error_;
@@ -240,17 +256,37 @@ namespace Utils
       {
         if (this != &that)
         {
-          if (that.isError_Unchecked_ ())
+          if (isError_Unchecked_ ())
           {
-            result_or_error_.template assign <error_type> (
-              std::move (*that.result_or_error_.template get <error_type> ())
-            );
+            if (that.isError_Unchecked_ ())
+            {
+              result_or_error_.template assign <error_type> (
+                std::move (*that.result_or_error_.template get <error_type> ())
+              );
+            }
+            else
+            {
+              result_or_error_.template destroy <error_type> ();
+              result_or_error_.template construct <result_type> (
+                std::move (*that.result_or_error_.template get <result_type> ())
+              );
+            }
           }
           else
           {
-            result_or_error_.template assign <result_type> (
-              std::move (*that.result_or_error_.template get <result_type> ())
-            );
+            if (that.isError_Unchecked_ ())
+            {
+              result_or_error_.template destroy <result_type> ();
+              result_or_error_.template construct <error_type> (
+                std::move (*that.result_or_error_.template get <error_type> ())
+              );
+            }
+            else
+            {
+              result_or_error_.template assign <result_type> (
+                std::move (*that.result_or_error_.template get <result_type> ())
+              );
+            }
           }
 
           is_error_ = that.is_error_;
