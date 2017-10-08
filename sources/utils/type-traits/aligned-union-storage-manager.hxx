@@ -102,7 +102,7 @@ namespace Utils
 
       /**
        * @brief
-       * TODO: [2] Use is_assignable.
+       * TODO: [2] Use `is_assignable'.
        * TODO: [2] Remove this method as it is not 'basic'?
        * @tparam TType
        * @tparam TArgs
@@ -113,7 +113,6 @@ namespace Utils
       TType *
       assign (TArg && arg)
       {
-//        get <TType> ()->operator = (std::forward <TArg> (arg));
         *get <TType> () = std::forward <TArg> (arg);
 
         return get <TType> ();
