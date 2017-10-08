@@ -12,6 +12,9 @@ namespace Utils
   template <bool TCondition, typename TType>
   struct IfThen
   {
+    /**
+     * @brief
+     */
     static constexpr bool condition { TCondition };
   };
 
@@ -23,9 +26,15 @@ namespace Utils
   template <typename TType>
   struct IfThen <true, TType>
   {
+    /**
+     * @brief
+     */
     using type = TType;
 
 
+    /**
+     * @brief
+     */
     static constexpr bool condition { true };
   };
 }

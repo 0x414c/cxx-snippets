@@ -12,6 +12,12 @@
 
 namespace Utils
 {
+  /**
+   * @brief
+   * @tparam TClock
+   * @param now
+   * @return
+   */
   template <typename TClock>
   std::string
   formatDate_Iso8601 (const typename TClock::time_point & now)

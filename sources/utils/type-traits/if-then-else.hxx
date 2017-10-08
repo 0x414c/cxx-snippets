@@ -13,6 +13,9 @@ namespace Utils
   template <bool TCondition, typename TIfFirst, typename ... TIfRest>
   struct IfThenElse
   {
+    /**
+     * @brief
+     */
     using type = typename TIfFirst::type;
   };
 
@@ -26,6 +29,9 @@ namespace Utils
   template <bool TCondition, typename TIfTrue, typename TIfFalse>
   struct IfThenElse <TCondition, TIfTrue, TIfFalse>
   {
+    /**
+     * @brief
+     */
     using type = typename TIfTrue::type;
   };
 
@@ -38,6 +44,9 @@ namespace Utils
   template <typename TIfTrue, typename TIfFalse>
   struct IfThenElse <false, TIfTrue, TIfFalse>
   {
+    /**
+     * @brief
+     */
     using type = typename TIfFalse::type;
   };
 
@@ -52,6 +61,9 @@ namespace Utils
   template <bool TCondition, typename TIfTrue, typename TIfFalseFirst, typename ... TIfFalseRest>
   struct IfThenElse <TCondition, TIfTrue, TIfFalseFirst, TIfFalseRest ...>
   {
+    /**
+     * @brief
+     */
     using type = typename TIfTrue::type;
   };
 
@@ -65,6 +77,9 @@ namespace Utils
   template <typename TIfTrue, typename TIfFalseFirst, typename ... TIfFalseRest>
   struct IfThenElse <false, TIfTrue, TIfFalseFirst, TIfFalseRest ...>
   {
+    /**
+     * @brief
+     */
     using type = typename IfThenElse <TIfFalseFirst::condition, TIfFalseFirst, TIfFalseRest ...>::type;
   };
 }

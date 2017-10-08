@@ -10,13 +10,13 @@
 
 namespace Utils
 {
-  template <typename TDuration>
   /**
    * @brief
    * TODO: [0;1] Make code as short & clean as it's possible.
    * @param duration
    * @return
    */
+  template <typename TDuration>
   std::string
   formatDuration (const TDuration & duration)
   {

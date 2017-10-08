@@ -7,11 +7,22 @@
 
 namespace Utils
 {
+  /**
+   * @brief
+   */
   struct Unit
   {
+    /**
+     * @brief
+     */
     using self_type = Unit;
 
 
+    /**
+     * @brief
+     * @param that
+     * @return
+     */
     constexpr bool
     operator == (const self_type & that) const
     {
@@ -19,6 +30,11 @@ namespace Utils
     }
 
 
+    /**
+     * @brief
+     * @param that
+     * @return
+     */
     constexpr bool
     operator != (const self_type & that) const
     {
@@ -26,6 +42,11 @@ namespace Utils
     }
 
 
+    /**
+     * @brief
+     * @param that
+     * @return
+     */
     constexpr bool
     operator < (const self_type & that) const
     {
@@ -33,6 +54,11 @@ namespace Utils
     }
 
 
+    /**
+     * @brief
+     * @param that
+     * @return
+     */
     constexpr bool
     operator > (const self_type & that) const
     {
@@ -40,6 +66,11 @@ namespace Utils
     }
 
 
+    /**
+     * @brief
+     * @param that
+     * @return
+     */
     constexpr bool
     operator <= (const self_type & that) const
     {
@@ -47,6 +78,11 @@ namespace Utils
     }
 
 
+    /**
+     * @brief
+     * @param that
+     * @return
+     */
     constexpr bool
     operator >= (const self_type & that) const
     {
@@ -54,6 +90,12 @@ namespace Utils
     }
 
 
+    /**
+     * @brief
+     * @param output
+     * @param unit
+     * @return
+     */
     friend std::ostream &
     operator << (std::ostream & output, const self_type & unit)
     {

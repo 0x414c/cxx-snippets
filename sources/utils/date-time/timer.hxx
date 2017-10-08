@@ -160,7 +160,7 @@ namespace Utils
       /**
        * @brief
        */
-      std::string description_ = Config::Utils::Timer::Default_description;
+      std::string description_ { Config::Utils::Timer::Default_description };
 
       /**
        * @brief

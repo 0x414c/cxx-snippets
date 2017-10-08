@@ -15,6 +15,9 @@ namespace Utils
   template <typename TIfTrue, typename ... TIfFalse>
   struct Choose
   {
+    /**
+     * @brief
+     */
     using type = typename IfThenElse <TIfTrue::condition, TIfTrue, TIfFalse ...>::type;
   };
 }
