@@ -4,6 +4,8 @@
 
 #include <cmath> // std::{fabs, isfinite}
 
+#include <type_traits> // std::is_floating_point
+
 #include "../debug/assert.hxx" // ASSERT
 
 
@@ -23,6 +25,11 @@ namespace Utils
   bool
   isClose (const TXY & x, const TXY & y, TXY rel_tol = 1E-8, TXY abs_tol = 1E-16)
   {
+    static_assert (
+      std::is_floating_point <TXY>::value,
+      "Type `TXY' should be floating-point type"
+    );
+
     ASSERT (!(rel_tol < 0.0), "`rel_tol' should not be less than 0.0");
     ASSERT (!(abs_tol < 0.0), "`abs_tol' should not be less than 0.0");
 
