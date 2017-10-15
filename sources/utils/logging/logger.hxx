@@ -47,7 +47,7 @@ namespace Utils
         ++message_id_;
 
         fmt::print (
-          output_stream_, "{0}/{1} {2}\n{{in `{3}' at `{4}:{5}'}}\n",
+          output_stream_, "{0:d}/{1:s} {2:s}\n{{in `{3:s}' at `{4:s}:{5:d}'}}\n",
           message_id_, prefix, fmt::format (format, args ...),
           source_location.function (), source_location.file (), source_location.line ()
         );
@@ -67,7 +67,7 @@ namespace Utils
         ++message_id_;
 
         fmt::print (
-          output_stream_, "{0}/{1} {2}\n",
+          output_stream_, "{0:d}/{1:s} {2:s}\n",
           message_id_, prefix, fmt::format (format, args ...)
         );
       }
