@@ -4,6 +4,7 @@
 #include "timer.hxx" // Utils::Timer::*
 
 #include "format-duration.hxx" // formatDuration
+#include "../config/logger.hxx" // Config::Utils::Logger::Timer_log_prefix
 #include "../logging/logger.hxx" // Logger::printLog_Short
 
 
