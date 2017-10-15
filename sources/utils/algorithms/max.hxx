@@ -5,8 +5,6 @@
 #include <type_traits> // std::common_type
 #include <utility> // std::forward
 
-#include "../debug/log.hxx" // LOG_EXPR
-
 
 namespace Utils
 {

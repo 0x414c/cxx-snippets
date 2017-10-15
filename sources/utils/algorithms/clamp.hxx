@@ -3,7 +3,6 @@
 
 
 #include "../debug/assert.hxx" // ASSERT
-#include "../debug/log.hxx" // LOG_EXPR
 
 
 namespace Utils
