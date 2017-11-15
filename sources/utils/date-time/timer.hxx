@@ -18,7 +18,7 @@ namespace Utils
    * TODO: [1;1] Split to two classes: manual and automatic.
    * TODO: [1;2] Add file and line to the description.
    */
-  class Timer
+  class Timer final
   {
     public:
       /**

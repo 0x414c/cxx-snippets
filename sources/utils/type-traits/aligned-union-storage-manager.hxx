@@ -20,7 +20,7 @@ namespace Utils
    * @tparam TTypes
    */
   template <typename ... TTypes>
-  class AlignedUnionStorageManager
+  class AlignedUnionStorageManager final
   {
     public:
       /**

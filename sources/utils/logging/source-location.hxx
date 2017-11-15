@@ -13,7 +13,7 @@ namespace Utils
   /**
    * @brief
    */
-  class SourceLocation
+  class SourceLocation final
   {
     public:
       /**

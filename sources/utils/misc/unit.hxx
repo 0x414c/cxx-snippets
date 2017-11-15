@@ -10,7 +10,7 @@ namespace Utils
   /**
    * @brief
    */
-  struct Unit
+  struct Unit final
   {
     /**
      * @brief

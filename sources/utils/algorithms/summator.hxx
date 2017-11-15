@@ -17,7 +17,7 @@ namespace Utils
    * @tparam TTerm
    */
   template <typename TTerm>
-  class NaiveSummationPolicy
+  class NaiveSummationPolicy final
   {
     public:
       /**
@@ -160,7 +160,7 @@ namespace Utils
    * @tparam TTerm
    */
   template <typename TTerm>
-  class CompensatingSummationPolicy
+  class CompensatingSummationPolicy final
   {
     public:
       /**
@@ -363,7 +363,7 @@ namespace Utils
       IfThen <std::is_floating_point <TTerm>::value, CompensatingSummationPolicy <TTerm>>
     >::type
   >
-  class Summator
+  class Summator final
   {
     public:
       /**

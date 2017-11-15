@@ -24,7 +24,7 @@ namespace Utils
    * @tparam TError
    */
   template <typename TResult, typename TError = OperationStatus>
-  class Result
+  class Result final
   {
     public:
       /**

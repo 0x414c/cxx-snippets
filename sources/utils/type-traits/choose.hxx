@@ -13,7 +13,7 @@ namespace Utils
    * @tparam TIfFalse
    */
   template <typename TIfTrue, typename ... TIfFalse>
-  struct Choose
+  struct Choose final
   {
     /**
      * @brief

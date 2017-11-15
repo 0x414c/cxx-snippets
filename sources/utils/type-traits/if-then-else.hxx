@@ -11,7 +11,7 @@ namespace Utils
    * @tparam TIfRest
    */
   template <bool TCondition, typename TIfFirst, typename ... TIfRest>
-  struct IfThenElse
+  struct IfThenElse final
   {
     /**
      * @brief
@@ -27,7 +27,7 @@ namespace Utils
    * @tparam TIfFalse
    */
   template <bool TCondition, typename TIfTrue, typename TIfFalse>
-  struct IfThenElse <TCondition, TIfTrue, TIfFalse>
+  struct IfThenElse <TCondition, TIfTrue, TIfFalse> final
   {
     /**
      * @brief
@@ -42,7 +42,7 @@ namespace Utils
    * @tparam TIfFalse
    */
   template <typename TIfTrue, typename TIfFalse>
-  struct IfThenElse <false, TIfTrue, TIfFalse>
+  struct IfThenElse <false, TIfTrue, TIfFalse> final
   {
     /**
      * @brief
@@ -59,7 +59,7 @@ namespace Utils
    * @tparam TIfFalseRest
    */
   template <bool TCondition, typename TIfTrue, typename TIfFalseFirst, typename ... TIfFalseRest>
-  struct IfThenElse <TCondition, TIfTrue, TIfFalseFirst, TIfFalseRest ...>
+  struct IfThenElse <TCondition, TIfTrue, TIfFalseFirst, TIfFalseRest ...> final
   {
     /**
      * @brief
@@ -75,7 +75,7 @@ namespace Utils
    * @tparam TIfFalseRest
    */
   template <typename TIfTrue, typename TIfFalseFirst, typename ... TIfFalseRest>
-  struct IfThenElse <false, TIfTrue, TIfFalseFirst, TIfFalseRest ...>
+  struct IfThenElse <false, TIfTrue, TIfFalseFirst, TIfFalseRest ...> final
   {
     /**
      * @brief

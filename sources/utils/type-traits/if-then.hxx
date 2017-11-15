@@ -10,7 +10,7 @@ namespace Utils
    * @tparam TType
    */
   template <bool TCondition, typename TType>
-  struct IfThen
+  struct IfThen final
   {
     /**
      * @brief
@@ -24,7 +24,7 @@ namespace Utils
    * @tparam TType
    */
   template <typename TType>
-  struct IfThen <true, TType>
+  struct IfThen <true, TType> final
   {
     /**
      * @brief

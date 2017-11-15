@@ -19,7 +19,7 @@ namespace Utils
   /**
    * @brief
    */
-  class Logger
+  class Logger final
   {
     public:
       /**

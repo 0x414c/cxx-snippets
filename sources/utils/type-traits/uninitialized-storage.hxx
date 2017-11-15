@@ -15,7 +15,7 @@ namespace Utils
    * @tparam TAlignment
    */
   template <std::size_t TSize, std::size_t TAlignment>
-  struct AlignedStorage
+  struct AlignedStorage final
   {
     /**
      * @brief
@@ -31,7 +31,7 @@ namespace Utils
     /**
      * @brief
      */
-    struct type
+    struct type final
     {
       alignas (alignment) unsigned char data_[size];
     };
@@ -43,7 +43,7 @@ namespace Utils
    * @tparam TTypes
    */
   template <typename ... TTypes>
-  struct AlignedUnionStorage
+  struct AlignedUnionStorage final
   {
     /**
      * @brief

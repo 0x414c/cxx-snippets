@@ -12,7 +12,7 @@ namespace Utils
     namespace
     {
       template <int TValue>
-      struct Flag
+      struct Flag final
       {
         friend constexpr int
         adlFlag (Flag <TValue>);
@@ -20,7 +20,7 @@ namespace Utils
 
 
       template <int TValue>
-      struct Writer
+      struct Writer final
       {
         friend constexpr int
         adlFlag (Flag <TValue>)
