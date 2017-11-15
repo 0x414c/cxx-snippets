@@ -180,7 +180,7 @@ namespace Utils
        * @brief
        * @return
        */
-      bool
+      [[nodiscard]] bool
       isError (void) const
       {
 #ifdef RESULT_WITH_RUNTIME_CHECKS
@@ -195,7 +195,7 @@ namespace Utils
        * @brief
        * @return
        */
-      explicit operator bool (void) const
+      [[nodiscard]] explicit operator bool (void) const
       {
         return !isError ();
       }
