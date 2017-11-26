@@ -2,21 +2,20 @@
 #define UTILS_TYPETRAITS_ALIGNEDUNIONSTORAGEMANAGER_HXX
 
 
-#include <iostream> // std::{clog, endl}
 #include <memory> // std::addressof
-#include <type_traits> // std::{enable_if, is_assignable}
 #include <utility> // std::forward
 
-#include "uninitialized-storage.hxx" // AlignedUnionStorage
+#include "aligned-union-storage.hxx" // AlignedUnionStorage
 
 
 namespace Utils
 {
   /**
-   * @brief Unsafe union-like class that holds uninitialized storage and provides
-   *   methods for constructing, accessing and destroying objects in that storage.
+   * @brief Unsafe union-like class that holds static uninitialized storage and provides methods for constructing,
+   * accessing and destroying objects of different types in that storage.
    * NOTE: [2] Does not manage memory by itself and does not track types of active objects!
-   * TODO: [1] Shouldn't we use `std::allocator::{construct, destroy}' and `std::aligned_union' for this?
+   * TODO: [1] Shouldn't we use `std::allocator::{construct, destroy}' (or std::destroy_at) and `std::aligned_union'
+   *   for this purposes?
    * @tparam TTypes
    */
   template <typename ... TTypes>
@@ -58,10 +57,10 @@ namespace Utils
        * @return
        */
       template <typename TType>
-      const TType *
+      const TType &
       get (void) const
       {
-        return (reinterpret_cast <const TType *> (std::addressof (storage_)));
+        return *get_ <TType> ();
       }
 
 
@@ -71,10 +70,10 @@ namespace Utils
        * @return
        */
       template <typename TType>
-      TType *
+      TType &
       get (void)
       {
-        return (reinterpret_cast <TType *> (std::addressof (storage_)));
+        return *get_ <TType> ();
       }
 
 
@@ -86,20 +85,16 @@ namespace Utils
        * @return
        */
       template <typename TType, typename ... TArgs>
-      TType *
+      const TType &
       construct (TArgs && ... args)
       {
-        return (
-          static_cast <TType *> (
-            ::new (static_cast <void *> (std::addressof (storage_))) (TType) (std::forward <TArgs> (args) ...)
-          )
-        );
+        return *construct_ <TType, TArgs ...> (get_ <TType> (), std::forward <TArgs> (args) ...);
       }
 
 
       /**
        * @brief
-       * TODO: [2] Use `is_assignable'.
+       * TODO: [2] Use `is_assignable'?
        * TODO: [2] Remove this method as it is not 'basic'?
        * @tparam TType
        * @tparam TArgs
@@ -107,10 +102,10 @@ namespace Utils
        * @return
        */
       template <typename TType, typename TArg>
-      TType *
+      const TType &
       assign (TArg && arg)
       {
-        *get <TType> () = std::forward <TArg> (arg);
+        get <TType> () = std::forward <TArg> (arg);
 
         return get <TType> ();
       }
@@ -124,7 +119,7 @@ namespace Utils
       void
       destroy (void)
       {
-        get <TType> ()->~TType ();
+        destroy_ <TType> ();
       }
 
 
@@ -146,6 +141,60 @@ namespace Utils
 
 
     private:
+      /**
+       * @brief
+       * @tparam TType
+       * @return
+       */
+      template <typename TType>
+      const TType *
+      get_ (void) const
+      {
+        return reinterpret_cast <const TType *> (std::addressof (storage_));
+      }
+
+
+      /**
+       * @brief
+       * @tparam TType
+       * @return
+       */
+      template <typename TType>
+      TType *
+      get_ (void)
+      {
+        return reinterpret_cast <TType *> (std::addressof (storage_));
+      }
+
+
+      /**
+       * @brief
+       * @tparam TType
+       * @tparam TArgs
+       * @param address
+       * @param args
+       * @return
+       */
+      template <typename TType, typename ... TArgs>
+      const TType *
+      construct_ (TType * address, TArgs && ... args)
+      {
+        return ::new (address) (TType) (std::forward <TArgs> (args) ...);
+      }
+
+
+      /**
+       * @brief
+       * @tparam TType
+       */
+      template <typename TType>
+      void
+      destroy_ (void)
+      {
+        get_ <TType> ()->~TType ();
+      }
+
+
       /**
        * @brief
        */

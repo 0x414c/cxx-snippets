@@ -90,13 +90,13 @@ namespace Utils
         if (that.isError_Unchecked_ ())
         {
           result_or_error_.template construct <error_type> (
-            std::move (*that.result_or_error_.template get <error_type> ())
+            std::move (that.result_or_error_.template get <error_type> ())
           );
         }
         else
         {
           result_or_error_.template construct <result_type> (
-            std::move (*that.result_or_error_.template get <result_type> ())
+            std::move (that.result_or_error_.template get <result_type> ())
           );
         }
       }
@@ -215,12 +215,12 @@ namespace Utils
           {
             if (that.isError_Unchecked_ ())
             {
-              result_or_error_.template assign <error_type> (*that.result_or_error_.template get <error_type> ());
+              result_or_error_.template assign <error_type> (that.result_or_error_.template get <error_type> ());
             }
             else
             {
               result_or_error_.template destroy <error_type> ();
-              result_or_error_.template construct <result_type> (*that.result_or_error_.template get <result_type> ());
+              result_or_error_.template construct <result_type> (that.result_or_error_.template get <result_type> ());
             }
           }
           else
@@ -228,11 +228,11 @@ namespace Utils
             if (that.isError_Unchecked_ ())
             {
               result_or_error_.template destroy <result_type> ();
-              result_or_error_.template construct <error_type> (*that.result_or_error_.template get <error_type> ());
+              result_or_error_.template construct <error_type> (that.result_or_error_.template get <error_type> ());
             }
             else
             {
-              result_or_error_.template assign <result_type> (*that.result_or_error_.template get <result_type> ());
+              result_or_error_.template assign <result_type> (that.result_or_error_.template get <result_type> ());
             }
           }
 
@@ -261,14 +261,14 @@ namespace Utils
             if (that.isError_Unchecked_ ())
             {
               result_or_error_.template assign <error_type> (
-                std::move (*that.result_or_error_.template get <error_type> ())
+                std::move (that.result_or_error_.template get <error_type> ())
               );
             }
             else
             {
               result_or_error_.template destroy <error_type> ();
               result_or_error_.template construct <result_type> (
-                std::move (*that.result_or_error_.template get <result_type> ())
+                std::move (that.result_or_error_.template get <result_type> ())
               );
             }
           }
@@ -278,13 +278,13 @@ namespace Utils
             {
               result_or_error_.template destroy <result_type> ();
               result_or_error_.template construct <error_type> (
-                std::move (*that.result_or_error_.template get <error_type> ())
+                std::move (that.result_or_error_.template get <error_type> ())
               );
             }
             else
             {
               result_or_error_.template assign <result_type> (
-                std::move (*that.result_or_error_.template get <result_type> ())
+                std::move (that.result_or_error_.template get <result_type> ())
               );
             }
           }
@@ -380,7 +380,7 @@ namespace Utils
       const result_type &
       result_Unchecked_ (void) const
       {
-        return *result_or_error_.template get <result_type> ();
+        return result_or_error_.template get <result_type> ();
       }
 
 
@@ -391,7 +391,7 @@ namespace Utils
       const error_type &
       error_Unchecked_ (void) const
       {
-        return *result_or_error_.template get <error_type> ();
+        return result_or_error_.template get <error_type> ();
       }
 
 
