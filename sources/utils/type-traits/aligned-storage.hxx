@@ -2,7 +2,7 @@
 #define UTILS_TYPETRAITS_ALIGNEDSTORAGE_HXX
 
 
-#include <cstddef> // std::size_t
+#include <cstddef> // std::{byte, size_t}
 
 
 namespace Utils
@@ -35,7 +35,7 @@ namespace Utils
         /**
          * @brief
          */
-        alignas (alignment) unsigned char data_[size];
+        alignas (alignment) std::byte data_[size];
     };
   };
 }
