@@ -22,7 +22,7 @@ namespace Utils
    * @return
    */
   template <typename TXY>
-  bool
+  constexpr bool
   isClose (const TXY & x, const TXY & y, TXY rel_tol = 1E-8, TXY abs_tol = 1E-16)
   {
     static_assert (
