@@ -24,12 +24,6 @@ namespace Utils
     public:
       /**
        * @brief
-       * TODO: [0;0] Use
-       *   `Q_FUNC_INFO' (from `QtGlobal') or
-       *   `BOOST_CURRENT_FUNCTION' (from `boost/current_function.hpp') or
-       *   `__PRETTY_FUNCTION__' or
-       *   `__FUNCTION__' or
-       *   `__func__'?
        * @param function
        * @param file
        * @param line
