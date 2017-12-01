@@ -36,4 +36,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_ALGORITHMS_LERP_HXX
+#endif // UTILS_ALGORITHMS_SIGN_HXX
