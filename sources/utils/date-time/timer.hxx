@@ -106,7 +106,7 @@ namespace Utils
        * @return
        */
       bool
-      isAutomatic (void) const;
+      isAutomatic (void) const noexcept;
 
       /**
        * @brief

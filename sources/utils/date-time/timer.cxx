@@ -90,7 +90,7 @@ namespace Utils
 
 
   bool
-  Timer::isAutomatic (void) const
+  Timer::isAutomatic (void) const noexcept
   {
     return is_automatic_;
   }
