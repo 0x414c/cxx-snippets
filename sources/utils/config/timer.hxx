@@ -2,15 +2,9 @@
 #define UTILS_CONFIG_TIMER_HXX
 
 
-namespace Config
+namespace Config::Utils::Timer
 {
-  namespace Utils
-  {
-    namespace Timer
-    {
-      constexpr const char Default_description[] ("(no description)");
-    }
-  }
+  constexpr const char Default_description[] ("(no description)");
 }
 
 
