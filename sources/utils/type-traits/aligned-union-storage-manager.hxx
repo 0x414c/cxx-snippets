@@ -148,7 +148,7 @@ namespace Utils
        */
       template <typename TType>
       const TType *
-      get_ (void) const
+      get_ (void) const noexcept
       {
         return reinterpret_cast <const TType *> (std::addressof (storage_));
       }
@@ -161,7 +161,7 @@ namespace Utils
        */
       template <typename TType>
       TType *
-      get_ (void)
+      get_ (void) noexcept
       {
         return reinterpret_cast <TType *> (std::addressof (storage_));
       }
