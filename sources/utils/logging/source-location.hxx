@@ -7,6 +7,8 @@
 #include <string> // std::string
 #include <ostream> // std::ostream
 
+#include "../config/source-location.hxx" // Config::Utils::SourceLocation::Default_{function, file}
+
 
 namespace Utils
 {
@@ -25,7 +27,7 @@ namespace Utils
       /**
        * @brief
        */
-      SourceLocation (void);
+      SourceLocation (void) = default;
 
       /**
        * @brief
@@ -122,17 +124,17 @@ namespace Utils
       /**
        * @brief
        */
-      std::string function_;
+      std::string function_ { Config::Utils::SourceLocation::Default_function };
 
       /**
        * @brief
        */
-      std::string file_;
+      std::string file_ { Config::Utils::SourceLocation::Default_file };
 
       /**
        * @brief
        */
-      std::size_t line_;
+      std::size_t line_ { 0 };
   };
 }
 
