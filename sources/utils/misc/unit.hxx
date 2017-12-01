@@ -24,7 +24,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator == ([[maybe_unused]] const self_type & that) const
+    operator == ([[maybe_unused]] const self_type & that) const noexcept
     {
       return true;
     }
@@ -36,7 +36,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator != (const self_type & that) const
+    operator != (const self_type & that) const noexcept
     {
       return !operator == (that);
     }
@@ -48,7 +48,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator < ([[maybe_unused]] const self_type & that) const
+    operator < ([[maybe_unused]] const self_type & that) const noexcept
     {
       return false;
     }
@@ -60,7 +60,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator > ([[maybe_unused]] const self_type & that) const
+    operator > ([[maybe_unused]] const self_type & that) const noexcept
     {
       return false;
     }
@@ -72,7 +72,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator <= (const self_type & that) const
+    operator <= (const self_type & that) const noexcept
     {
       return !operator < (that);
     }
@@ -84,7 +84,7 @@ namespace Utils
      * @return
      */
     constexpr bool
-    operator >= (const self_type & that) const
+    operator >= (const self_type & that) const noexcept
     {
       return !operator > (that);
     }
