@@ -6,9 +6,18 @@
 
 #include "source-location.hxx" // Utils::SourceLocation::*
 
+#include "../config/source-location.hxx" // Config::Utils::SourceLocation::Default_{function, file}
+
 
 namespace Utils
 {
+  SourceLocation::SourceLocation (void) :
+    function_ (Config::Utils::SourceLocation::Default_function),
+    file_ (Config::Utils::SourceLocation::Default_file),
+    line_ (0)
+  { }
+
+
   SourceLocation::SourceLocation (const std::string & function, const std::string & file, std::size_t line) :
     function_ (function),
     file_ (file),
@@ -52,7 +61,7 @@ namespace Utils
 
 
   std::size_t
-  SourceLocation::line (void) const
+  SourceLocation::line (void) const noexcept
   {
     return line_;
   }

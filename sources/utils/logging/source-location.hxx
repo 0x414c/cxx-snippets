@@ -25,7 +25,7 @@ namespace Utils
       /**
        * @brief
        */
-      SourceLocation (void) = default;
+      SourceLocation (void);
 
       /**
        * @brief
@@ -90,7 +90,7 @@ namespace Utils
        * @return
        */
       std::size_t
-      line (void) const;
+      line (void) const noexcept;
 
       /**
        * @brief
