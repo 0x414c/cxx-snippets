@@ -6,6 +6,7 @@
 
 #include <type_traits> // std::is_floating_point
 
+#include "../config/is-close.hxx" // Config::Utils::IsClose::{Relative, Absolute}_tolerance
 #include "../debug/assert.hxx" // ASSERT
 
 
@@ -13,7 +14,6 @@ namespace Utils
 {
   /**
    * @brief
-   * TODO: [1;0] Move `rel_tol' and `abs_tol' defaults to corresponding config header.
    * @tparam TXY
    * @param x
    * @param y
@@ -23,7 +23,11 @@ namespace Utils
    */
   template <typename TXY>
   constexpr bool
-  isClose (const TXY & x, const TXY & y, TXY rel_tol = 1E-8, TXY abs_tol = 1E-16)
+  isClose (
+    const TXY & x, const TXY & y,
+    const TXY & rel_tol = Config::Utils::IsClose::Relative_tolerance <TXY>,
+    const TXY & abs_tol = Config::Utils::IsClose::Absolute_tolerance <TXY>
+  )
   {
     static_assert (
       std::is_floating_point <TXY>::value,
