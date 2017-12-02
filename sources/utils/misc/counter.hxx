@@ -2,67 +2,64 @@
 #define UTILS_MISC_COUNTER_HXX
 
 
-namespace Utils
+namespace Utils::Counter
 {
-  namespace Counter
+  constexpr int Max_value { 32 };
+
+
+  namespace
   {
-    constexpr int Max_value { 32 };
-
-
-    namespace
+    template <int TValue>
+    struct Flag final
     {
-      template <int TValue>
-      struct Flag final
-      {
-        friend constexpr int
-        adlFlag (Flag <TValue>);
-      };
+      friend constexpr int
+      adlFlag (Flag <TValue>);
+    };
 
 
-      template <int TValue>
-      struct Writer final
-      {
-        friend constexpr int
-        adlFlag (Flag <TValue>)
-        {
-          return TValue;
-        }
-
-
-        static constexpr int value { TValue };
-      };
-
-
-      template <int TValue, int = adlFlag (Flag <TValue> { })>
-      constexpr int
-      read (int, Flag <TValue>)
+    template <int TValue>
+    struct Writer final
+    {
+      friend constexpr int
+      adlFlag (Flag <TValue>)
       {
         return TValue;
       }
 
 
-      template <int TValue>
-      constexpr int
-      read (float, Flag <TValue>, int R = read (0, Flag <TValue - 1> { }))
-      {
-        return R;
-      }
+      static constexpr int value { TValue };
+    };
 
 
-      constexpr int
-      read (float, Flag <0>)
-      {
-        return 0;
-      }
+    template <int TValue, int = adlFlag (Flag <TValue> { })>
+    constexpr int
+    read (int, Flag <TValue>)
+    {
+      return TValue;
     }
 
 
-    template <int TValue = 1>
+    template <int TValue>
     constexpr int
-    next (int R = Writer <read (0, Flag <Max_value> { }) + TValue>::value)
+    read (float, Flag <TValue>, int R = read (0, Flag <TValue - 1> { }))
     {
       return R;
     }
+
+
+    constexpr int
+    read (float, Flag <0>)
+    {
+      return 0;
+    }
+  }
+
+
+  template <int TValue = 1>
+  constexpr int
+  next (int R = Writer <read (0, Flag <Max_value> { }) + TValue>::value)
+  {
+    return R;
   }
 }
 
