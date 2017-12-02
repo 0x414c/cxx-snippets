@@ -35,30 +35,21 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr NaiveSummationPolicy (void) :
-        sum_ (term_type (0))
-      { }
-
+      constexpr NaiveSummationPolicy (void) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr NaiveSummationPolicy (const self_type & that) :
-        sum_ (that.sum_)
-      { }
-
+      constexpr NaiveSummationPolicy (const self_type & that) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr NaiveSummationPolicy (self_type && that) :
-        sum_ (std::move (that.sum_))
-      { }
-
+      constexpr NaiveSummationPolicy (self_type && that) = default;
 
       /**
        * @brief
@@ -138,10 +129,7 @@ namespace Utils
       constexpr const self_type &
       operator = (term_type new_initial_value)
       {
-        if (sum_ != new_initial_value)
-        {
-          sum_ = new_initial_value;
-        }
+        sum_ = new_initial_value;
 
         return *this;
       }
@@ -151,7 +139,7 @@ namespace Utils
       /**
        * @brief
        */
-      term_type sum_;
+      term_type sum_ { };
   };
 
 
@@ -178,33 +166,21 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr CompensatingSummationPolicy (void) :
-        sum_ (term_type (0)),
-        correction_ (term_type (0))
-      { }
-
+      constexpr CompensatingSummationPolicy (void) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr CompensatingSummationPolicy (const self_type & that) :
-        sum_ (that.sum_),
-        correction_ (that.correction_)
-      { }
-
+      constexpr CompensatingSummationPolicy (const self_type & that) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr CompensatingSummationPolicy (self_type && that) :
-        sum_ (std::move (that.sum_)),
-        correction_ (std::move (that.correction_))
-      { }
-
+      constexpr CompensatingSummationPolicy (self_type && that) = default;
 
       /**
        * @brief
@@ -213,8 +189,7 @@ namespace Utils
        * @return
        */
       constexpr explicit CompensatingSummationPolicy (term_type initial_value) :
-        sum_ (initial_value),
-        correction_ (term_type (0))
+        sum_ (initial_value)
       { }
 
 
@@ -328,11 +303,8 @@ namespace Utils
       constexpr const self_type &
       operator = (term_type new_initial_value)
       {
-        if (sum_ != new_initial_value)
-        {
-          sum_ = new_initial_value;
-          correction_ = term_type (0);
-        }
+        sum_ = new_initial_value;
+        correction_ = term_type { };
 
         return *this;
       }
@@ -342,12 +314,12 @@ namespace Utils
       /**
        * @brief
        */
-      term_type sum_;
+      term_type sum_ { };
 
       /**
        * @brief A running compensation for lost low-order bits
        */
-      term_type correction_;
+      term_type correction_ { };
   };
 
 
@@ -386,30 +358,21 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr Summator (void) :
-        summation_policy_ (term_type (0))
-      { }
-
+      constexpr Summator (void) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr Summator (const self_type & that) :
-        summation_policy_ (that.summation_policy_)
-      { }
-
+      constexpr Summator (const self_type & that) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr Summator (self_type && that) :
-        summation_policy_ (std::move (that.summation_policy_))
-      { }
-
+      constexpr Summator (self_type && that) = default;
 
       /**
        * @brief
@@ -536,7 +499,7 @@ namespace Utils
       /**
        * @brief
        */
-      summation_policy_type summation_policy_;
+      summation_policy_type summation_policy_ { };
   };
 }
 
