@@ -2,7 +2,7 @@
 #define UTILS_MATH_CONSTANTS_HXX
 
 
-namespace Math::Constants
+namespace Utils::Constants
 {
   /**
    * @brief Euler's number (e).
