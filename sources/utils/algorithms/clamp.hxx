@@ -2,6 +2,8 @@
 #define UTILS_ALGORITHMS_CLAMP_HXX
 
 
+#include <functional> // std::less
+
 #include "../debug/assert.hxx" // ASSERT
 
 
@@ -22,19 +24,19 @@ namespace Utils
    * @param x_max
    * @return
    */
-  template <typename TX>
+  template <typename TX, typename TCompare = std::less <TX>>
   constexpr const TX &
-  clamp (const TX & x, const TX & x_min, const TX & x_max)
+  clamp (const TX & x, const TX & x_min, const TX & x_max, const TCompare & compare = TCompare ())
   {
-    ASSERT (!(x_max < x_min), "`x_max' should not be less than `x_min'");
+    ASSERT (!compare (x_max, x_min), "`x_max' should not be less than `x_min'");
 
-    if (x < x_min)
+    if (compare (x, x_min))
     {
       return x_min;
     }
     else
     {
-      if (x_max < x)
+      if (compare (x_max, x))
       {
         return x_max;
       }
@@ -56,20 +58,23 @@ namespace Utils
    * @param y_max
    * @return
    */
-  template <typename TX>
+  template <typename TX, typename TCompare = std::less <TX>>
   constexpr const TX &
-  clamp (const TX & x, const TX & x_min, const TX & x_max, const TX & y_min, const TX & y_max)
+  clamp (
+    const TX & x, const TX & x_min, const TX & x_max, const TX & y_min, const TX & y_max,
+    const TCompare & compare = TCompare ()
+  )
   {
-    ASSERT (!(x_max < x_min), "`x_max' should not be less than `x_min'");
-    ASSERT (!(y_max < y_min), "`y_max' should not be less than `y_min'");
+    ASSERT (!compare (x_max, x_min), "`x_max' should not be less than `x_min'");
+    ASSERT (!compare (y_max, y_min), "`y_max' should not be less than `y_min'");
 
-    if (x < x_min)
+    if (compare (x, x_min))
     {
       return y_min;
     }
     else
     {
-      if (x_max < x)
+      if (compare (x_max, x))
       {
         return y_max;
       }
