@@ -86,7 +86,10 @@ namespace Utils
       is_error_ (that.is_error_)
 #endif // RESULT_WITH_RUNTIME_CHECKS
       {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wduplicated-branches"
         if (that.isError_Unchecked_ ())
+#pragma GCC diagnostic pop
         {
           result_or_error_.template construct <error_type> (
             std::move (that.result_or_error_.template get <error_type> ())
@@ -106,7 +109,10 @@ namespace Utils
        */
       ~Result (void)
       {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wduplicated-branches"
         if (isError_Unchecked_ ())
+#pragma GCC diagnostic pop
         {
           result_or_error_.template destroy <error_type> ();
         }
