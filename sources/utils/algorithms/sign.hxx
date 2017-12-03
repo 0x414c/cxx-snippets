@@ -2,6 +2,9 @@
 #define UTILS_ALGORITHMS_SIGN_HXX
 
 
+#include <functional> // std::less
+#include <type_traits> //
+
 #include "../debug/assert.hxx" // ASSERT
 
 
@@ -13,17 +16,22 @@ namespace Utils
    * @param x
    * @return
    */
-  template <typename TX>
+  template <typename TX, class TCompare = std::less <TX>>
   constexpr TX
-  sign (const TX & x)
+  sign (const TX & x, const TCompare & compare = TCompare ())
   {
-    if (x > TX (0))
+    static_assert (
+      std::is_signed <typename std::underlying_type <TX>::type>::value,
+      "Underlying type of `TX' enumeration should be a signed one"
+    );
+
+    if (compare (TX (0), x))
     {
       return TX (1);
     }
     else
     {
-      if (x > TX (0))
+      if (compare (x, TX (0)))
       {
         return TX (-1);
       }
