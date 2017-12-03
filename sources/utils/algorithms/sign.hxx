@@ -3,7 +3,7 @@
 
 
 #include <functional> // std::less
-#include <type_traits> //
+#include <type_traits> // std::is_signed
 
 #include "../debug/assert.hxx" // ASSERT
 
