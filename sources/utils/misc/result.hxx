@@ -11,9 +11,8 @@
 #endif // RESULT_WITH_RUNTIME_CHECKS
 #include <utility> // std::{forward, move}
 
-#include "operation-status.hxx" // OperationStatus
-
 #include "../type-traits/aligned-union-storage-manager.hxx" // AlignedUnionStorageManager
+#include "operation-status.hxx" // OperationStatus
 
 
 namespace Utils
