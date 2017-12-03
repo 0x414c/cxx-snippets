@@ -42,14 +42,14 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr NaiveSummationPolicy (const self_type & that) = default;
+      constexpr NaiveSummationPolicy (const self_type & that [[maybe_unused]]) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr NaiveSummationPolicy (self_type && that) = default;
+      constexpr NaiveSummationPolicy (self_type && that [[maybe_unused]]) = default;
 
       /**
        * @brief
@@ -173,14 +173,14 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr CompensatingSummationPolicy (const self_type & that) = default;
+      constexpr CompensatingSummationPolicy (const self_type & that [[maybe_unused]]) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr CompensatingSummationPolicy (self_type && that) = default;
+      constexpr CompensatingSummationPolicy (self_type && that [[maybe_unused]]) = default;
 
       /**
        * @brief
@@ -304,7 +304,7 @@ namespace Utils
       operator = (term_type new_initial_value)
       {
         sum_ = new_initial_value;
-        correction_ = term_type { };
+        correction_ = term_type ();
 
         return *this;
       }
@@ -365,14 +365,14 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr Summator (const self_type & that) = default;
+      constexpr Summator (const self_type & that [[maybe_unused]]) = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr Summator (self_type && that) = default;
+      constexpr Summator (self_type && that [[maybe_unused]]) = default;
 
       /**
        * @brief
