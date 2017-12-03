@@ -7,8 +7,9 @@ namespace Utils
   /**
    * @brief
    */
-  enum struct OperationStatus
+  enum struct OperationStatus : unsigned
   {
+    Indeterminate = 0,
     Success = 1 << 0,
     Failure = 1 << 1,
     Nothing = 1 << 2
