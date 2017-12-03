@@ -39,7 +39,10 @@ namespace Utils
 
     if (std::isfinite (x) && std::isfinite (y))
     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
       if (x == y)
+#pragma GCC diagnostic pop
       {
         return true;
       }
@@ -56,7 +59,10 @@ namespace Utils
     }
     else
     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
       return (x == y);
+#pragma GCC diagnostic pop
     }
   }
 }
