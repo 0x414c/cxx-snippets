@@ -33,13 +33,13 @@ namespace Utils
        * @brief
        * @param that
        */
-      SourceLocation ([[maybe_unused]] const self_type & that) = default;
+      SourceLocation (const self_type & that [[maybe_unused]]) = default;
 
       /**
        * @brief
        * @param that
        */
-      SourceLocation ([[maybe_unused]] self_type && that) = default;
+      SourceLocation (self_type && that [[maybe_unused]]) = default;
 
       /**
        * @brief
