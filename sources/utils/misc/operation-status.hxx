@@ -7,7 +7,7 @@ namespace Utils
   /**
    * @brief
    */
-  enum struct OperationStatus : unsigned
+  enum struct [[nodiscard]] OperationStatus : unsigned
   {
     Indeterminate = 0,
     Success = 1 << 0,
