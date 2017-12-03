@@ -5,8 +5,6 @@
 #include <functional> // std::less
 #include <type_traits> // std::is_signed
 
-#include "../debug/assert.hxx" // ASSERT
-
 
 namespace Utils
 {
@@ -21,8 +19,8 @@ namespace Utils
   sign (const TX & x, const TCompare & compare = TCompare ())
   {
     static_assert (
-      std::is_signed <typename std::underlying_type <TX>::type>::value,
-      "Underlying type of `TX' enumeration should be a signed one"
+      std::is_signed <TX>::value,
+      "Type `TX' should be a signed one"
     );
 
     if (compare (TX (0), x))
