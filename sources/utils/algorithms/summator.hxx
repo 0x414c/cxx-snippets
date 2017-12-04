@@ -57,7 +57,7 @@ namespace Utils
        * @param initial_value
        * @return
        */
-      constexpr explicit NaiveSummationPolicy (term_type initial_value) :
+      constexpr explicit NaiveSummationPolicy (const term_type & initial_value) :
         sum_ (initial_value)
       { }
 
@@ -78,7 +78,7 @@ namespace Utils
        * @param term
        */
       constexpr void
-      add (term_type term)
+      add (const term_type & term)
       {
         sum_ += term;
       }
@@ -127,7 +127,7 @@ namespace Utils
        * @return
        */
       constexpr const self_type &
-      operator = (term_type new_initial_value)
+      operator = (const term_type & new_initial_value)
       {
         sum_ = new_initial_value;
 
@@ -188,7 +188,7 @@ namespace Utils
        * @param initial_value
        * @return
        */
-      constexpr explicit CompensatingSummationPolicy (term_type initial_value) :
+      constexpr explicit CompensatingSummationPolicy (const term_type & initial_value) :
         sum_ (initial_value)
       { }
 
@@ -228,7 +228,7 @@ namespace Utils
        * @param term
        */
       constexpr void
-      add (term_type term)
+      add (const term_type & term)
       {
         // Algorithm from [1], [2]:
         // So far, so good: `correction_' is zero:
@@ -301,10 +301,10 @@ namespace Utils
        * @return
        */
       constexpr const self_type &
-      operator = (term_type new_initial_value)
+      operator = (const term_type & new_initial_value)
       {
         sum_ = new_initial_value;
-        correction_ = term_type ();
+        correction_ = term_zero;
 
         return *this;
       }
@@ -320,6 +320,11 @@ namespace Utils
        * @brief A running compensation for lost low-order bits
        */
       term_type correction_ { };
+
+      /**
+       * @brief
+       */
+      inline static constexpr term_type term_zero { };
   };
 
 
@@ -380,7 +385,7 @@ namespace Utils
        * @param initial_value
        * @return
        */
-      constexpr explicit Summator (term_type initial_value) :
+      constexpr explicit Summator (const term_type & initial_value) :
         summation_policy_ (initial_value)
       { }
 
@@ -439,7 +444,7 @@ namespace Utils
        * @return
        */
       constexpr const self_type &
-      operator = (term_type new_initial_value)
+      operator = (const term_type & new_initial_value)
       {
         summation_policy_ = new_initial_value;
 
@@ -454,7 +459,7 @@ namespace Utils
        * @return
        */
       constexpr const self_type &
-      operator += (term_type term)
+      operator += (const term_type & term)
       {
         summation_policy_.add (term);
 
@@ -469,7 +474,7 @@ namespace Utils
        * @return
        */
       constexpr const self_type &
-      operator -= (term_type term)
+      operator -= (const term_type & term)
       {
         summation_policy_.add (-term);
 
