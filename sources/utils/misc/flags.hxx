@@ -4,6 +4,7 @@
 
 #include <initializer_list> // std::initializer_list
 #include <ios> // std::{hex, showbase}
+#include <limits> // std::limits
 #include <ostream> // std::ostream
 #include <type_traits> // std::{is_enum, is_unsigned, underlying_type}
 
@@ -17,7 +18,7 @@ namespace Utils
 
     static_assert (
       std::is_unsigned <typename std::underlying_type <TFlag>::type>::value,
-      "Underlying type of `TFlag' enumeration should be unsigned one"
+      "Underlying type of `TFlag' enumeration should be an unsigned one"
     );
 
 
@@ -82,21 +83,21 @@ namespace Utils
       constexpr bool
       none (void) const noexcept
       {
-        return (underlying_type (flags_) == 0);
+        return (underlying_type (flags_) == underlying_zero);
       }
 
 
       constexpr bool
       any (void) const noexcept
       {
-        return (underlying_type (flags_) > 0);
+        return (underlying_type (flags_) > underlying_zero);
       }
 
 
       constexpr bool
       all (void) const noexcept
       {
-        return (underlying_type (flags_) == -1);
+        return (underlying_type (flags_) == std::numeric_limits <underlying_type>::max ());
       }
 
 
@@ -117,7 +118,7 @@ namespace Utils
       constexpr void
       reset (void) noexcept
       {
-        flags_ = flag_type { };
+        flags_ = flag_zero;
       }
 
 
@@ -204,6 +205,10 @@ namespace Utils
 
     private:
       flag_type flags_ { };
+
+      inline static constexpr flag_type flag_zero { };
+
+      inline static constexpr underlying_type underlying_zero { };
   };
 }
 
