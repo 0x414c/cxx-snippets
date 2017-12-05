@@ -20,12 +20,11 @@ namespace Utils
   constexpr typename std::iterator_traits <TInputIterator>::value_type
   variance (TInputIterator first, TInputIterator last)
   {
-//    ASSERT (std::distance (first, last) > 1, "distance between `first' and `last' should be >= 2");
-
-
     using difference_type = typename std::iterator_traits <TInputIterator>::difference_type;
     using value_type = typename std::iterator_traits <TInputIterator>::value_type;
 
+
+//    ASSERT (std::distance (first, last) > 1, "distance between `first' and `last' should be >= 2");
 
     difference_type n (0);
     value_type mean (0);
