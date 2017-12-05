@@ -11,20 +11,20 @@ namespace Utils
 {
   /**
    * @brief
-   * @tparam TInputIter
+   * @tparam TInputIterator
    * @param first
    * @param last
    * @return
    */
-  template <typename TInputIter>
-  constexpr typename std::iterator_traits <TInputIter>::value_type
-  variance (TInputIter first, TInputIter last)
+  template <typename TInputIterator>
+  constexpr typename std::iterator_traits <TInputIterator>::value_type
+  variance (TInputIterator first, TInputIterator last)
   {
 //    ASSERT (std::distance (first, last) > 1, "distance between `first' and `last' should be >= 2");
 
 
-    using difference_type = typename std::iterator_traits <TInputIter>::difference_type;
-    using value_type = typename std::iterator_traits <TInputIter>::value_type;
+    using difference_type = typename std::iterator_traits <TInputIterator>::difference_type;
+    using value_type = typename std::iterator_traits <TInputIterator>::value_type;
 
 
     difference_type n (0);
