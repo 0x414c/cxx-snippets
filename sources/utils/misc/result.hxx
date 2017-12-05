@@ -6,11 +6,9 @@
 
 #include <algorithm> // std::max
 #include <ostream> // std::ostream
-#ifdef RESULT_WITH_RUNTIME_CHECKS
-#include <stdexcept> // std::logic_error
-#endif // RESULT_WITH_RUNTIME_CHECKS
 #include <utility> // std::{forward, move}
 
+#include "../debug/fatal.hxx" // FATAL
 #include "../type-traits/aligned-union-storage-manager.hxx" // AlignedUnionStorageManager
 #include "operation-status.hxx" // OperationStatus
 
@@ -23,7 +21,7 @@ namespace Utils
    * @tparam TError
    */
   template <typename TResult, typename TError = OperationStatus>
-  class Result final
+  class [[nodiscard]] Result final
   {
     public:
       /**
@@ -139,12 +137,12 @@ namespace Utils
           }
           else
           {
-            throw std::logic_error ("Cannot access result because Result was initialized as an error.");
+            FATAL ("Cannot access result because this instance of Result was initialized as an error.");
           }
         }
         else
         {
-          throw std::logic_error ("Result should be checked for an error before calling `result ()'.");
+          FATAL ("Result should be checked for being an error before calling `result ()'.");
         }
 #else // RESULT_WITH_RUNTIME_CHECKS
         return result_Unchecked_ ();
@@ -168,12 +166,12 @@ namespace Utils
           }
           else
           {
-            throw std::logic_error ("Cannot access error because Result was initialized as a result.");
+            FATAL ("Cannot access error because this instance of Result was initialized as a result.");
           }
         }
         else
         {
-          throw std::logic_error ("Result should be checked for an error before calling `error ()'.");
+          FATAL ("Result should be checked for being an error before calling `error ()'.");
         }
 #else // RESULT_WITH_RUNTIME_CHECKS
         return error_Unchecked_ ();
