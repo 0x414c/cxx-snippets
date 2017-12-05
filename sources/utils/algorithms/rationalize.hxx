@@ -36,9 +36,9 @@ namespace Utils
       "Type `TFloat' should be a floating-point one"
     );
 
-    ASSERT (!(rel_tol < 0), "`rel_tol' should not be less than 0");
-    ASSERT (!(abs_tol < 0), "`abs_tol' should not be less than 0");
-    ASSERT (!(max_denominator <= 0), "`max_denominator' should not be less than or equal to 0");
+    ASSERT (!(rel_tol < TFloat (0)), "`rel_tol' should not be less than 0");
+    ASSERT (!(abs_tol < TFloat (0)), "`abs_tol' should not be less than 0");
+    ASSERT (!(max_denominator <= TInt (0)), "`max_denominator' should not be less than or equal to 0");
 
     if (!std::isfinite (x))
     {
@@ -47,7 +47,7 @@ namespace Utils
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"
-    if (x == 0)
+    if (x == TFloat (0))
 #pragma GCC diagnostic pop
     {
       return { 0, 1, 0 };

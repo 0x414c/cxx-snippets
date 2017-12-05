@@ -34,8 +34,8 @@ namespace Utils
       "Type `TXY' should be a floating-point one"
     );
 
-    ASSERT (!(rel_tol < 0), "`rel_tol' should not be less than 0");
-    ASSERT (!(abs_tol < 0), "`abs_tol' should not be less than 0");
+    ASSERT (!(rel_tol < TXY (0)), "`rel_tol' should not be less than 0");
+    ASSERT (!(abs_tol < TXY (0)), "`abs_tol' should not be less than 0");
 
     if (std::isfinite (x) && std::isfinite (y))
     {
