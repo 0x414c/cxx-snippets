@@ -22,6 +22,7 @@ namespace Utils
    * @param x
    * @param x_min
    * @param x_max
+   * @param compare
    * @return
    */
   template <typename TX, typename TCompare = std::less <TX>>
@@ -56,6 +57,7 @@ namespace Utils
    * @param x_max
    * @param y_min
    * @param y_max
+   * @param compare
    * @return
    */
   template <typename TX, typename TCompare = std::less <TX>>

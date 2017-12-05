@@ -12,6 +12,7 @@ namespace Utils
    * @brief
    * @tparam TX
    * @param x
+   * @param compare
    * @return
    */
   template <typename TX, class TCompare = std::less <TX>>
