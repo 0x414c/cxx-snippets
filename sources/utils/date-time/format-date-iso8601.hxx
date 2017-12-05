@@ -6,8 +6,8 @@
 
 #include <string> // std::string
 
-#include <fmt/format.h> // fmt::print
-#include <fmt/time.h> // fmt::print[std::tm]
+#include <fmt/format.h> // fmt::MemoryWriter
+#include <fmt/time.h> // fmt::MemoryWriter::print[std::tm]
 
 
 namespace Utils
