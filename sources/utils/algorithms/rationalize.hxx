@@ -54,7 +54,10 @@ namespace Utils
     }
 
     TFloat r_1 (x);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-conversion"
     TInt a_1 (std::trunc (r_1));
+#pragma GCC diagnostic pop
 
     if (isClose (TFloat (a_1), x, rel_tol, abs_tol) || (max_denominator == 1) || (max_iterations == 1))
     {
@@ -75,7 +78,10 @@ namespace Utils
       ++iteration;
 
       const TFloat r_2 (TFloat (1) / (r_1 - TFloat (a_1)));
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-conversion"
       const TInt a_2 (std::trunc (r_2));
+#pragma GCC diagnostic pop
       p_2 = a_2 * p_1 + p_0;
       q_2 = a_2 * q_1 + q_0;
       const TFloat c_2 (TFloat (p_2) / TFloat (q_2));

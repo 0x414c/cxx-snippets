@@ -4,6 +4,8 @@
 
 namespace Utils::Constants
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-conversion"
   /**
    * @brief Euler's number (e).
    * @tparam TType
@@ -94,6 +96,7 @@ namespace Utils::Constants
    */
   template <typename TType>
   constexpr TType One_div_sqrt_2 { 0.707106781186547524400844362104849039l };
+#pragma GCC diagnostic pop
 }
 
 
