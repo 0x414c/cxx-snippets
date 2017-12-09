@@ -2,9 +2,6 @@
 #define UTILS_ALGORITHMS_LERP_HXX
 
 
-#include "../debug/assert.hxx" // ASSERT
-
-
 namespace Utils
 {
   /**
@@ -12,20 +9,17 @@ namespace Utils
    * @tparam TX
    * @tparam TY
    * @param x
-   * @param x_min
-   * @param x_max
-   * @param y_min
-   * @param y_max
+   * @param x_0
+   * @param x_1
+   * @param y_0
+   * @param y_1
    * @return
    */
   template <typename TX, typename TY>
   constexpr TY
-  lerp (const TX & x, const TX & x_min, const TX & x_max, const TY & y_min, const TY & y_max)
+  lerp (const TX & x, const TX & x_0, const TX & x_1, const TY & y_0, const TY & y_1)
   {
-    ASSERT (!(x_max < x_min), "`x_max' should not be less than `x_min'");
-    ASSERT (!(y_max < y_min), "`y_max' should not be less than `y_min'");
-
-    return (y_min + (x - x_min) * (y_max - y_min) / (x_max - x_min));
+    return (y_0 + (x - x_0) * (y_1 - y_0) / (x_1 - x_0));
   }
 }
 
