@@ -68,7 +68,6 @@ namespace Utils
   )
   {
     ASSERT (!compare (x_max, x_min), "`x_max' should not be less than `x_min'");
-    ASSERT (!compare (y_max, y_min), "`y_max' should not be less than `y_min'");
 
     if (compare (x, x_min))
     {
