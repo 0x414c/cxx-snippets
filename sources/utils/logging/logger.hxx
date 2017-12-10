@@ -4,13 +4,14 @@
 
 #include <cstddef> // std::size_t
 
-#include <string> // std::string
+//#include <string_view> // std::string_view
 #include <iostream> // std::{ostream, clog}
 
 #include <fmt/format.h> // fmt::print
 #include <fmt/ostream.h> // fmt::print[std::ostream]
 
 #include "../config/logger.hxx" // Config::Utils::Logger
+#include "../containers/cstring.hxx" // CString
 #include "source-location.hxx" // SourceLocation
 
 
@@ -35,14 +36,14 @@ namespace Utils
       static void
       printLog_Detailed (
         const SourceLocation & source_location,
-        const std::string & prefix, const std::string & format, const TArgs & ... args
+        const CString & prefix, const CString & format, const TArgs & ... args
       )
       {
         ++message_id_;
 
         fmt::print (
           output_stream_, "{0:d}/{1:s} {2:s} (in `{3:s}' at `{4:s}:{5:d}')\n",
-          message_id_, prefix, fmt::format (format, args ...),
+          message_id_, prefix, fmt::format (format.data (), args ...),
           source_location.function (), source_location.file (), source_location.line ()
         );
       }
@@ -56,13 +57,13 @@ namespace Utils
        */
       template <typename ... TArgs>
       static void
-      printLog_Short (const std::string & prefix, const std::string & format, const TArgs & ... args)
+      printLog_Short (const CString & prefix, const CString & format, const TArgs & ... args)
       {
         ++message_id_;
 
         fmt::print (
           output_stream_, "{0:d}/{1:s} {2:s}\n",
-          message_id_, prefix, fmt::format (format, args ...)
+          message_id_, prefix, fmt::format (format.data (), args ...)
         );
       }
 

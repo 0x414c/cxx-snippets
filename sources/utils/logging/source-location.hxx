@@ -4,10 +4,11 @@
 
 #include <cstddef> // std::size_t
 
-#include <string> // std::string
+//#include <string_view> // std::string_view
 #include <ostream> // std::ostream
 
 #include "../config/source-location.hxx" // Config::Utils::SourceLocation::Default_{function, file}
+#include "../containers/cstring.hxx" // CString
 
 
 namespace Utils
@@ -27,19 +28,14 @@ namespace Utils
       /**
        * @brief
        */
-      SourceLocation (void) = default;
+      constexpr SourceLocation (void) noexcept = delete;
 
       /**
        * @brief
        * @param that
        */
-      SourceLocation (const self_type & that [[maybe_unused]]) = default;
+      constexpr SourceLocation (const self_type & that [[maybe_unused]]) noexcept = default;
 
-      /**
-       * @brief
-       * @param that
-       */
-      SourceLocation (self_type && that [[maybe_unused]]) = default;
 
       /**
        * @brief
@@ -47,68 +43,53 @@ namespace Utils
        * @param file
        * @param line
        */
-      explicit SourceLocation (const std::string & function, const std::string & file, std::size_t line);
+      explicit constexpr SourceLocation (const CString & function, const CString & file, std::size_t line) noexcept :
+        function_ (function),
+        file_ (file),
+        line_ (line)
+      { }
 
-      /**
-       * @brief
-       * @param function
-       * @param file
-       * @param line
-       */
-      explicit SourceLocation (const std::string & function, std::string && file, std::size_t line);
-
-      /**
-       * @brief
-       * @param function
-       * @param file
-       * @param line
-       */
-      explicit SourceLocation (std::string && function, const std::string & file, std::size_t line);
-
-      /**
-       * @brief
-       * @param function
-       * @param file
-       * @param line
-       */
-      explicit SourceLocation (std::string && function, std::string && file, std::size_t line);
 
       /**
        * @brief
        * @return
        */
-      const std::string &
-      function (void) const;
+      constexpr const CString &
+      function (void) const noexcept
+      {
+        return function_;
+      }
+
 
       /**
        * @brief
        * @return
        */
-      const std::string &
-      file (void) const;
+      constexpr const CString &
+      file (void) const noexcept
+      {
+        return file_;
+      }
+
 
       /**
        * @brief
        * @return
        */
-      std::size_t
-      line (void) const noexcept;
+      constexpr std::size_t
+      line (void) const noexcept
+      {
+        return line_;
+      }
+
 
       /**
        * @brief
        * @param that
        * @return
        */
-      const self_type &
-      operator = (const self_type & that);
-
-      /**
-       * @brief
-       * @param that
-       * @return
-       */
-      const self_type &
-      operator = (self_type && that);
+      constexpr const self_type &
+      operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
 
       /**
        * @brief
@@ -124,17 +105,17 @@ namespace Utils
       /**
        * @brief
        */
-      std::string function_ { Config::Utils::SourceLocation::Default_function };
+      const CString function_ { Config::Utils::SourceLocation::Default_function };
 
       /**
        * @brief
        */
-      std::string file_ { Config::Utils::SourceLocation::Default_file };
+      const CString file_ { Config::Utils::SourceLocation::Default_file };
 
       /**
        * @brief
        */
-      std::size_t line_ { 0 };
+      const std::size_t line_ { 0 };
   };
 }
 
