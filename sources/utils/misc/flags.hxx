@@ -32,6 +32,9 @@ namespace Utils
 
       constexpr Flags (void) noexcept = default;
 
+      constexpr Flags (const self_type & that) noexcept = default;
+
+
       constexpr Flags (std::initializer_list <flag_type> flags) noexcept
       {
         underlying_type new_flags { };
@@ -50,11 +53,6 @@ namespace Utils
 
       explicit constexpr Flags (underlying_type flags) noexcept :
         flags_ (flags)
-      { }
-
-
-      constexpr Flags (const self_type & that) noexcept :
-        flags_ (that.flags_)
       { }
 
 
