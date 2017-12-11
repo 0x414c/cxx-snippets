@@ -11,6 +11,10 @@
 
 namespace Utils
 {
+  /**
+   * @brief
+   * @tparam TFlag
+   */
   template <typename TFlag>
   class Flags final
   {
@@ -23,18 +27,38 @@ namespace Utils
 
 
     public:
-      using self_type = Flags;
-
+      /**
+       * @brief
+       */
       using flag_type = TFlag;
 
+      /**
+       * @brief
+       */
       using underlying_type = typename std::underlying_type <TFlag>::type;
 
+      /**
+       * @brief
+       */
+      using self_type = Flags;
 
+
+      /**
+       * @brief
+       */
       constexpr Flags (void) noexcept = default;
 
-      constexpr Flags (const self_type & that) noexcept = default;
+      /**
+       * @brief
+       * @param that
+       */
+      constexpr Flags (const self_type & that [[maybe_unused]]) noexcept = default;
 
 
+      /**
+       * @brief
+       * @param flags
+       */
       constexpr Flags (std::initializer_list <flag_type> flags) noexcept
       {
         underlying_type new_flags { };
@@ -46,16 +70,29 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       */
       explicit constexpr Flags (flag_type flags) noexcept :
         flags_ (flags)
       { }
 
 
+      /**
+       * @brief
+       * @param flags
+       */
       explicit constexpr Flags (underlying_type flags) noexcept :
         flags_ (flags)
       { }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       constexpr bool
       has (flag_type flags) const noexcept
       {
@@ -63,6 +100,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       constexpr bool
       has (std::initializer_list <flag_type> flags) const noexcept
       {
@@ -78,6 +120,10 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @return
+       */
       constexpr bool
       none (void) const noexcept
       {
@@ -85,6 +131,10 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @return
+       */
       constexpr bool
       any (void) const noexcept
       {
@@ -92,6 +142,10 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @return
+       */
       constexpr bool
       all (void) const noexcept
       {
@@ -99,6 +153,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       constexpr void
       set (flag_type flags) noexcept
       {
@@ -106,6 +165,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       constexpr void
       unset (flag_type flags) noexcept
       {
@@ -113,6 +177,10 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @return
+       */
       constexpr void
       reset (void) noexcept
       {
@@ -120,24 +188,41 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @return
+       */
       constexpr explicit operator flag_type (void) const noexcept
       {
         return flags_;
       }
 
 
+      /**
+       * @brief
+       * @return
+       */
       constexpr explicit operator underlying_type (void) const noexcept
       {
         return underlying_type (flags_);
       }
 
 
+      /**
+       * @brief
+       * @return
+       */
       constexpr explicit operator bool (void) const noexcept
       {
         return any ();
       }
 
 
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
       constexpr const self_type &
       operator = (const self_type & that) noexcept
       {
@@ -150,6 +235,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       constexpr const self_type &
       operator = (flag_type flags) noexcept
       {
@@ -159,6 +249,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       constexpr const self_type &
       operator = (underlying_type flags) noexcept
       {
@@ -168,6 +263,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
       constexpr bool
       operator == (const self_type & that) const noexcept
       {
@@ -175,6 +275,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       constexpr bool
       operator == (flag_type flags) const noexcept
       {
@@ -182,6 +287,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       constexpr bool
       operator == (underlying_type flags) const noexcept
       {
@@ -189,6 +299,12 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param output
+       * @param self
+       * @return
+       */
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
@@ -202,10 +318,19 @@ namespace Utils
 
 
     private:
+      /**
+       * @brief
+       */
       flag_type flags_ { };
 
+      /**
+       * @brief
+       */
       inline static constexpr flag_type flag_zero { };
 
+      /**
+       * @brief
+       */
       inline static constexpr underlying_type underlying_zero { };
   };
 }
