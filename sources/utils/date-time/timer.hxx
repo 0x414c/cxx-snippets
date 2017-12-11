@@ -3,9 +3,9 @@
 
 
 #include <chrono> // std::chrono::steady_clock
-#include <string> // std::string
 
 #include "../config/timer.hxx" // Config::Utils::Timer::Default_description
+#include "../containers/c-string.hxx" // CString
 #include "../preproc/paste.hxx" // PASTE_E
 
 
@@ -47,31 +47,10 @@ namespace Utils
 
       /**
        * @brief
-       * @param that
-       * @return
-       */
-      Timer (self_type && that);
-
-//      /**
-//       * @brief
-//       * @param is_automatic
-//       * @return
-//       */
-//      explicit Timer (bool is_automatic);
-
-      /**
-       * @brief
        * @param description
        * @return
        */
-      explicit Timer (const std::string & description);
-
-      /**
-       * @brief
-       * @param description
-       * @return
-       */
-      explicit Timer (std::string && description);
+      explicit Timer (const CString & description);
 
       /**
        * @brief
@@ -79,15 +58,7 @@ namespace Utils
        * @param is_automatic
        * @return
        */
-      explicit Timer (const std::string & description, bool is_automatic);
-
-      /**
-       * @brief
-       * @param description
-       * @param is_automatic
-       * @return
-       */
-      explicit Timer (std::string && description, bool is_automatic);
+      explicit Timer (const CString & description, bool is_automatic);
 
       /**
        * @brief
@@ -98,8 +69,8 @@ namespace Utils
        * @brief
        * @return
        */
-      const std::string &
-      description (void) const;
+      const CString &
+      description (void) const noexcept;
 
       /**
        * @brief
@@ -139,15 +110,7 @@ namespace Utils
        * @return
        */
       const self_type &
-      operator = (const self_type & that);
-
-      /**
-       * @brief
-       * @param that
-       * @return
-       */
-      const self_type &
-      operator = (self_type && that);
+      operator = (const self_type & that) = delete;
 
 
     private:
@@ -160,7 +123,7 @@ namespace Utils
       /**
        * @brief
        */
-      std::string description_ { Config::Utils::Timer::Default_description };
+      CString description_ { Config::Utils::Timer::Default_description };
 
       /**
        * @brief

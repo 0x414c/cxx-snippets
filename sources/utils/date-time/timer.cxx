@@ -1,9 +1,9 @@
-#include <string> // std::string
 #include <utility> // std::move
 
 #include "timer.hxx" // Utils::Timer::*
 
 #include "../config/logger.hxx" // Config::Utils::Logger::Timer_log_prefix
+#include "../containers/c-string.hxx" // CString
 #include "../logging/logger.hxx" // Logger::printLog_Short
 #include "format-duration.hxx" // formatDuration
 
@@ -25,46 +25,15 @@ namespace Utils
   }
 
 
-  Timer::Timer (self_type && that) :
-    description_ (std::move (that.description_)),
-    is_automatic_ (std::move (that.is_automatic_)),
-    time_started_ (std::move (that.time_started_))
-  {
-    initialize_ ();
-  }
-
-
-//  Timer::Timer (bool is_automatic) :
-//    is_automatic_ (is_automatic)
-//  {
-//    initialize_ ();
-//  }
-
-
-  Timer::Timer (const std::string & description) :
+  Timer::Timer (const CString & description) :
     description_ (description)
   {
     initialize_ ();
   }
 
 
-  Timer::Timer (std::string && description) :
-    description_ (std::move (description))
-  {
-    initialize_ ();
-  }
-
-
-  Timer::Timer (const std::string & description, bool is_automatic) :
+  Timer::Timer (const CString & description, bool is_automatic) :
     description_ (description),
-    is_automatic_ (is_automatic)
-  {
-    initialize_ ();
-  }
-
-
-  Timer::Timer (std::string && description, bool is_automatic) :
-    description_ (std::move (description)),
     is_automatic_ (is_automatic)
   {
     initialize_ ();
@@ -82,8 +51,8 @@ namespace Utils
   }
 
 
-  const std::string &
-  Timer::description (void) const
+  const CString &
+  Timer::description (void) const noexcept
   {
     return description_;
   }
@@ -126,34 +95,6 @@ namespace Utils
   Timer::stop (void)
   {
     time_stopped_ = clock_type::now ();
-  }
-
-
-  const Timer::self_type &
-  Timer::operator = (const self_type & that)
-  {
-    if (this != &that)
-    {
-      description_ = that.description_;
-      is_automatic_ = that.is_automatic_;
-      time_started_ = that.time_started_;
-    }
-
-    return *this;
-  }
-
-
-  const Timer::self_type &
-  Timer::operator = (self_type && that)
-  {
-    if (this != &that)
-    {
-      description_ = std::move (that.description_);
-      is_automatic_ = std::move (that.is_automatic_);
-      time_started_ = std::move (that.time_started_);
-    }
-
-    return *this;
   }
 
 
