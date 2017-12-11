@@ -23,12 +23,12 @@ namespace Utils
       /**
        * @brief
        */
-      using self_type = NaiveSummationPolicy;
+      using term_type = TTerm;
 
       /**
        * @brief
        */
-      using term_type = TTerm;
+      using self_type = NaiveSummationPolicy;
 
 
       /**
@@ -154,12 +154,12 @@ namespace Utils
       /**
        * @brief
        */
-      using self_type = CompensatingSummationPolicy;
+      using term_type = TTerm;
 
       /**
        * @brief
        */
-      using term_type = TTerm;
+      using self_type = CompensatingSummationPolicy;
 
 
       /**
@@ -346,17 +346,17 @@ namespace Utils
       /**
        * @brief
        */
-      using self_type = Summator;
-
-      /**
-       * @brief
-       */
       using term_type = TTerm;
 
       /**
        * @brief
        */
       using summation_policy_type = TSummationPolicy;
+
+      /**
+       * @brief
+       */
+      using self_type = Summator;
 
 
       /**

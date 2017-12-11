@@ -27,17 +27,17 @@ namespace Utils
       /**
        * @brief
        */
-      using self_type = Result;
-
-      /**
-       * @brief
-       */
       using result_type = TResult;
 
       /**
        * @brief
        */
       using error_type = TError;
+
+      /**
+       * @brief
+       */
+      using self_type = Result;
 
 
       /**

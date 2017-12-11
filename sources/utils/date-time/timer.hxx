@@ -24,12 +24,12 @@ namespace Utils
       /**
        * @brief
        */
-      using self_type = Timer;
+      using clock_type = std::chrono::steady_clock;
 
       /**
        * @brief
        */
-      using clock_type = std::chrono::steady_clock;
+      using self_type = Timer;
 
 
       /**
