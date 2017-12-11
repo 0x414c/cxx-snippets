@@ -5,7 +5,7 @@
 //#include <string_view> // std::string_view
 
 #include "../config/logger.hxx" // Config::Utils::Logger::Check_prefix
-#include "../containers/cstring.hxx" // CString
+#include "../containers/c-string.hxx" // CString
 #include "../logging/logger.hxx" // Logger::printLog_Detailed
 #include "../logging/source-location.hxx" // SourceLocation, CURRENT_SOURCE_LOCATION
 #include "../preproc/stringify.hxx" // STRINGIFY_E

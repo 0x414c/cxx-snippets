@@ -8,7 +8,7 @@
 #include <ostream> // std::ostream
 
 #include "../config/source-location.hxx" // Config::Utils::SourceLocation::Default_{function, file}
-#include "../containers/cstring.hxx" // CString
+#include "../containers/c-string.hxx" // CString
 
 
 namespace Utils

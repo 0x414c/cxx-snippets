@@ -11,7 +11,7 @@
 #include <fmt/ostream.h> // fmt::print[std::ostream]
 
 #include "../config/logger.hxx" // Config::Utils::Logger
-#include "../containers/cstring.hxx" // CString
+#include "../containers/c-string.hxx" // CString
 #include "source-location.hxx" // SourceLocation
 
 
