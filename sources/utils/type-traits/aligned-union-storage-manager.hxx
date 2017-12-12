@@ -31,24 +31,19 @@ namespace Utils
       /**
        * @brief
        */
-      AlignedUnionStorageManager (void) = default;
+      constexpr AlignedUnionStorageManager (void) noexcept = default;
 
       /**
        * @brief
        * @param that
        */
-      AlignedUnionStorageManager (const self_type & that) = delete;
+      AlignedUnionStorageManager (const self_type & that [[maybe_unused]]) noexcept = delete;
 
       /**
        * @brief
        * @param that
        */
-      AlignedUnionStorageManager (self_type && that) = delete;
-
-      /**
-       * @brief
-       */
-      ~AlignedUnionStorageManager (void) = default;
+      AlignedUnionStorageManager (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
       /**
@@ -128,16 +123,16 @@ namespace Utils
        * @param that
        * @return
        */
-      const self_type &
-      operator = (const self_type & that) = delete;
+      constexpr const self_type &
+      operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      const self_type &
-      operator = (self_type && that) = delete;
+      constexpr const self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
     private:
