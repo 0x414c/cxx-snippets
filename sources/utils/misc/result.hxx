@@ -2,9 +2,6 @@
 #define UTILS_MISC_RESULT_HXX
 
 
-#include <cstddef> // std::size_t
-
-#include <algorithm> // std::max
 #include <ostream> // std::ostream
 #include <utility> // std::{forward, move}
 
@@ -55,10 +52,10 @@ namespace Utils
        */
       Result (const self_type & that) :
 #ifdef RESULT_WITH_RUNTIME_CHECKS
-      is_error_ (that.is_error_),
-      error_was_checked_ (that.error_was_checked_)
+        is_error_ (that.is_error_),
+        error_was_checked_ (that.error_was_checked_)
 #else // RESULT_WITH_RUNTIME_CHECKS
-      is_error_ (that.is_error_)
+        is_error_ (that.is_error_)
 #endif // RESULT_WITH_RUNTIME_CHECKS
       {
         if (that.isError_Unchecked_ ())
@@ -81,7 +78,7 @@ namespace Utils
         is_error_ (that.is_error_),
         error_was_checked_ (that.error_was_checked_)
 #else // RESULT_WITH_RUNTIME_CHECKS
-      is_error_ (that.is_error_)
+        is_error_ (that.is_error_)
 #endif // RESULT_WITH_RUNTIME_CHECKS
       {
 #pragma GCC diagnostic push
