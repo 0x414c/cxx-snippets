@@ -94,6 +94,17 @@
     ); \
   } \
   while (false)
+
+
+#define LOG_FUNC() \
+  do \
+  { \
+    ::Utils::Logger::printLog_Short ( \
+      ::Config::Utils::Logger::Func_log_prefix, \
+      "{0}", (CURRENT_SOURCE_LOCATION ()).function () \
+    ); \
+  } \
+  while (false)
 #else // WITH_DEBUG_LOG
 #define LOG_F_L(format, ...) do { } while (false)
 
@@ -106,6 +117,8 @@
 #define LOG_VAL_L(expression) do { } while (false)
 
 #define LOG_VAL_NL(expression) do { } while (false)
+
+#define LOG_FUNC() do { } while (false)
 #endif // WITH_DEBUG_LOG
 
 

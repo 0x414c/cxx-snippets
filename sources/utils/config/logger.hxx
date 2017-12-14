@@ -6,6 +6,7 @@ namespace Config::Utils::Logger
 {
   constexpr const char Detailed_log_prefix[] ("D");
   constexpr const char Value_log_prefix[] ("V");
+  constexpr const char Func_log_prefix[] ("I");
 
   constexpr const char Short_log_prefix[] ("L");
 
