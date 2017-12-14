@@ -4,7 +4,7 @@
 
 #include <initializer_list> // std::initializer_list
 #include <ios> // std::{hex, showbase}
-#include <limits> // std::limits
+#include <limits> // std::numeric_limits
 #include <ostream> // std::ostream
 #include <type_traits> // std::{is_enum, is_unsigned, underlying_type}
 
