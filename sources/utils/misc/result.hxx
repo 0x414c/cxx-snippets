@@ -60,11 +60,11 @@ namespace Utils
       {
         if (that.isError_Unchecked_ ())
         {
-          result_or_error_.template construct <error_type> (*that.result_or_error_.template get <error_type> ());
+          result_or_error_.template construct <error_type> (that.result_or_error_.template get <error_type> ());
         }
         else
         {
-          result_or_error_.template construct <result_type> (*that.result_or_error_.template get <result_type> ());
+          result_or_error_.template construct <result_type> (that.result_or_error_.template get <result_type> ());
         }
       }
 
