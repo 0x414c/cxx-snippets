@@ -2,9 +2,9 @@
 
 #include "timer.hxx" // Utils::Timer::*
 
-#include "../config/logger.hxx" // Config::Utils::Logger::Timer_log_prefix
+#include "../config/logger.hxx" // Config::Utils::Logger::Timer_prefix
 #include "../containers/c-string.hxx" // CString
-#include "../logging/logger.hxx" // Logger::printLog_Short
+#include "../logging/logger.hxx" // Logger::log
 #include "format-duration.hxx" // formatDuration
 
 
@@ -77,8 +77,8 @@ namespace Utils
   {
     const clock_type::duration elapsed (time_stopped_ - time_started_);
 
-    Logger::printLog_Short (
-      Config::Utils::Logger::Timer_log_prefix,
+    Logger::log (
+      Config::Utils::Logger::Timer_prefix,
       "Timer `{0}': time elapsed: {1}", description_, formatDuration (elapsed)
     );
   }

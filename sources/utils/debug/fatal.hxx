@@ -2,22 +2,24 @@
 #define UTILS_DEBUG_FATAL_HXX
 
 
-#include <cstdlib> // ::std::abort
-
-#include "../config/logger.hxx" // ::Config::Utils::Logger::Fatal_prefix
-#include "../logging/logger.hxx" // ::Utils::Logger::printLog_Detailed
 #include "../logging/source-location.hxx" // CURRENT_SOURCE_LOCATION
+#include "assertion-guard.hxx" // AssertionGuard
 
 
-#define FATAL(message) \
+#define FATAL_L(message) \
   do \
   { \
-    ::Utils::Logger::printLog_Detailed ( \
-      CURRENT_SOURCE_LOCATION (), \
-      ::Config::Utils::Logger::Fatal_prefix, \
-      "Fatal error: `{0}'", (message) \
-    ); \
-    ::std::abort (); \
+    constexpr ::Utils::AssertionGuard assertion_guard ((message), (CURRENT_SOURCE_LOCATION ())); \
+    assertion_guard.crash (true); \
+  } \
+  while (false)
+
+
+#define FATAL_NL(message) \
+  do \
+  { \
+    constexpr ::Utils::AssertionGuard assertion_guard ((message)); \
+    assertion_guard.crash (false); \
   } \
   while (false)
 

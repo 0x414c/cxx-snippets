@@ -10,7 +10,6 @@
 #include <fmt/format.h> // fmt::print
 #include <fmt/ostream.h> // fmt::print[std::ostream]
 
-#include "../config/logger.hxx" // Config::Utils::Logger
 #include "../containers/c-string.hxx" // CString
 #include "source-location.hxx" // SourceLocation
 
@@ -25,16 +24,35 @@ namespace Utils
     public:
       /**
        * @brief
-       * @param function
-       * @param file
-       * @param line
+       * @tparam TArgs
        * @param prefix
        * @param format
        * @param args
        */
       template <typename ... TArgs>
       static void
-      printLog_Detailed (
+      log (const CString & prefix, const CString & format, const TArgs & ... args)
+      {
+        ++message_id_;
+
+        fmt::print (
+          output_stream_, "{0:d}/{1:s} {2:s}\n",
+          message_id_, prefix, fmt::format (format.data (), args ...)
+        );
+      }
+
+
+      /**
+       * @brief
+       * @tparam TArgs
+       * @param source_location
+       * @param prefix
+       * @param format
+       * @param args
+       */
+      template <typename ... TArgs>
+      static void
+      log_Detailed (
         const SourceLocation & source_location,
         const CString & prefix, const CString & format, const TArgs & ... args
       )
@@ -48,31 +66,12 @@ namespace Utils
         );
       }
 
-      /**
-       * @brief
-       * @param description
-       * @param prefix
-       * @param format
-       * @param args
-       */
-      template <typename ... TArgs>
-      static void
-      printLog_Short (const CString & prefix, const CString & format, const TArgs & ... args)
-      {
-        ++message_id_;
-
-        fmt::print (
-          output_stream_, "{0:d}/{1:s} {2:s}\n",
-          message_id_, prefix, fmt::format (format.data (), args ...)
-        );
-      }
-
 
     private:
       /**
        * @brief
        */
-      inline static std::size_t message_id_ { 0 };
+      inline static std::size_t message_id_ { };
 
 
       /**

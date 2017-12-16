@@ -28,7 +28,7 @@ namespace Utils
       /**
        * @brief
        */
-      constexpr SourceLocation (void) noexcept = delete;
+      constexpr SourceLocation (void) noexcept = default;
 
       /**
        * @brief
@@ -115,7 +115,7 @@ namespace Utils
       /**
        * @brief
        */
-      const std::size_t line_ { 0 };
+      const std::size_t line_ { };
   };
 }
 

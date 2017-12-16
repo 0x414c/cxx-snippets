@@ -3,7 +3,7 @@
 
 
 #include "../config/logger.hxx" // ::Config::Utils::Logger::*
-#include "../logging/logger.hxx" // ::Utils::Logger::printLog_{Short, Detailed}
+#include "../logging/logger.hxx" // ::Utils::Logger::{log, log_Detailed}
 #include "../logging/source-location.hxx" // CURRENT_SOURCE_LOCATION
 #include "../preproc/stringify.hxx" // STRINGIFY_E
 
@@ -15,10 +15,8 @@
 #define LOG_F_L(format, ...) \
   do \
   { \
-    ::Utils::Logger::printLog_Detailed ( \
-      CURRENT_SOURCE_LOCATION (), \
-      ::Config::Utils::Logger::Detailed_log_prefix, \
-      (format), __VA_ARGS__ \
+    ::Utils::Logger::log_Detailed ( \
+      (CURRENT_SOURCE_LOCATION ()), ::Config::Utils::Logger::Detailed_prefix, (format), __VA_ARGS__ \
     ); \
   } \
   while (false)
@@ -30,10 +28,7 @@
 #define LOG_F_NL(format, ...) \
   do \
   { \
-    ::Utils::Logger::printLog_Short ( \
-      ::Config::Utils::Logger::Short_log_prefix, \
-      (format), __VA_ARGS__ \
-    ); \
+    ::Utils::Logger::log (::Config::Utils::Logger::Default_prefix, (format), __VA_ARGS__); \
   } \
   while (false)
 
@@ -44,10 +39,8 @@
 #define LOG_NF_L(message) \
   do \
   { \
-    ::Utils::Logger::printLog_Detailed ( \
-      CURRENT_SOURCE_LOCATION (), \
-      ::Config::Utils::Logger::Detailed_log_prefix, \
-      (message) \
+    ::Utils::Logger::log_Detailed ( \
+      (CURRENT_SOURCE_LOCATION ()), ::Config::Utils::Logger::Detailed_prefix, (message) \
     ); \
   } \
   while (false)
@@ -59,10 +52,7 @@
 #define LOG_NF_NL(message) \
   do \
   { \
-    ::Utils::Logger::printLog_Short ( \
-      ::Config::Utils::Logger::Short_log_prefix, \
-      (message) \
-    ); \
+    ::Utils::Logger::log (::Config::Utils::Logger::Default_prefix, (message)); \
   } \
   while (false)
 
@@ -73,10 +63,9 @@
 #define LOG_VAL_L(expression) \
   do \
   { \
-    ::Utils::Logger::printLog_Detailed ( \
-      CURRENT_SOURCE_LOCATION (), \
-      ::Config::Utils::Logger::Value_log_prefix, \
-      "`{0}' == `{1}'", (STRINGIFY_E (expression)), (expression) \
+    ::Utils::Logger::log_Detailed ( \
+      (CURRENT_SOURCE_LOCATION ()), ::Config::Utils::Logger::Value_prefix, \
+      "`{0:s}' == `{1}'", (STRINGIFY_E (expression)), (expression) \
     ); \
   } \
   while (false)
@@ -88,9 +77,8 @@
 #define LOG_VAL_NL(expression) \
   do \
   { \
-    ::Utils::Logger::printLog_Short ( \
-      ::Config::Utils::Logger::Value_log_prefix, \
-      "`{0}' == `{1}'", (STRINGIFY_E (expression)), (expression) \
+    ::Utils::Logger::log ( \
+      ::Config::Utils::Logger::Value_prefix, "`{0:s}' == `{1}'", (STRINGIFY_E (expression)), (expression) \
     ); \
   } \
   while (false)
@@ -99,9 +87,8 @@
 #define LOG_FUNC() \
   do \
   { \
-    ::Utils::Logger::printLog_Short ( \
-      ::Config::Utils::Logger::Func_log_prefix, \
-      "{0}", (CURRENT_SOURCE_LOCATION ()).function () \
+    ::Utils::Logger::log ( \
+      ::Config::Utils::Logger::Func_prefix, "{0:s}", (CURRENT_SOURCE_LOCATION ()).function () \
     ); \
   } \
   while (false)

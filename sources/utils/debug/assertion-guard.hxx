@@ -4,9 +4,9 @@
 
 #include <cstdlib> // std::abort
 
-#include "../config/logger.hxx" // Config::Utils::Logger::{Assert, Check}_prefix
+#include "../config/logger.hxx" // Config::Utils::Logger::{Assert, Check, Fatal}_prefix
 #include "../containers/c-string.hxx" // CString
-#include "../logging/logger.hxx" // Logger::printLog_Detailed
+#include "../logging/logger.hxx" // Logger::log_Detailed
 #include "../logging/source-location.hxx" // SourceLocation
 
 
@@ -48,14 +48,23 @@ namespace Utils
       /**
        * @brief
        */
+      constexpr explicit AssertionGuard (const CString & message) noexcept :
+        message_ (message),
+        source_location_ ()
+      { }
+
+
+      /**
+       * @brief
+       */
       constexpr void
       require (bool condition, const CString & condition_as_text) const
       {
         if (!condition)
         {
-          Logger::printLog_Detailed (
+          Logger::log_Detailed (
             source_location_, Config::Utils::Logger::Assert_prefix,
-            "Assertion `{0}' failed: `{1}'", condition_as_text, message_
+            "Assertion `{0:s}' failed: `{1:s}'", condition_as_text, message_
           );
 
           std::abort ();
@@ -71,11 +80,29 @@ namespace Utils
       {
         if (!condition)
         {
-          Logger::printLog_Detailed (
+          Logger::log_Detailed (
             source_location_, Config::Utils::Logger::Check_prefix,
-            "Check `{0}' failed: `{1}'", condition_as_text, message_
+            "Check `{0:s}' failed: `{1:s}'", condition_as_text, message_
           );
         }
+      }
+
+
+      [[noreturn]] void
+      crash (bool show_location) const
+      {
+        if (show_location)
+        {
+          Logger::log_Detailed (
+            source_location_, Config::Utils::Logger::Fatal_prefix, "Fatal error: `{0:s}'", message_
+          );
+        }
+        else
+        {
+          Logger::log (Config::Utils::Logger::Fatal_prefix, "Fatal error: `{0:s}'", message_);
+        }
+
+        std::abort ();
       }
 
 
