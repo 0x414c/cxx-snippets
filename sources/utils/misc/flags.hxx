@@ -96,7 +96,7 @@ namespace Utils
       constexpr bool
       has (flag_type flags) const noexcept
       {
-        return (underlying_type (flags) == (underlying_type (flags) & underlying_type (flags_)));
+        return ((underlying_type (flags) & underlying_type (flags_)) != underlying_zero);
       }
 
 
@@ -138,7 +138,7 @@ namespace Utils
       constexpr bool
       any (void) const noexcept
       {
-        return (underlying_type (flags_) > underlying_zero);
+        return !none ();
       }
 
 
