@@ -17,7 +17,7 @@ namespace Utils
    */
   template <typename TX, class TCompare = std::less <TX>>
   constexpr TX
-  sign (const TX & x, const TCompare & compare = TCompare ())
+  sign (TX x, TCompare compare = TCompare ())
   {
     static_assert (
       std::is_signed <TX>::value,

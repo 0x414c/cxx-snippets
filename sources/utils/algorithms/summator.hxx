@@ -3,8 +3,7 @@
 
 
 #include <ostream> // std::ostream
-#include <type_traits> // std::{is_integral, is_floating_point}
-#include <utility> // std::move
+#include <type_traits> // std::{is_arithmetic, is_floating_point, is_integral}
 
 #include "../type-traits/choose.hxx" // Choose
 #include "../type-traits/if-then.hxx" // IfThen
@@ -19,6 +18,12 @@ namespace Utils
   template <typename TTerm>
   class NaiveSummationPolicy final
   {
+    static_assert (
+      std::is_arithmetic <TTerm>::value,
+      "Type `TTerm' should be an arithmetic one"
+    );
+
+
     public:
       /**
        * @brief
@@ -51,13 +56,14 @@ namespace Utils
        */
       constexpr NaiveSummationPolicy (self_type && that [[maybe_unused]]) = default;
 
+
       /**
        * @brief
        * TODO: [1;0] Explicit?
        * @param initial_value
        * @return
        */
-      constexpr explicit NaiveSummationPolicy (const term_type & initial_value) :
+      constexpr explicit NaiveSummationPolicy (term_type initial_value) :
         sum_ (initial_value)
       { }
 
@@ -78,7 +84,7 @@ namespace Utils
        * @param term
        */
       constexpr void
-      add (const term_type & term)
+      add (term_type term)
       {
         sum_ += term;
       }
@@ -105,29 +111,11 @@ namespace Utils
       /**
        * @brief
        * TODO: [1;0] Const?
-       * @param that
-       * @return
-       */
-      constexpr const self_type &
-      operator = (self_type && that)
-      {
-        if (this != &that)
-        {
-          sum_ = std::move (that.sum_);
-        }
-
-        return *this;
-      }
-
-
-      /**
-       * @brief
-       * TODO: [1;0] Const?
        * @param new_initial_value
        * @return
        */
       constexpr const self_type &
-      operator = (const term_type & new_initial_value)
+      operator = (term_type new_initial_value)
       {
         sum_ = new_initial_value;
 
@@ -150,6 +138,12 @@ namespace Utils
   template <typename TTerm>
   class CompensatingSummationPolicy final
   {
+    static_assert (
+      std::is_arithmetic <TTerm>::value,
+      "Type `TTerm' should be an arithmetic one"
+    );
+
+
     public:
       /**
        * @brief
@@ -175,12 +169,6 @@ namespace Utils
        */
       constexpr CompensatingSummationPolicy (const self_type & that [[maybe_unused]]) = default;
 
-      /**
-       * @brief
-       * @param that
-       * @return
-       */
-      constexpr CompensatingSummationPolicy (self_type && that [[maybe_unused]]) = default;
 
       /**
        * @brief
@@ -188,7 +176,7 @@ namespace Utils
        * @param initial_value
        * @return
        */
-      constexpr explicit CompensatingSummationPolicy (const term_type & initial_value) :
+      constexpr explicit CompensatingSummationPolicy (term_type initial_value) :
         sum_ (initial_value)
       { }
 
@@ -228,7 +216,7 @@ namespace Utils
        * @param term
        */
       constexpr void
-      add (const term_type & term)
+      add (term_type term)
       {
         // Algorithm from [1], [2]:
         // So far, so good: `correction_' is zero:
@@ -278,30 +266,11 @@ namespace Utils
       /**
        * @brief
        * TODO: [1;0] Const?
-       * @param that
-       * @return
-       */
-      constexpr const self_type &
-      operator = (self_type && that)
-      {
-        if (this != &that)
-        {
-          sum_ = std::move (that.sum_);
-          correction_ = std::move (that.correction_);
-        }
-
-        return *this;
-      }
-
-
-      /**
-       * @brief
-       * TODO: [1;0] Const?
        * @param new_initial_value
        * @return
        */
       constexpr const self_type &
-      operator = (const term_type & new_initial_value)
+      operator = (term_type new_initial_value)
       {
         sum_ = new_initial_value;
         correction_ = term_zero;
@@ -342,6 +311,12 @@ namespace Utils
   >
   class Summator final
   {
+    static_assert (
+      std::is_arithmetic <TTerm>::value,
+      "Type `TTerm' should be an arithmetic one"
+    );
+
+
     public:
       /**
        * @brief
@@ -372,12 +347,6 @@ namespace Utils
        */
       constexpr Summator (const self_type & that [[maybe_unused]]) = default;
 
-      /**
-       * @brief
-       * @param that
-       * @return
-       */
-      constexpr Summator (self_type && that [[maybe_unused]]) = default;
 
       /**
        * @brief
@@ -385,7 +354,7 @@ namespace Utils
        * @param initial_value
        * @return
        */
-      constexpr explicit Summator (const term_type & initial_value) :
+      constexpr explicit Summator (term_type initial_value) :
         summation_policy_ (initial_value)
       { }
 
@@ -422,29 +391,11 @@ namespace Utils
       /**
        * @brief
        * TODO: [1;0] Const?
-       * @param that
-       * @return
-       */
-      constexpr const self_type &
-      operator = (self_type && that)
-      {
-        if (this != &that)
-        {
-          summation_policy_ = std::move (that.summation_policy_);
-        }
-
-        return *this;
-      }
-
-
-      /**
-       * @brief
-       * TODO: [1;0] Const?
        * @param new_initial_value
        * @return
        */
       constexpr const self_type &
-      operator = (const term_type & new_initial_value)
+      operator = (term_type new_initial_value)
       {
         summation_policy_ = new_initial_value;
 
@@ -459,7 +410,7 @@ namespace Utils
        * @return
        */
       constexpr const self_type &
-      operator += (const term_type & term)
+      operator += (term_type term)
       {
         summation_policy_.add (term);
 
@@ -474,7 +425,7 @@ namespace Utils
        * @return
        */
       constexpr const self_type &
-      operator -= (const term_type & term)
+      operator -= (term_type term)
       {
         summation_policy_.add (-term);
 

@@ -7,9 +7,10 @@
 
 #include <limits> // std::numeric_limits
 #include <tuple> // std::tuple
-#include <type_traits> // std::is_{integral, floating_point}
+#include <type_traits> // std::{is_floating_point, is_integral}
 
-#include "../config/is-close.hxx" // Config::Utils::IsClose::{Relative, Absolute}_tolerance
+#include "../config/is-close.hxx" // Config::Utils::IsClose::{Absolute_tolerance, Relative_tolerance}
+#include "../config/rationalize.hxx" // Config::Utils::Rationalize::{Max_denominator, Max_iterations}
 #include "../debug/assert.hxx" // ASSERT
 #include "abs.hxx" // abs
 #include "is-close.hxx" // isClose
@@ -34,10 +35,11 @@ namespace Utils
   template <typename TInt, typename TFloat>
   constexpr std::tuple <TInt, TInt, TFloat>
   rationalize (
-    const TFloat & x,
-    const TInt & max_denominator = 1'000'000, const std::size_t max_iterations = 23,
-    const TFloat & rel_tol = Config::Utils::IsClose::Relative_tolerance <TFloat>,
-    const TFloat & abs_tol = Config::Utils::IsClose::Absolute_tolerance <TFloat>
+    TFloat x,
+    TInt max_denominator = Config::Utils::Rationalize::Max_denominator <TInt>,
+    std::size_t max_iterations = Config::Utils::Rationalize::Max_iterations,
+    TFloat rel_tol = Config::Utils::IsClose::Relative_tolerance <TFloat>,
+    TFloat abs_tol = Config::Utils::IsClose::Absolute_tolerance <TFloat>
   )
   {
     static_assert (

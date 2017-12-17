@@ -2,6 +2,9 @@
 #define UTILS_ALGORITHMS_LERP_HXX
 
 
+#include <type_traits> // std::is_arithmetic
+
+
 namespace Utils
 {
   /**
@@ -17,8 +20,13 @@ namespace Utils
    */
   template <typename TX, typename TY>
   constexpr TY
-  lerp (const TX & x, const TX & x_0, const TX & x_1, const TY & y_0, const TY & y_1)
+  lerp (TX x, TX x_0, TX x_1, TY y_0, TY y_1)
   {
+    static_assert (
+      std::is_arithmetic <TX>::value && std::is_arithmetic <TY>::value,
+      "Types `TX' and `TY' should be an arithmetic ones"
+    );
+
     return (y_0 + (x - x_0) * (y_1 - y_0) / (x_1 - x_0));
   }
 }

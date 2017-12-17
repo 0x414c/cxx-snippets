@@ -3,6 +3,7 @@
 
 
 #include <iterator> // std::{distance, iterator_traits}
+#include <type_traits> // std::is_arithmetic
 
 #include "../debug/assert.hxx" // ASSERT
 
@@ -23,6 +24,11 @@ namespace Utils
     using difference_type = typename std::iterator_traits <TInputIterator>::difference_type;
     using value_type = typename std::iterator_traits <TInputIterator>::value_type;
 
+
+    static_assert (
+      std::is_arithmetic <value_type>::value,
+      "Type `value_type' should be an arithmetic one"
+    );
 
 //    ASSERT (std::distance (first, last) > 1, "distance between `first' and `last' should be >= 2");
 

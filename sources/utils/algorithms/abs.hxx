@@ -10,21 +10,21 @@ namespace Utils
 {
   /**
    * @brief
-   * @tparam TX
+   * @tparam TArithmetic
    * @param x
    * @param compare
    * @return
    */
-  template <typename TX, class TCompare = std::less <TX>>
-  constexpr TX
-  abs (const TX & x, const TCompare & compare = TCompare ())
+  template <typename TArithmetic, class TCompare = std::less <TArithmetic>>
+  constexpr TArithmetic
+  abs (TArithmetic x, TCompare compare = TCompare ())
   {
     static_assert (
-      std::is_arithmetic <TX>::value,
-      "Type `TInt' should be an arithmetic one"
+      std::is_arithmetic <TArithmetic>::value,
+      "Type `TArithmetic' should be an arithmetic one"
     );
 
-    if (compare (x, TX (0)))
+    if (compare (x, TArithmetic (0)))
     {
       return -x;
     }

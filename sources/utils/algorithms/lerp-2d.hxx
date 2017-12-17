@@ -2,6 +2,8 @@
 #define UTILS_ALGORITHMS_LERP2D_HXX
 
 
+#include <type_traits> // std::is_arithmetic
+
 #include "lerp.hxx" // lerp
 
 
@@ -27,11 +29,16 @@ namespace Utils
   template <typename TX, typename TY, typename TZ>
   constexpr TZ
   lerp_2d (
-    const TX & x, const TY & y,
-    const TX & x_0, const TX & x_1, const TY & y_0, const TY & y_1,
-    const TZ & z_0_0, const TZ & z_0_1, const TZ & z_1_1, const TZ & z_1_0
+    TX x, TY y,
+    TX x_0, TX x_1, TY y_0, TY y_1,
+    TZ z_0_0, TZ z_0_1, TZ z_1_1, TZ z_1_0
   )
   {
+    static_assert (
+      std::is_arithmetic <TX>::value && std::is_arithmetic <TY>::value,
+      "Types `TX', `TY' and `TZ' should be an arithmetic ones"
+    );
+
     const TZ z_0 (lerp (x, x_0, x_1, z_0_0, z_1_0));
     const TZ z_1 (lerp (x, x_0, x_1, z_0_1, z_1_1));
 
