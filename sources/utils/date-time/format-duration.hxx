@@ -18,7 +18,7 @@ namespace Utils
    */
   template <typename TDuration>
   std::string
-  formatDuration (const TDuration & duration)
+  formatDuration (TDuration duration)
   {
     using namespace std::chrono;
     using namespace std::chrono_literals;
