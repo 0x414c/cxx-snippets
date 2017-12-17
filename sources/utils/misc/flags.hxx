@@ -326,12 +326,12 @@ namespace Utils
       /**
        * @brief
        */
-      inline static constexpr flag_type flag_zero { };
+      static constexpr flag_type flag_zero { };
 
       /**
        * @brief
        */
-      inline static constexpr underlying_type underlying_zero { };
+      static constexpr underlying_type underlying_zero { };
   };
 }
 

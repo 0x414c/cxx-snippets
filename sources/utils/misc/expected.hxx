@@ -23,7 +23,7 @@ namespace Utils
   /**
    * @brief
    */
-  inline constexpr ErrorTag Error { };
+  constexpr ErrorTag Error { };
 
 
   /**

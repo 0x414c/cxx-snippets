@@ -324,7 +324,7 @@ namespace Utils
       /**
        * @brief
        */
-      inline static constexpr term_type term_zero { };
+      static constexpr term_type term_zero { };
   };
 
 
