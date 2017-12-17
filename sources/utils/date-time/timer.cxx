@@ -19,7 +19,8 @@ namespace Utils
   Timer::Timer (const self_type & that) :
     description_ (that.description_),
     is_automatic_ (that.is_automatic_),
-    time_started_ (that.time_started_)
+    time_started_ (that.time_started_),
+    time_stopped_ (that.time_stopped_)
   {
     initialize_ ();
   }
@@ -27,6 +28,13 @@ namespace Utils
 
   Timer::Timer (const CString & description) :
     description_ (description)
+  {
+    initialize_ ();
+  }
+
+
+  Timer::Timer (bool is_automatic) :
+    is_automatic_ (is_automatic)
   {
     initialize_ ();
   }
@@ -42,11 +50,9 @@ namespace Utils
 
   Timer::~Timer (void)
   {
-    if (is_automatic_)
+    if (isAutomatic ())
     {
       stop ();
-
-      logTimeElapsed ();
     }
   }
 
@@ -65,21 +71,47 @@ namespace Utils
   }
 
 
+  Timer::clock_type::time_point
+  Timer::timeStarted (void) const
+  {
+    return time_started_;
+  }
+
+
+  void
+  Timer::timeStarted_ (Timer::clock_type::time_point time_started)
+  {
+    time_started_ = time_started;
+  }
+
+
+  Timer::clock_type::time_point
+  Timer::timeStopped (void) const
+  {
+    return time_stopped_;
+  }
+
+
+  void
+  Timer::timeStopped_ (Timer::clock_type::time_point time_stopped)
+  {
+    time_stopped_ = time_stopped;
+  }
+
+
   Timer::clock_type::duration
   Timer::timeElapsed (void) const
   {
-    return (time_stopped_ - time_started_);
+    return (timeStopped () - timeStarted ());
   }
 
 
   void
   Timer::logTimeElapsed (void) const
   {
-    const clock_type::duration elapsed (time_stopped_ - time_started_);
-
     Logger::log (
-      Config::Utils::Logger::Timer_prefix,
-      "Timer `{0}': time elapsed: {1}", description_, formatDuration (elapsed)
+      Config::Utils::Logger::Timer_prefix, "Timer `{0}': time elapsed: {1}",
+      description_, formatDuration (timeElapsed ())
     );
   }
 
@@ -87,21 +119,26 @@ namespace Utils
   void
   Timer::start (void)
   {
-    time_started_ = clock_type::now ();
+    timeStarted_ (clock_type::now ());
   }
 
 
   void
   Timer::stop (void)
   {
-    time_stopped_ = clock_type::now ();
+    timeStopped_ (clock_type::now ());
+
+    if (isAutomatic ())
+    {
+      logTimeElapsed ();
+    }
   }
 
 
   void
   Timer::initialize_ (void)
   {
-    if (is_automatic_)
+    if (isAutomatic ())
     {
       start ();
     }

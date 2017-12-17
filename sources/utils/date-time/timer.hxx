@@ -54,6 +54,12 @@ namespace Utils
 
       /**
        * @brief
+       * @param is_automatic
+       */
+      explicit Timer (bool is_automatic);
+
+      /**
+       * @brief
        * @param description
        * @param is_automatic
        * @return
@@ -78,6 +84,20 @@ namespace Utils
        */
       bool
       isAutomatic (void) const noexcept;
+
+      /**
+       * @brief
+       * @return
+       */
+      clock_type::time_point
+      timeStarted (void) const;
+
+      /**
+       * @brief
+       * @return
+       */
+      clock_type::time_point
+      timeStopped (void) const;
 
       /**
        * @brief
@@ -116,6 +136,20 @@ namespace Utils
     private:
       /**
        * @brief
+       * @param time_started
+       */
+      void
+      timeStarted_ (clock_type::time_point time_started);
+
+      /**
+       * @brief
+       * @param time_started
+       */
+      void
+      timeStopped_ (clock_type::time_point time_stopped);
+
+      /**
+       * @brief
        */
       void
       initialize_ (void);
@@ -123,12 +157,12 @@ namespace Utils
       /**
        * @brief
        */
-      CString description_ { Config::Utils::Timer::Default_description };
+      const CString description_ { Config::Utils::Timer::Default_description };
 
       /**
        * @brief
        */
-      bool is_automatic_ { true };
+      const bool is_automatic_ { true };
 
       /**
        * @brief
