@@ -38,6 +38,8 @@ namespace Utils
 
       /**
        * @brief
+       * @param message
+       * @param source_location
        */
       constexpr explicit AssertionGuard (const CString & message, const SourceLocation & source_location) noexcept :
         message_ (message),
@@ -47,6 +49,7 @@ namespace Utils
 
       /**
        * @brief
+       * @param message
        */
       constexpr explicit AssertionGuard (const CString & message) noexcept :
         message_ (message),
@@ -56,6 +59,9 @@ namespace Utils
 
       /**
        * @brief
+       * @param condition
+       * @param condition_as_text
+       * @return
        */
       constexpr void
       require (bool condition, const CString & condition_as_text) const
@@ -74,6 +80,9 @@ namespace Utils
 
       /**
        * @brief
+       * @param condition
+       * @param condition_as_text
+       * @return
        */
       constexpr void
       check (bool condition, const CString & condition_as_text) const
@@ -88,6 +97,10 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param show_location
+       */
       [[noreturn]] void
       crash (bool show_location) const
       {

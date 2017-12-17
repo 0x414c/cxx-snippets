@@ -84,6 +84,9 @@
   while (false)
 
 
+/**
+ * @brief
+ */
 #define LOG_FUNC() \
   do \
   { \
