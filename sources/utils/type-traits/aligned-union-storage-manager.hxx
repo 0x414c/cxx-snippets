@@ -3,6 +3,7 @@
 
 
 #include <memory> // std::addressof
+#include <type_traits> // std::{is_assignable, is_constructible}
 #include <utility> // std::forward
 
 #include "aligned-union-storage.hxx" // AlignedUnionStorage
@@ -38,12 +39,6 @@ namespace Utils
        * @param that
        */
       AlignedUnionStorageManager (const self_type & that [[maybe_unused]]) noexcept = delete;
-
-      /**
-       * @brief
-       * @param that
-       */
-      AlignedUnionStorageManager (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
       /**
@@ -83,6 +78,8 @@ namespace Utils
       const TType &
       construct (TArgs && ... args)
       {
+        static_assert (std::is_constructible <TType, TArgs ...>::value);
+
         return *construct_ <TType, TArgs ...> (get_ <TType> (), std::forward <TArgs> (args) ...);
       }
 
@@ -90,7 +87,6 @@ namespace Utils
       /**
        * @brief
        * TODO: [2] Use `is_assignable'?
-       * TODO: [2] Remove this method as it is not 'basic'?
        * @tparam TType
        * @tparam TArgs
        * @param args
@@ -100,6 +96,8 @@ namespace Utils
       const TType &
       assign (TArg && arg)
       {
+        static_assert (std::is_assignable <TType &, TArg>::value);
+
         get <TType> () = std::forward <TArg> (arg);
 
         return get <TType> ();
@@ -125,14 +123,6 @@ namespace Utils
        */
       constexpr const self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
-
-      /**
-       * @brief
-       * @param that
-       * @return
-       */
-      constexpr const self_type &
-      operator = (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
     private:
@@ -174,6 +164,8 @@ namespace Utils
       const TType *
       construct_ (TType * address, TArgs && ... args)
       {
+        static_assert (std::is_constructible <TType, TArgs ...>::value);
+
         return ::new (address) (TType) (std::forward <TArgs> (args) ...);
       }
 
