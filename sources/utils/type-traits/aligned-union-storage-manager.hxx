@@ -3,7 +3,7 @@
 
 
 #include <memory> // std::addressof
-#include <type_traits> // std::{is_assignable, is_constructible}
+#include <type_traits> // std::{is_assignable_v, is_constructible_v}
 #include <utility> // std::forward
 
 #include "aligned-union-storage.hxx" // AlignedUnionStorage
@@ -78,7 +78,7 @@ namespace Utils
       const TType &
       construct (TArgs && ... args)
       {
-        static_assert (std::is_constructible <TType, TArgs ...>::value);
+        static_assert (std::is_constructible_v <TType, TArgs ...>);
 
         return *construct_ <TType, TArgs ...> (get_ <TType> (), std::forward <TArgs> (args) ...);
       }
@@ -96,7 +96,7 @@ namespace Utils
       const TType &
       assign (TArg && arg)
       {
-        static_assert (std::is_assignable <TType &, TArg>::value);
+        static_assert (std::is_assignable_v <TType &, TArg>);
 
         get <TType> () = std::forward <TArg> (arg);
 
@@ -164,7 +164,7 @@ namespace Utils
       const TType *
       construct_ (TType * address, TArgs && ... args)
       {
-        static_assert (std::is_constructible <TType, TArgs ...>::value);
+        static_assert (std::is_constructible_v <TType, TArgs ...>);
 
         return ::new (address) (TType) (std::forward <TArgs> (args) ...);
       }
