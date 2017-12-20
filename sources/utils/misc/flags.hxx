@@ -6,7 +6,7 @@
 #include <ios> // std::{hex, showbase}
 #include <limits> // std::numeric_limits
 #include <ostream> // std::ostream
-#include <type_traits> // std::{is_enum, is_unsigned, underlying_type}
+#include <type_traits> // std::{is_enum_v, underlying_type_t, is_unsigned_v}
 
 
 namespace Utils
@@ -18,10 +18,10 @@ namespace Utils
   template <typename TFlag>
   class Flags final
   {
-    static_assert (std::is_enum <TFlag>::value, "Type `TFlag' should be an enumeration type");
+    static_assert (std::is_enum_v <TFlag>, "Type `TFlag' should be an enumeration type");
 
     static_assert (
-      std::is_unsigned <typename std::underlying_type <TFlag>::type>::value,
+      std::is_unsigned_v <std::underlying_type_t <TFlag>>,
       "Underlying type of `TFlag' enumeration should be an unsigned one"
     );
 

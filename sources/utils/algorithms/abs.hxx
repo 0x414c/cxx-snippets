@@ -3,7 +3,7 @@
 
 
 #include <functional> // std::less
-#include <type_traits> // std::is_arithmetic
+#include <type_traits> // std::is_arithmetic_v
 
 
 namespace Utils
@@ -20,7 +20,7 @@ namespace Utils
   abs (TArithmetic x, TCompare compare = TCompare ())
   {
     static_assert (
-      std::is_arithmetic <TArithmetic>::value,
+      std::is_arithmetic_v <TArithmetic>,
       "Type `TArithmetic' should be an arithmetic one"
     );
 

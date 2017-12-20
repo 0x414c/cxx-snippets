@@ -3,7 +3,7 @@
 
 
 #include <ostream> // std::ostream
-#include <type_traits> // std::{is_arithmetic, is_floating_point, is_integral}
+#include <type_traits> // std::{is_arithmetic_v, is_floating_point_v, is_integral_v}
 
 #include "../type-traits/choose.hxx" // Choose
 #include "../type-traits/if-then.hxx" // IfThen
@@ -19,7 +19,7 @@ namespace Utils
   class NaiveSummationPolicy final
   {
     static_assert (
-      std::is_arithmetic <TTerm>::value,
+      std::is_arithmetic_v <TTerm>,
       "Type `TTerm' should be an arithmetic one"
     );
 
@@ -139,7 +139,7 @@ namespace Utils
   class CompensatingSummationPolicy final
   {
     static_assert (
-      std::is_arithmetic <TTerm>::value,
+      std::is_arithmetic_v <TTerm>,
       "Type `TTerm' should be an arithmetic one"
     );
 
@@ -305,14 +305,14 @@ namespace Utils
   template <
     typename TTerm,
     typename TSummationPolicy = typename Choose <
-      IfThen <std::is_integral <TTerm>::value, NaiveSummationPolicy <TTerm>>,
-      IfThen <std::is_floating_point <TTerm>::value, CompensatingSummationPolicy <TTerm>>
+      IfThen <std::is_integral_v <TTerm>, NaiveSummationPolicy <TTerm>>,
+      IfThen <std::is_floating_point_v <TTerm>, CompensatingSummationPolicy <TTerm>>
     >::type
   >
   class Summator final
   {
     static_assert (
-      std::is_arithmetic <TTerm>::value,
+      std::is_arithmetic_v <TTerm>,
       "Type `TTerm' should be an arithmetic one"
     );
 

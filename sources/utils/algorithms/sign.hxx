@@ -3,7 +3,7 @@
 
 
 #include <functional> // std::less
-#include <type_traits> // std::is_signed
+#include <type_traits> // std::is_signed_v
 
 
 namespace Utils
@@ -20,7 +20,7 @@ namespace Utils
   sign (TX x, TCompare compare = TCompare ())
   {
     static_assert (
-      std::is_signed <TX>::value,
+      std::is_signed_v <TX>,
       "Type `TX' should be a signed one"
     );
 

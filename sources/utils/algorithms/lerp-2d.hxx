@@ -2,7 +2,7 @@
 #define UTILS_ALGORITHMS_LERP2D_HXX
 
 
-#include <type_traits> // std::is_arithmetic
+#include <type_traits> // std::is_arithmetic_v
 
 #include "lerp.hxx" // lerp
 
@@ -35,7 +35,7 @@ namespace Utils
   )
   {
     static_assert (
-      std::is_arithmetic <TX>::value && std::is_arithmetic <TY>::value,
+      std::is_arithmetic_v <TX> && std::is_arithmetic_v <TY>,
       "Types `TX', `TY' and `TZ' should be an arithmetic ones"
     );
 

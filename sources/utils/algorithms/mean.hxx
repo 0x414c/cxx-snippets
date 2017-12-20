@@ -3,7 +3,7 @@
 
 
 #include <iterator> // std::{distance, iterator_traits}
-#include <type_traits> // std::is_arithmetic
+#include <type_traits> // std::is_arithmetic_v
 
 #include "../debug/assert.hxx" // ASSERT
 
@@ -26,7 +26,7 @@ namespace Utils
 
 
     static_assert (
-      std::is_arithmetic <value_type>::value,
+      std::is_arithmetic_v <value_type>,
       "Type `value_type' should be an arithmetic one"
     );
 

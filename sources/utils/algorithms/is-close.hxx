@@ -4,7 +4,7 @@
 
 #include <cmath> // std::{fabs, isfinite}
 
-#include <type_traits> // std::is_floating_point
+#include <type_traits> // std::is_floating_point_v
 
 #include "../config/is-close.hxx" // Config::Utils::IsClose::{Absolute_tolerance, Relative_tolerance}
 #include "../debug/assert.hxx" // ASSERT
@@ -30,7 +30,7 @@ namespace Utils
   )
   {
     static_assert (
-      std::is_floating_point <TFloat>::value,
+      std::is_floating_point_v <TFloat>,
       "Type `TFloat' should be a floating-point one"
     );
 

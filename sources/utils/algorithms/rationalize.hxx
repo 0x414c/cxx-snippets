@@ -7,7 +7,7 @@
 
 #include <limits> // std::numeric_limits
 #include <tuple> // std::tuple
-#include <type_traits> // std::{is_floating_point, is_integral}
+#include <type_traits> // std::{is_floating_point_v, is_integral_v}
 
 #include "../config/is-close.hxx" // Config::Utils::IsClose::{Absolute_tolerance, Relative_tolerance}
 #include "../config/rationalize.hxx" // Config::Utils::Rationalize::{Max_denominator, Max_iterations}
@@ -43,12 +43,12 @@ namespace Utils
   )
   {
     static_assert (
-      std::is_integral <TInt>::value,
+      std::is_integral_v <TInt>,
       "Type `TInt' should be an integral one"
     );
 
     static_assert (
-      std::is_floating_point <TFloat>::value,
+      std::is_floating_point_v <TFloat>,
       "Type `TFloat' should be a floating-point one"
     );
 
