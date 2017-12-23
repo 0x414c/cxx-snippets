@@ -39,21 +39,21 @@ namespace Utils
       /**
        * @brief
        * @param message
-       * @param source_location
        */
-      constexpr explicit AssertionGuard (const CString & message, const SourceLocation & source_location) noexcept :
+      constexpr explicit AssertionGuard (const CString & message) noexcept :
         message_ (message),
-        source_location_ (source_location)
+        source_location_ ()
       { }
 
 
       /**
        * @brief
        * @param message
+       * @param source_location
        */
-      constexpr explicit AssertionGuard (const CString & message) noexcept :
+      constexpr explicit AssertionGuard (const CString & message, const SourceLocation & source_location) noexcept :
         message_ (message),
-        source_location_ ()
+        source_location_ (source_location)
       { }
 
 
