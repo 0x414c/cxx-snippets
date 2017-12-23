@@ -3,10 +3,10 @@
 
 
 #include <memory> // std::addressof
-#include <type_traits> // std::{is_assignable_v, is_constructible_v}
+#include <type_traits> // std::{enable_if_t, is_assignable_v, is_constructible_v}
 #include <utility> // std::forward
 
-#include "aligned-union-storage.hxx" // AlignedUnionStorage
+#include "aligned-union-storage.hxx" // AlignedUnionStorageT
 
 
 namespace Utils
@@ -74,8 +74,8 @@ namespace Utils
        * @param args
        * @return
        */
-      template <typename TType, typename ... TArgs>
-      const TType &
+      template <typename TType, typename ... TArgs, std::enable_if_t <std::is_constructible_v <TType, TArgs ...>> ...>
+      TType &
       construct (TArgs && ... args)
       {
         static_assert (std::is_constructible_v <TType, TArgs ...>);
@@ -86,14 +86,13 @@ namespace Utils
 
       /**
        * @brief
-       * TODO: [2] Use `is_assignable'?
        * @tparam TType
        * @tparam TArgs
        * @param args
        * @return
        */
-      template <typename TType, typename TArg>
-      const TType &
+      template <typename TType, typename TArg, std::enable_if_t <std::is_assignable_v <TType &, TArg>> ...>
+      TType &
       assign (TArg && arg)
       {
         static_assert (std::is_assignable_v <TType &, TArg>);
@@ -121,7 +120,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
 
 
@@ -160,8 +159,8 @@ namespace Utils
        * @param args
        * @return
        */
-      template <typename TType, typename ... TArgs>
-      const TType *
+      template <typename TType, typename ... TArgs, std::enable_if_t <std::is_constructible_v <TType, TArgs ...>> ...>
+      TType *
       construct_ (TType * address, TArgs && ... args)
       {
         static_assert (std::is_constructible_v <TType, TArgs ...>);
@@ -185,7 +184,7 @@ namespace Utils
       /**
        * @brief
        */
-      typename AlignedUnionStorage <TTypes ...>::type storage_;
+      AlignedUnionStorageT <TTypes ...> storage_;
   };
 }
 
