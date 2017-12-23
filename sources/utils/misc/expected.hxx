@@ -5,12 +5,11 @@
 #include <initializer_list> // std::initializer_list
 #include <ostream> // std::ostream
 #include <memory> // std::addressof
-#include <type_traits>
-/* std::{enable_if_t, is_assignable_v, is_convertible_v, is_constructible_v,
- * is_default_constructible_v, is_reference_v, is_void_v}
- */
+#include <type_traits> /* std::{enable_if_t, is_assignable_v, is_convertible_v, is_constructible_v,
+  is_default_constructible_v, is_reference_v, is_void_v} */
 #include <utility> // std::{forward, move}
 
+#include "../containers/c-string.hxx" // CString
 #include "../debug/fatal.hxx" // FATAL_NL
 #include "../type-traits/aligned-union-storage-manager.hxx" // AlignedUnionStorageManager
 #include "operation-status.hxx" // OperationStatus
@@ -52,12 +51,6 @@ namespace Utils
   template <typename TResult, typename TError>
   class [[nodiscard]] Expected final
   {
-    static_assert (
-         !(std::is_void_v <TResult> || std::is_void_v <TError>)
-      && !(std::is_reference_v <TResult> || std::is_reference_v <TError>)
-    );
-
-
     public:
       /**
        * @brief
@@ -75,6 +68,12 @@ namespace Utils
       using self_type = Expected;
 
 
+      static_assert (
+           !(std::is_void_v <result_type> || std::is_void_v <error_type>)
+        && !(std::is_reference_v <result_type> || std::is_reference_v <error_type>)
+      );
+
+
       template <typename TThatResult, typename TThatError>
       friend class Expected;
 
@@ -82,7 +81,8 @@ namespace Utils
       /**
        * @brief
        */
-      Expected (void) noexcept :
+      template <typename TDummy = void, std::enable_if_t <std::is_default_constructible_v <result_type>, TDummy> ...>
+      Expected (void) :
         is_result_ (true)
       {
         static_assert (std::is_default_constructible_v <result_type>);
@@ -143,7 +143,10 @@ namespace Utils
        * @tparam TThatResult
        * @param that_result
        */
-      template <typename TThatResult>
+      template <
+        typename TThatResult,
+        std::enable_if_t <std::is_constructible_v <result_type, TThatResult>> ...
+      >
       Expected (TThatResult && that_result) :
         is_result_ (true)
       {
@@ -158,9 +161,17 @@ namespace Utils
 
       /**
        * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
        * @param that
        */
-      template <typename TThatResult, typename TThatError>
+      template <
+        typename TThatResult, typename TThatError,
+        std::enable_if_t <
+             std::is_constructible_v <result_type, const TThatResult &>
+          && std::is_constructible_v <error_type, const TThatError &>
+        > ...
+      >
       Expected (const Expected <TThatResult, TThatError> & that) :
         is_result_ (that.is_result_)
       {
@@ -190,9 +201,17 @@ namespace Utils
 
       /**
        * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
        * @param that
        */
-      template <typename TThatResult, typename TThatError>
+      template <
+        typename TThatResult, typename TThatError,
+        std::enable_if_t <
+             std::is_constructible_v <result_type, TThatResult &&>
+          && std::is_constructible_v <error_type, TThatError &&>
+        > ...
+      >
       Expected (Expected <TThatResult, TThatError> && that) :
         is_result_ (that.is_result_)
       {
@@ -230,7 +249,7 @@ namespace Utils
        * @param init
        * @param args
        */
-      template <typename TInit, typename ... TArgs>
+      template <typename TInit, typename ... TArgs, std::enable_if_t <std::is_constructible_v <result_type, TArgs ...>> ...>
       Expected (ResultTag, std::initializer_list <TInit> init, TArgs && ... args) :
         is_result_ (true)
       {
@@ -245,7 +264,7 @@ namespace Utils
        * @tparam TArgs
        * @param args
        */
-      template <typename ... TArgs>
+      template <typename ... TArgs, std::enable_if_t <std::is_constructible_v <result_type, TArgs ...>> ...>
       Expected (ResultTag, TArgs && ... args) :
         is_result_ (true)
       {
@@ -257,10 +276,12 @@ namespace Utils
 
       /**
        * @brief
+       * @tparam TInit
        * @tparam TArgs
+       * @param init
        * @param args
        */
-      template <typename TInit, typename ... TArgs>
+      template <typename TInit, typename ... TArgs, std::enable_if_t <std::is_constructible_v <error_type, TArgs ...>> ...>
       Expected (ErrorTag, std::initializer_list <TInit> init, TArgs && ... args) :
         is_result_ (false)
       {
@@ -275,7 +296,7 @@ namespace Utils
        * @tparam TArgs
        * @param args
        */
-      template <typename ... TArgs>
+      template <typename ... TArgs, std::enable_if_t <std::is_constructible_v <error_type, TArgs ...>> ...>
       Expected (ErrorTag, TArgs && ... args) :
         is_result_ (false)
       {
@@ -315,10 +336,187 @@ namespace Utils
        * @brief
        * @return
        */
+      const result_type &
+      result (void) const &
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return result_Checked_ ();
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &
+      result (void) &
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return result_Checked_ ();
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const result_type &&
+      result (void) const &&
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return std::move (result_Safe_ ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &&
+      result (void) &&
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return std::move (result_Safe_ ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
       const error_type &
-      error (void) const
+      error (void) const &
       {
         return error_Checked_ ();
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      error_type &
+      error (void) &
+      {
+        return error_Checked_ ();
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const error_type &&
+      error (void) const &&
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return std::move (error_Safe_ ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      error_type &&
+      error (void) &&
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return std::move (error_Safe_ ());
+      }
+
+
+      const result_type &
+      expect (const CString & message) const &
+      {
+        if (isResult_ ())
+        {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+          wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+          return result_ ();
+        }
+        else
+        {
+          const AssertionGuard assertion_guard (message);
+          assertion_guard.crash (false);
+        }
+      }
+
+
+      result_type &
+      expect (const CString & message) &
+      {
+        if (isResult_ ())
+        {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+          wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+          return result_ ();
+        }
+        else
+        {
+          const AssertionGuard assertion_guard (message);
+          assertion_guard.crash (false);
+        }
+      }
+
+
+      const result_type &&
+      expect (const CString & message) const &&
+      {
+        if (isResult_ ())
+        {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+         wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+          return std::move (result_ ());
+        }
+        else
+        {
+          const AssertionGuard assertion_guard (message);
+          assertion_guard.crash (false);
+        }
+      }
+
+
+      result_type &&
+      expect (const CString & message) &&
+      {
+        if (isResult_ ())
+        {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+          wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+          return std::move (result_ ());
+        }
+        else
+        {
+          const AssertionGuard assertion_guard (message);
+         assertion_guard.crash (false);
+        }
       }
 
 
@@ -330,17 +528,17 @@ namespace Utils
        * @param args
        */
       template <typename TInit, typename ... TArgs>
-      void
-      emplace (std::initializer_list <TInit> init, TArgs && ... args)
+      result_type &
+      emplace (ResultTag, std::initializer_list <TInit> init, TArgs && ... args)
       {
         static_assert (
              std::is_constructible_v <result_type, std::initializer_list <TInit> &, TArgs ...>
-          && std::is_assignable_v <result_type, result_type &&>
+          && std::is_assignable_v <result_type &, result_type &&>
         );
 
         if (isResult_ ())
         {
-          result_or_error_.template assign (result_type (init, std::forward <TArgs> (args) ...));
+          result_or_error_.template assign <result_type> (result_type (init, std::forward <TArgs> (args) ...));
         }
         else
         {
@@ -353,6 +551,8 @@ namespace Utils
 #ifdef EXPECTED_WITH_RUNTIME_CHECKS
         wasChecked_ (false);
 #endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return result_ ();
       }
 
 
@@ -362,17 +562,17 @@ namespace Utils
        * @param args
        */
       template <typename ... TArgs>
-      void
-      emplace (TArgs && ... args)
+      result_type &
+      emplace (ResultTag, TArgs && ... args)
       {
         static_assert (
              std::is_constructible_v <result_type, TArgs ...>
-          && std::is_assignable_v <result_type, result_type &&>
+          && std::is_assignable_v <result_type &, result_type &&>
         );
 
         if (isResult_ ())
         {
-          result_or_error_.template assign (result_type (std::forward <TArgs> (args) ...));
+          result_or_error_.template assign <result_type> (result_type (std::forward <TArgs> (args) ...));
         }
         else
         {
@@ -385,6 +585,134 @@ namespace Utils
 #ifdef EXPECTED_WITH_RUNTIME_CHECKS
         wasChecked_ (false);
 #endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return result_ ();
+      }
+
+
+      /**
+       * @brief
+       * @tparam TInit
+       * @tparam TArgs
+       * @param init
+       * @param args
+       */
+      template <typename TInit, typename ... TArgs>
+      error_type &
+      emplace (ErrorTag, std::initializer_list <TInit> init, TArgs && ... args)
+      {
+        static_assert (
+             std::is_constructible_v <error_type, std::initializer_list <TInit> &, TArgs ...>
+          && std::is_assignable_v <error_type &, error_type &&>
+        );
+
+        if (isResult_ ())
+        {
+          result_or_error_.template destroy <result_type> ();
+          result_or_error_.template construct <error_type> (init, std::forward <TArgs> (args) ...);
+          
+          isResult_ (false);
+        }
+        else
+        {
+          result_or_error_.template assign <error_type> (error_type (init, std::forward <TArgs> (args) ...));
+        }
+
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (false);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return error_ ();
+      }
+
+
+      /**
+       * @brief
+       * @tparam TArgs
+       * @param args
+       */
+      template <typename ... TArgs>
+      error_type &
+      emplace (ErrorTag, TArgs && ... args)
+      {
+        static_assert (
+             std::is_constructible_v <error_type, TArgs ...>
+          && std::is_assignable_v <error_type &, error_type &&>
+        );
+
+        if (isResult_ ())
+        {
+          result_or_error_.template destroy <result_type> ();
+          result_or_error_.template construct <error_type> (std::forward <TArgs> (args) ...);
+
+          isResult_ (false);          
+        }
+        else
+        {
+          result_or_error_.template assign <error_type> (error_type (std::forward <TArgs> (args) ...));
+        }
+
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (false);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return error_ ();
+      }
+
+
+      /**
+       * @brief
+       */
+      template <typename TDummy = void, std::enable_if_t <std::is_default_constructible_v <result_type>, TDummy> ...>
+      result_type &
+      reset (ResultTag)
+      {
+        static_assert (std::is_default_constructible_v <result_type>);
+
+        if (isResult_ ())
+        {
+          result_or_error_.template destroy <result_type> ();
+          result_or_error_.template construct <result_type> ();
+        }
+        else
+        {
+          result_or_error_.template destroy <error_type> ();
+          result_or_error_.template construct <result_type> ();
+        }
+        
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (false);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return result_ ();
+      }
+
+
+      /**
+       * @brief
+       */
+      template <typename TDummy = void, std::enable_if_t <std::is_default_constructible_v <error_type>, TDummy> ...>
+      error_type &
+      reset (ErrorTag)
+      {
+        static_assert (std::is_default_constructible_v <error_type>);
+
+        if (isResult_ ())
+        {
+          result_or_error_.template destroy <result_type> ();
+          result_or_error_.template construct <error_type> ();          
+        }
+        else
+        {
+          result_or_error_.template destroy <error_type> ();
+          result_or_error_.template construct <error_type> ();
+        }
+        
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (false);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return error_ ();
       }
 
 
@@ -394,7 +722,11 @@ namespace Utils
        */
       [[nodiscard]] explicit operator bool (void) const noexcept
       {
-        return isResult_Checked_ ();
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        wasChecked_ (true);
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+
+        return isResult_ ();
       }
 
 
@@ -403,7 +735,7 @@ namespace Utils
        * @param that
        * @return
        */
-      const self_type &
+      self_type &
       operator = (const self_type & that)
       {
         if (this != &that)
@@ -450,7 +782,7 @@ namespace Utils
        * @param that
        * @return
        */
-      const self_type &
+      self_type &
       operator = (self_type && that)
       {
         if (this != &that)
@@ -494,11 +826,21 @@ namespace Utils
 
       /**
        * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
        * @param that
        * @return
        */
-      template <typename TThatResult, typename TThatError>
-      const self_type &
+      template <
+        typename TThatResult, typename TThatError,
+        std::enable_if_t <
+            std::is_constructible_v <result_type, const TThatResult &>
+          && std::is_constructible_v <error_type, const TThatError &>
+          && std::is_assignable_v <result_type &, const TThatResult &>
+          && std::is_assignable_v <error_type &, const TThatError &>
+        > ...
+      >
+      self_type &
       operator = (const Expected <TThatResult, TThatError> & that)
       {
         using that_result_type = TThatResult;
@@ -550,11 +892,21 @@ namespace Utils
 
       /**
        * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
        * @param that
        * @return
        */
-      template <typename TThatResult, typename TThatError>
-      const self_type &
+      template <
+        typename TThatResult, typename TThatError,
+        std::enable_if_t <
+             std::is_constructible_v <result_type, TThatResult &&>
+          && std::is_constructible_v <error_type, TThatError &&>
+          && std::is_assignable_v <result_type &, TThatResult &&>
+          && std::is_assignable_v <error_type &, TThatError &&>
+        > ...
+      >
+      self_type &
       operator = (Expected <TThatResult, TThatError> && that)
       {
         using that_result_type = TThatResult;
@@ -610,14 +962,17 @@ namespace Utils
        * @param that_result
        * @return
        */
-      template <typename TThatResult>
-      const self_type &
+      template <
+        typename TThatResult,
+        std::enable_if_t <std::is_assignable_v <result_type &, TThatResult>> ...
+      >
+      self_type &
       operator = (TThatResult && that_result)
       {
         using that_result_type = TThatResult;
 
 
-        static_assert (std::is_assignable_v <self_type &, that_result_type>);
+        static_assert (std::is_assignable_v <result_type &, that_result_type>);
 
         if (isResult_ ())
         {
@@ -638,11 +993,19 @@ namespace Utils
 
 
       /**
-       * @brief
+       * @brief Earliest error or latest result
+       * @tparam TThatResult
+       * @tparam TThatError
        * @param that
-       * @return Earliest error or latest result
+       * @return
        */
-      template <typename TThatResult, typename TThatError>
+      template <
+        typename TThatResult, typename TThatError,
+        std::enable_if_t <
+             std::is_constructible_v <Expected <TThatResult, TThatError>, const self_type &>
+          || std::is_convertible_v <const self_type &, Expected <TThatResult, TThatError>>
+        > ...
+      >
       Expected <TThatResult, TThatError>
       operator & (const Expected <TThatResult, TThatError> & that) const &
       {
@@ -674,11 +1037,19 @@ namespace Utils
 
 
       /**
-       * @brief
+       * @brief Earliest error or latest result
+       * @tparam TThatResult
+       * @tparam TThatError
        * @param that
-       * @return Earliest error or latest result
+       * @return
        */
-      template <typename TThatResult, typename TThatError>
+      template <
+        typename TThatResult, typename TThatError,
+        std::enable_if_t <
+             std::is_constructible_v <Expected <TThatResult, TThatError>, self_type &&>
+          || std::is_convertible_v <self_type &&, Expected <TThatResult, TThatError>>
+        > ...
+      >
       Expected <TThatResult, TThatError>
       operator & (const Expected <TThatResult, TThatError> & that) &&
       {
@@ -711,10 +1082,18 @@ namespace Utils
 
       /**
        * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
        * @param that
-       * @return Latest error or earliest result
+       * @return
        */
-      template <typename TThatResult, typename TThatError>
+      template <
+        typename TThatResult, typename TThatError,
+        std::enable_if_t <
+             std::is_constructible_v <Expected <TThatResult, TThatError>, const self_type &>
+          || std::is_convertible_v <const self_type &, Expected <TThatResult, TThatError>>
+        > ...
+      >
       Expected <TThatResult, TThatError>
       operator | (const Expected <TThatResult, TThatError> & that) const &
       {
@@ -746,11 +1125,19 @@ namespace Utils
 
 
       /**
-       * @brief
+       * @brief Latest error or earliest result
+       * @tparam TThatResult
+       * @tparam TThatError
        * @param that
-       * @return Latest error or earliest result
+       * @return
        */
-      template <typename TThatResult, typename TThatError>
+      template <
+        typename TThatResult, typename TThatError,
+        std::enable_if_t <
+             std::is_constructible_v <Expected <TThatResult, TThatError>, self_type &&>
+          || std::is_convertible_v <self_type &&, Expected <TThatResult, TThatError>>
+        > ...
+      >
       Expected <TThatResult, TThatError>
       operator | (const Expected <TThatResult, TThatError> & that) &&
       {
@@ -789,10 +1176,28 @@ namespace Utils
       bool
       operator == (const self_type & that [[maybe_unused]]) const
       {
-        return (
-             (is_result_ == that.is_result_)
-          && (is_result_ ? (result_ () == that.result_ ()) : (error_ () == that.error_ ()))
-        );
+        if (isResult_ ())
+        {
+          if (that.isResult_ ())
+          {
+            return (result_ () == that.result_ ());
+          }
+          else
+          {
+            return false;
+          }
+        }
+        else
+        {
+          if (that.isResult_ ())
+          {
+            return false;
+          }
+          else
+          {
+            return (error_ () == that.error_ ());
+          }
+        }
       }
 
 
@@ -808,13 +1213,19 @@ namespace Utils
       }
 
 
-
       /**
        * @brief
+       * @tparam TFallback
        * @param fallback
        * @return
        */
-      template <typename TFallback>
+      template <
+        typename TFallback,
+        std::enable_if_t <
+             std::is_constructible_v <TFallback, const result_type &>
+          || std::is_convertible_v <const result_type &, TFallback>
+        > ...
+      >
       TFallback
       operator || (TFallback && fallback) const &
       {
@@ -843,10 +1254,17 @@ namespace Utils
 
       /**
        * @brief
+       * @tparam TFallback
        * @param fallback
        * @return
        */
-      template <typename TFallback>
+      template <
+        typename TFallback,
+        std::enable_if_t <
+             std::is_constructible_v <TFallback, result_type &&>
+          || std::is_convertible_v <result_type &&, TFallback>
+        > ...
+      >
       TFallback
       operator || (TFallback && fallback) &&
       {
@@ -878,9 +1296,42 @@ namespace Utils
        * @return
        */
       const result_type &
-      operator * (void) const
+      operator * (void) const &
       {
-        return result_Checked_ ();
+        return result_Safe_ ();
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &
+      operator * (void) &
+      {
+        return result_Safe_ ();
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const result_type &&
+      operator * (void) const &&
+      {
+        return std::move (result_Safe_ ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &&
+      operator * (void) &&
+      {
+        return std::move (result_Safe_ ());
       }
 
 
@@ -891,7 +1342,18 @@ namespace Utils
       const result_type *
       operator -> (void) const
       {
-        return std::addressof (operator * ());
+        return & (operator * ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type *
+      operator -> (void)
+      {
+        return & (operator * ());
       }
 
 
@@ -925,7 +1387,7 @@ namespace Utils
        * @return
        */
       const result_type &
-      result_ (void) const
+      result_ (void) const &
       {
         return result_or_error_.template get <result_type> ();
       }
@@ -936,7 +1398,7 @@ namespace Utils
        * @return
        */
       result_type &
-      result_ (void)
+      result_ (void) &
       {
         return result_or_error_.template get <result_type> ();
       }
@@ -946,26 +1408,31 @@ namespace Utils
        * @brief
        * @return
        */
-      const result_type &
-      result_Checked_ (void) const
+      const result_type &&
+      result_ (void) const &&
       {
-#ifdef EXPECTED_WITH_RUNTIME_CHECKS
-        if (wasChecked_ ())
-        {
-          if (isResult_ ())
-          {
-            return result_ ();
-          }
-          else
-          {
-            FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
-          }
-        }
-        else
-        {
-          FATAL_NL ("`Expected' should be checked for being an error before accessing result");
-        }
-#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return std::move (result_or_error_.template get <result_type> ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &&
+      result_ (void) &&
+      {
+        return std::move (result_or_error_.template get <result_type> ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const result_type &
+      result_Safe_ (void) const &
+      {
         if (isResult_ ())
         {
           return result_ ();
@@ -974,6 +1441,147 @@ namespace Utils
         {
           FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
         }
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &
+      result_Safe_ (void) &
+      {
+        if (isResult_ ())
+        {
+          return result_ ();
+        }
+        else
+        {
+          FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
+        }
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const result_type &&
+      result_Safe_ (void) const &&
+      {
+        if (isResult_ ())
+        {
+          return result_ ();
+        }
+        else
+        {
+          FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
+        }
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &&
+      result_Safe_ (void) &&
+      {
+        if (isResult_ ())
+        {
+          return result_ ();
+        }
+        else
+        {
+          FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
+        }
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const result_type &
+      result_Checked_ (void) const &
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        if (wasChecked_ ())
+        {
+      return result_Safe_ ();
+        }
+        else
+        {
+          FATAL_NL ("`Expected' should be checked for being an error before accessing result");
+        }
+#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return result_Safe_ ();
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &
+      result_Checked_ (void) &
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        if (wasChecked_ ())
+        {
+          return result_Safe_ ();
+        }
+        else
+        {
+          FATAL_NL ("`Expected' should be checked for being an error before accessing result");
+        }
+#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return result_Safe_ ();
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const result_type &&
+      result_Checked_ (void) const &&
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        if (wasChecked_ ())
+        {
+      return result_Safe_ ();
+        }
+        else
+        {
+          FATAL_NL ("`Expected' should be checked for being an error before accessing result");
+        }
+#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return result_Safe_ ();
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      result_type &&
+      result_Checked_ (void) &&
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        if (wasChecked_ ())
+        {
+          return result_Safe_ ();
+        }
+        else
+        {
+          FATAL_NL ("`Expected' should be checked for being an error before accessing result");
+        }
+#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return result_Safe_ ();
 #endif // EXPECTED_WITH_RUNTIME_CHECKS
       }
 
@@ -983,7 +1591,7 @@ namespace Utils
        * @return
        */
       const error_type &
-      error_ (void) const
+      error_ (void) const &
       {
         return result_or_error_.template get <error_type> ();
       }
@@ -994,32 +1602,41 @@ namespace Utils
        * @return
        */
       error_type &
-      error_ (void)
+      error_ (void) &
       {
         return result_or_error_.template get <error_type> ();
       }
 
 
-      const error_type &
-      error_Checked_ (void) const
+      /**
+       * @brief
+       * @return
+       */
+      const error_type &&
+      error_ (void) const &&
       {
-#ifdef EXPECTED_WITH_RUNTIME_CHECKS
-        if (wasChecked_ ())
-        {
-          if (isResult_ ())
-          {
-            FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
-          }
-          else
-          {
-            return error_ ();
-          }
-        }
-        else
-        {
-          FATAL_NL ("`Expected' should be checked for being an error before accessing error");
-        }
-#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return std::move (result_or_error_.template get <error_type> ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      error_type &&
+      error_ (void) &&
+      {
+        return std::move (result_or_error_.template get <error_type> ());
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const error_type &
+      error_Safe_ (void) const &
+      {
         if (isResult_ ())
         {
           FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
@@ -1028,6 +1645,147 @@ namespace Utils
         {
           return error_ ();
         }
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      error_type &
+      error_Safe_ (void) &
+      {
+        if (isResult_ ())
+        {
+          FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
+        }
+        else
+        {
+          return error_ ();
+        }
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const error_type &&
+      error_Safe_ (void) const &&
+      {
+        if (isResult_ ())
+        {
+          FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
+        }
+        else
+        {
+          return std::move (error_ ());
+        }
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      error_type &&
+      error_Safe_ (void) &&
+      {
+        if (isResult_ ())
+        {
+          FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
+        }
+        else
+        {
+          return std::move (error_ ());
+        }
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const error_type &
+      error_Checked_ (void) const &
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        if (wasChecked_ ())
+        {
+      return error_Safe_ ();
+        }
+        else
+        {
+          FATAL_NL ("`Expected' should be checked for being an error before accessing error");
+        }
+#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return error_Safe_ ();
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      error_type &
+      error_Checked_ (void) &
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        if (wasChecked_ ())
+        {
+      return error_Safe_ ();
+        }
+        else
+        {
+          FATAL_NL ("`Expected' should be checked for being an error before accessing error");
+        }
+#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return error_Safe_ ();
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      const error_type &&
+      error_Checked_ (void) const &&
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        if (wasChecked_ ())
+        {
+      return std::move (error_Safe_ ());
+        }
+        else
+        {
+          FATAL_NL ("`Expected' should be checked for being an error before accessing error");
+        }
+#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return error_Safe_ ();
+#endif // EXPECTED_WITH_RUNTIME_CHECKS
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      error_type &&
+      error_Checked_ (void) &&
+      {
+#ifdef EXPECTED_WITH_RUNTIME_CHECKS
+        if (wasChecked_ ())
+        {
+      return std::move (error_Safe_ ());
+        }
+        else
+        {
+          FATAL_NL ("`Expected' should be checked for being an error before accessing error");
+        }
+#else // EXPECTED_WITH_RUNTIME_CHECKS
+        return error_Safe_ ();
 #endif // EXPECTED_WITH_RUNTIME_CHECKS
       }
 
@@ -1040,21 +1798,6 @@ namespace Utils
       isResult_ (void) const noexcept
       {
         return is_result_;
-      }
-
-
-      /**
-       * @brief
-       * @return
-       */
-      [[nodiscard]] bool
-      isResult_Checked_ (void) const noexcept
-      {
-#ifdef EXPECTED_WITH_RUNTIME_CHECKS
-        wasChecked_ (true);
-#endif // EXPECTED_WITH_RUNTIME_CHECKS
-
-        return isResult_ ();
       }
 
 
