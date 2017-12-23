@@ -5,7 +5,7 @@
 #include <cstddef> // std::size_t
 #include <cstdint> // std::{int8_t, uint8_t, int32_t, uint32_t, int64_t, uint64_t}
 
-#include "../type-traits/always-false.hxx" // AlwaysFalse
+#include "../type-traits/always-false.hxx" // AlwaysFalseV
 
 
 namespace Utils
@@ -14,7 +14,7 @@ namespace Utils
   constexpr std::uint8_t ctz (TInt x) noexcept
   {
     static_assert (
-      AlwaysFalse <TInt>::value, "ctz <TInt>: You can only use one of the specified template specializations"
+      AlwaysFalseV <TInt>, "ctz <TInt>: You can only use one of the specified template specializations"
     );
 
     return 0;
@@ -27,7 +27,7 @@ namespace Utils
     struct CtzLut final
     {
       static_assert (
-        AlwaysFalse <std::size_t, TWidth>::value,
+        AlwaysFalseV <std::size_t, TWidth>,
         "CtzLut <TWidth>: You can only use one of the specified template specializations"
       );
     };
