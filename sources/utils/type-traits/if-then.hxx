@@ -2,20 +2,23 @@
 #define UTILS_TYPETRAITS_IFTHEN_HXX
 
 
+#include "common.hxx" // ValueOf
+
+
 namespace Utils
 {
   /**
    * @brief
-   * @tparam TCondition
+   * @tparam TValue
    * @tparam TType
    */
-  template <bool TCondition, typename TType>
-  struct IfThen final
+  template <bool TValue, typename TType>
+  struct IfThen
   {
     /**
      * @brief
      */
-    static constexpr bool condition { TCondition };
+    static constexpr bool value { TValue };
   };
 
 
@@ -24,7 +27,7 @@ namespace Utils
    * @tparam TType
    */
   template <typename TType>
-  struct IfThen <true, TType> final
+  struct IfThen <true, TType>
   {
     /**
      * @brief
@@ -35,8 +38,15 @@ namespace Utils
     /**
      * @brief
      */
-    static constexpr bool condition { true };
+    static constexpr bool value { true };
   };
+
+
+  /**
+   * @brief
+   */
+  template <bool TCondition, typename TType>
+  using IfThenT = TypeOf <IfThen <TCondition, TType>>;
 }
 
 

@@ -4,9 +4,9 @@
 
 #include <cstddef> // std::size_t
 
-#include "aligned-storage.hxx" // AlignedStorage
-
 #include "../algorithms/max.hxx" // max
+#include "aligned-storage.hxx" // AlignedStorageT
+#include "common.hxx" // TypeOf
 
 
 namespace Utils
@@ -16,7 +16,7 @@ namespace Utils
    * @tparam TTypes
    */
   template <typename ... TTypes>
-  struct AlignedUnionStorage final
+  struct AlignedUnionStorage
   {
     /**
      * @brief
@@ -32,8 +32,15 @@ namespace Utils
     /**
      * @brief
      */
-    using type = typename AlignedStorage <size, alignment>::type;
+    using type = AlignedStorageT <size, alignment>;
   };
+
+
+  /**
+   * @brief
+   */
+  template <typename ... TTypes>
+  using AlignedUnionStorageT = TypeOf <AlignedUnionStorage <TTypes ...>>;
 }
 
 

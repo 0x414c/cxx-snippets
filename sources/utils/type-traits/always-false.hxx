@@ -2,9 +2,9 @@
 #define UTILS_TYPETRAITS_ALWAYSFALSE_HXX
 
 
-#include <cstddef> // std::int64_t
-
 #include <type_traits> // std::false_type
+
+#include "common.hxx" // ValueOf
 
 
 namespace Utils
@@ -12,10 +12,17 @@ namespace Utils
   /**
    * @brief
    */
-  template <typename T, T ...>
-  struct AlwaysFalse final :
+  template <typename TType, TType ...>
+  struct AlwaysFalse :
     std::false_type
   { };
+
+
+  /**
+   * @brief
+   */
+  template <typename TType, TType ... TValues>
+  constexpr bool AlwaysFalseV = ValueOf <AlwaysFalse <TType, TValues ...>>;
 }
 
 

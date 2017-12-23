@@ -2,7 +2,8 @@
 #define UTILS_TYPETRAITS_CHOOSE_HXX
 
 
-#include "if-then-else.hxx" // IfThenElse
+#include "common.hxx" // TypeOf, ValueOf
+#include "if-then-else.hxx" // IfThenElseT
 
 
 namespace Utils
@@ -13,13 +14,20 @@ namespace Utils
    * @tparam TIfFalse
    */
   template <typename TIfTrue, typename ... TIfFalse>
-  struct Choose final
+  struct Choose
   {
     /**
      * @brief
      */
-    using type = typename IfThenElse <TIfTrue::condition, TIfTrue, TIfFalse ...>::type;
+    using type = IfThenElseT <ValueOf <TIfTrue>, TIfTrue, TIfFalse ...>;
   };
+
+
+  /**
+   * @brief
+   */
+  template <typename TIfTrue, typename ... TIfFalse>
+  using ChooseT = TypeOf <Choose <TIfTrue, TIfFalse ...>>;
 }
 
 

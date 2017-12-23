@@ -2,6 +2,9 @@
 #define UTILS_TYPETRAITS_IFTHENELSE_HXX
 
 
+#include "common.hxx" // TypeOf
+
+
 namespace Utils
 {
   /**
@@ -11,12 +14,12 @@ namespace Utils
    * @tparam TIfRest
    */
   template <bool TCondition, typename TIfFirst, typename ... TIfRest>
-  struct IfThenElse final
+  struct IfThenElse
   {
     /**
      * @brief
      */
-    using type = typename TIfFirst::type;
+    using type = TypeOf <TIfFirst>;
   };
 
 
@@ -27,12 +30,12 @@ namespace Utils
    * @tparam TIfFalse
    */
   template <bool TCondition, typename TIfTrue, typename TIfFalse>
-  struct IfThenElse <TCondition, TIfTrue, TIfFalse> final
+  struct IfThenElse <TCondition, TIfTrue, TIfFalse>
   {
     /**
      * @brief
      */
-    using type = typename TIfTrue::type;
+    using type = TypeOf <TIfTrue>;
   };
 
 
@@ -42,12 +45,12 @@ namespace Utils
    * @tparam TIfFalse
    */
   template <typename TIfTrue, typename TIfFalse>
-  struct IfThenElse <false, TIfTrue, TIfFalse> final
+  struct IfThenElse <false, TIfTrue, TIfFalse>
   {
     /**
      * @brief
      */
-    using type = typename TIfFalse::type;
+    using type = TypeOf <TIfFalse>;
   };
 
 
@@ -59,13 +62,20 @@ namespace Utils
    * @tparam TIfFalseRest
    */
   template <bool TCondition, typename TIfTrue, typename TIfFalseFirst, typename ... TIfFalseRest>
-  struct IfThenElse <TCondition, TIfTrue, TIfFalseFirst, TIfFalseRest ...> final
+  struct IfThenElse <TCondition, TIfTrue, TIfFalseFirst, TIfFalseRest ...>
   {
     /**
      * @brief
      */
-    using type = typename TIfTrue::type;
+    using type = TypeOf <TIfTrue>;
   };
+
+
+  /**
+   * @brief
+   */
+  template <bool TCondition, typename TIfFirst, typename ... TIfRest>
+  using IfThenElseT = TypeOf <IfThenElse <TCondition, TIfFirst, TIfRest ...>>;
 
 
   /**
@@ -75,12 +85,12 @@ namespace Utils
    * @tparam TIfFalseRest
    */
   template <typename TIfTrue, typename TIfFalseFirst, typename ... TIfFalseRest>
-  struct IfThenElse <false, TIfTrue, TIfFalseFirst, TIfFalseRest ...> final
+  struct IfThenElse <false, TIfTrue, TIfFalseFirst, TIfFalseRest ...>
   {
     /**
      * @brief
      */
-    using type = typename IfThenElse <TIfFalseFirst::condition, TIfFalseFirst, TIfFalseRest ...>::type;
+    using type = IfThenElseT <ValueOf <TIfFalseFirst>, TIfFalseFirst, TIfFalseRest ...>;
   };
 }
 

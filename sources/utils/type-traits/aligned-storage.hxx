@@ -4,6 +4,8 @@
 
 #include <cstddef> // std::{byte, size_t}
 
+#include "common.hxx" // TypeOf
+
 
 namespace Utils
 {
@@ -13,7 +15,7 @@ namespace Utils
    * @tparam TAlignment
    */
   template <std::size_t TSize, std::size_t TAlignment>
-  struct AlignedStorage final
+  struct AlignedStorage
   {
     /**
      * @brief
@@ -38,6 +40,13 @@ namespace Utils
         alignas (alignment) std::byte data_[size];
     };
   };
+
+
+  /**
+   * @brief
+   */
+  template <std::size_t TSize, std::size_t TAlignment>
+  using AlignedStorageT = TypeOf <AlignedStorage <TSize, TAlignment>>;
 }
 
 
