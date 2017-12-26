@@ -35,7 +35,7 @@ namespace Utils
       /**
        * @brief
        */
-      using underlying_type = typename std::underlying_type <TFlag>::type;
+      using underlying_type = std::underlying_type_t <TFlag>;
 
       /**
        * @brief
