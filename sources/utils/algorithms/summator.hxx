@@ -5,7 +5,7 @@
 #include <ostream> // std::ostream
 #include <type_traits> // std::{is_arithmetic_v, is_floating_point_v, is_integral_v}
 
-#include "../type-traits/choose.hxx" // Choose
+#include "../type-traits/choose.hxx" // ChooseT
 #include "../type-traits/if-then.hxx" // IfThen
 
 
@@ -304,10 +304,10 @@ namespace Utils
    */
   template <
     typename TTerm,
-    typename TSummationPolicy = typename Choose <
+    typename TSummationPolicy = ChooseT <
       IfThen <std::is_integral_v <TTerm>, NaiveSummationPolicy <TTerm>>,
       IfThen <std::is_floating_point_v <TTerm>, CompensatingSummationPolicy <TTerm>>
-    >::type
+    >
   >
   class Summator final
   {
