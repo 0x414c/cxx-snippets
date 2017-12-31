@@ -6,7 +6,8 @@
 #include <ostream> // std::ostream
 #include <memory> // std::addressof
 #include <type_traits> /* std::{enable_if_t, is_assignable_v, is_convertible_v, is_constructible_v,
-  is_default_constructible_v, is_reference_v, is_void_v} */
+  is_copy_assignable_v, is_copy_constructible_v, is_move_assignable_v, is_move_constructible_v,
+  is_default_constructible_v, is_reference_v, is_same_v, is_void_v} */
 #include <utility> // std::{forward, move}
 
 #include "../containers/c-string.hxx" // CString
@@ -43,6 +44,18 @@ namespace Utils
   constexpr ErrorTag Error { };
 
 
+  namespace
+  {
+    template <typename TType>
+    constexpr bool IsAllowedV = !(
+         std::is_void_v <TType>
+      || std::is_reference_v <TType>
+      || std::is_same_v <TType, ResultTag>
+      || std::is_same_v <TType, ErrorTag>
+    );
+  }
+
+
   /**
    * @brief
    * @tparam TResult
@@ -68,10 +81,7 @@ namespace Utils
       using self_type = Expected;
 
 
-      static_assert (
-           !(std::is_void_v <result_type> || std::is_void_v <error_type>)
-        && !(std::is_reference_v <result_type> || std::is_reference_v <error_type>)
-      );
+      static_assert (IsAllowedV <result_type> && IsAllowedV <error_type>);
 
 
       template <typename TThatResult, typename TThatError>
@@ -95,9 +105,21 @@ namespace Utils
        * @brief
        * @param that
        */
+//      template <
+//        typename TDummy = void,
+//        std::enable_if_t <
+//          std::is_copy_constructible_v <result_type> && std::is_copy_constructible_v <error_type>,
+//          TDummy
+//        > ...
+//      >
       Expected (const self_type & that) :
         is_result_ (that.is_result_)
       {
+        static_assert (
+             std::is_copy_constructible_v <result_type>
+          && std::is_copy_constructible_v <error_type>
+        );
+
         if (that.isResult_ ())
         {
           result_or_error_.template construct <result_type> (that.result_ ());
@@ -117,9 +139,21 @@ namespace Utils
        * @brief
        * @param that
        */
+//      template <
+//        typename TDummy,
+//        std::enable_if_t <
+//          std::is_move_constructible_v <result_type> && std::is_move_constructible_v <error_type>,
+//          TDummy
+//        > ...
+//      >
       Expected (self_type && that) :
         is_result_ (that.is_result_)
       {
+        static_assert (
+             std::is_move_constructible_v <result_type>
+          && std::is_move_constructible_v <error_type>
+        );
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wduplicated-branches"
         if (that.isResult_ ())
@@ -145,7 +179,10 @@ namespace Utils
        */
       template <
         typename TThatResult,
-        std::enable_if_t <std::is_constructible_v <result_type, TThatResult>> ...
+        std::enable_if_t <
+             std::is_constructible_v <result_type, TThatResult>
+          && !std::is_same_v <self_type, std::remove_cv_t <TThatResult>>
+        > ...
       >
       Expected (TThatResult && that_result) :
         is_result_ (true)
@@ -153,7 +190,10 @@ namespace Utils
         using that_result_type = TThatResult;
 
 
-        static_assert (std::is_constructible_v <result_type, that_result_type>);
+        static_assert (
+             std::is_constructible_v <result_type, that_result_type>
+          && !std::is_same_v <self_type, that_result_type>
+        );
 
         result_or_error_.template construct <result_type> (std::forward <that_result_type> (that_result));
       }
@@ -170,6 +210,7 @@ namespace Utils
         std::enable_if_t <
              std::is_constructible_v <result_type, const TThatResult &>
           && std::is_constructible_v <error_type, const TThatError &>
+          && !std::is_same_v <self_type, Expected <TThatResult, TThatError>>
         > ...
       >
       Expected (const Expected <TThatResult, TThatError> & that) :
@@ -182,6 +223,7 @@ namespace Utils
         static_assert (
              std::is_constructible_v <result_type, const that_result_type &>
           && std::is_constructible_v <error_type, const that_error_type &>
+          && !std::is_same_v <self_type, Expected <that_result_type, that_error_type>>
         );
 
         if (that.isResult_ ())
@@ -210,6 +252,7 @@ namespace Utils
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
           && std::is_constructible_v <error_type, TThatError &&>
+          && !std::is_same_v <self_type, Expected <TThatResult, TThatError>>
         > ...
       >
       Expected (Expected <TThatResult, TThatError> && that) :
@@ -222,6 +265,7 @@ namespace Utils
         static_assert (
              std::is_constructible_v <result_type, that_result_type &&>
           && std::is_constructible_v <error_type, that_error_type &&>
+         && !std::is_same_v <self_type, Expected <that_result_type, that_error_type>>
         );
 
 #pragma GCC diagnostic push
@@ -249,7 +293,10 @@ namespace Utils
        * @param init
        * @param args
        */
-      template <typename TInit, typename ... TArgs, std::enable_if_t <std::is_constructible_v <result_type, TArgs ...>> ...>
+      template <
+        typename TInit, typename ... TArgs,
+        std::enable_if_t <std::is_constructible_v <result_type, TArgs ...>> ...
+      >
       Expected (ResultTag, std::initializer_list <TInit> init, TArgs && ... args) :
         is_result_ (true)
       {
@@ -281,7 +328,10 @@ namespace Utils
        * @param init
        * @param args
        */
-      template <typename TInit, typename ... TArgs, std::enable_if_t <std::is_constructible_v <error_type, TArgs ...>> ...>
+      template <
+        typename TInit, typename ... TArgs,
+        std::enable_if_t <std::is_constructible_v <error_type, TArgs ...>> ...
+      >
       Expected (ErrorTag, std::initializer_list <TInit> init, TArgs && ... args) :
         is_result_ (false)
       {
@@ -339,10 +389,6 @@ namespace Utils
       const result_type &
       result (void) const &
       {
-#ifdef EXPECTED_WITH_RUNTIME_CHECKS
-        wasChecked_ (true);
-#endif // EXPECTED_WITH_RUNTIME_CHECKS
-
         return result_Checked_ ();
       }
 
@@ -354,10 +400,6 @@ namespace Utils
       result_type &
       result (void) &
       {
-#ifdef EXPECTED_WITH_RUNTIME_CHECKS
-        wasChecked_ (true);
-#endif // EXPECTED_WITH_RUNTIME_CHECKS
-
         return result_Checked_ ();
       }
 
@@ -515,7 +557,7 @@ namespace Utils
         else
         {
           const AssertionGuard assertion_guard (message);
-         assertion_guard.crash (false);
+          assertion_guard.crash (false);
         }
       }
 
@@ -527,7 +569,13 @@ namespace Utils
        * @param init
        * @param args
        */
-      template <typename TInit, typename ... TArgs>
+      template <
+        typename TInit, typename ... TArgs,
+        std::enable_if_t <
+             std::is_constructible_v <result_type, std::initializer_list <TInit> &, TArgs ...>
+          && std::is_assignable_v <result_type &, result_type &&>
+        > ...
+      >
       result_type &
       emplace (ResultTag, std::initializer_list <TInit> init, TArgs && ... args)
       {
@@ -561,7 +609,13 @@ namespace Utils
        * @tparam TArgs
        * @param args
        */
-      template <typename ... TArgs>
+      template <
+        typename ... TArgs,
+        std::enable_if_t <
+             std::is_constructible_v <result_type, TArgs ...>
+          && std::is_assignable_v <result_type &, result_type &&>
+        > ...
+      >
       result_type &
       emplace (ResultTag, TArgs && ... args)
       {
@@ -597,7 +651,13 @@ namespace Utils
        * @param init
        * @param args
        */
-      template <typename TInit, typename ... TArgs>
+      template <
+        typename TInit, typename ... TArgs,
+        std::enable_if_t <
+             std::is_constructible_v <error_type, std::initializer_list <TInit> &, TArgs ...>
+          && std::is_assignable_v <error_type &, error_type &&>
+        > ...
+      >
       error_type &
       emplace (ErrorTag, std::initializer_list <TInit> init, TArgs && ... args)
       {
@@ -631,7 +691,13 @@ namespace Utils
        * @tparam TArgs
        * @param args
        */
-      template <typename ... TArgs>
+      template <
+        typename ... TArgs,
+        std::enable_if_t <
+             std::is_constructible_v <error_type, TArgs ...>
+          && std::is_assignable_v <error_type &, error_type &&>
+        > ...
+      >
       error_type &
       emplace (ErrorTag, TArgs && ... args)
       {
@@ -735,9 +801,26 @@ namespace Utils
        * @param that
        * @return
        */
+//      template <
+//        typename TDummy = void,
+//        std::enable_if_t <
+//             std::is_copy_constructible_v <result_type>
+//          && std::is_copy_constructible_v <error_type>
+//          && std::is_copy_assignable_v <result_type>
+//          && std::is_copy_assignable_v <error_type>,
+//          TDummy
+//        > ...
+//      >
       self_type &
       operator = (const self_type & that)
       {
+        static_assert (
+             std::is_copy_constructible_v <result_type>
+          && std::is_copy_constructible_v <error_type>
+          && std::is_copy_assignable_v <result_type>
+          && std::is_copy_assignable_v <error_type>
+        );
+
         if (this != &that)
         {
           if (isResult_ ())
@@ -782,9 +865,26 @@ namespace Utils
        * @param that
        * @return
        */
+//      template <
+//        typename TDummy = void,
+//        std::enable_if_t <
+//             std::is_move_constructible_v <result_type>
+//          && std::is_move_constructible_v <error_type>
+//          && std::is_move_assignable_v <result_type>
+//          && std::is_move_assignable_v <error_type>,
+//          TDummy
+//        > ...
+//      >
       self_type &
       operator = (self_type && that)
       {
+        static_assert (
+             std::is_move_constructible_v <result_type>
+          && std::is_move_constructible_v <error_type>
+          && std::is_move_assignable_v <result_type>
+          && std::is_move_assignable_v <error_type>
+        );
+
         if (this != &that)
         {
           if (isResult_ ())
@@ -834,10 +934,11 @@ namespace Utils
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <
-            std::is_constructible_v <result_type, const TThatResult &>
+             std::is_constructible_v <result_type, const TThatResult &>
           && std::is_constructible_v <error_type, const TThatError &>
           && std::is_assignable_v <result_type &, const TThatResult &>
           && std::is_assignable_v <error_type &, const TThatError &>
+          && !std::is_same_v <self_type, Expected <TThatResult, TThatError>>
         > ...
       >
       self_type &
@@ -852,6 +953,7 @@ namespace Utils
           && std::is_constructible_v <error_type, const that_error_type &>
           && std::is_assignable_v <result_type &, const that_result_type &>
           && std::is_assignable_v <error_type &, const that_error_type &>
+         && !std::is_same_v <self_type, Expected <that_result_type, that_error_type>>
         );
 
         if (isResult_ ())
@@ -904,6 +1006,7 @@ namespace Utils
           && std::is_constructible_v <error_type, TThatError &&>
           && std::is_assignable_v <result_type &, TThatResult &&>
           && std::is_assignable_v <error_type &, TThatError &&>
+          && !std::is_same_v <self_type, Expected <TThatResult, TThatError>>
         > ...
       >
       self_type &
@@ -918,6 +1021,7 @@ namespace Utils
           && std::is_constructible_v <error_type, that_error_type &&>
           && std::is_assignable_v <result_type &, that_result_type &&>
           && std::is_assignable_v <error_type &, that_error_type &&>
+         && !std::is_same_v <self_type, Expected <that_result_type, that_error_type>>
         );
 
         if (isResult_ ())
@@ -964,7 +1068,11 @@ namespace Utils
        */
       template <
         typename TThatResult,
-        std::enable_if_t <std::is_assignable_v <result_type &, TThatResult>> ...
+        std::enable_if_t <
+             std::is_constructible_v <result_type, TThatResult>
+          && std::is_assignable_v <result_type &, TThatResult>
+          && !std::is_same_v <self_type, TThatResult>
+        > ...
       >
       self_type &
       operator = (TThatResult && that_result)
@@ -972,7 +1080,9 @@ namespace Utils
         using that_result_type = TThatResult;
 
 
-        static_assert (std::is_assignable_v <result_type &, that_result_type>);
+        static_assert (
+          std::is_assignable_v <result_type &, that_result_type> && !std::is_same_v <self_type, that_result_type>
+        );
 
         if (isResult_ ())
         {
@@ -1174,7 +1284,7 @@ namespace Utils
        * @return
        */
       bool
-      operator == (const self_type & that [[maybe_unused]]) const
+      operator == (const self_type & that) const
       {
         if (isResult_ ())
         {
@@ -1207,7 +1317,7 @@ namespace Utils
        * @return
        */
       bool
-      operator != (const self_type & that [[maybe_unused]]) const
+      operator != (const self_type & that) const
       {
         return !operator == (that);
       }
@@ -1508,7 +1618,7 @@ namespace Utils
 #ifdef EXPECTED_WITH_RUNTIME_CHECKS
         if (wasChecked_ ())
         {
-      return result_Safe_ ();
+         return result_Safe_ ();
         }
         else
         {
@@ -1552,7 +1662,7 @@ namespace Utils
 #ifdef EXPECTED_WITH_RUNTIME_CHECKS
         if (wasChecked_ ())
         {
-      return result_Safe_ ();
+          return result_Safe_ ();
         }
         else
         {
@@ -1712,7 +1822,7 @@ namespace Utils
 #ifdef EXPECTED_WITH_RUNTIME_CHECKS
         if (wasChecked_ ())
         {
-      return error_Safe_ ();
+          return error_Safe_ ();
         }
         else
         {
@@ -1734,7 +1844,7 @@ namespace Utils
 #ifdef EXPECTED_WITH_RUNTIME_CHECKS
         if (wasChecked_ ())
         {
-      return error_Safe_ ();
+          return error_Safe_ ();
         }
         else
         {
@@ -1756,7 +1866,7 @@ namespace Utils
 #ifdef EXPECTED_WITH_RUNTIME_CHECKS
         if (wasChecked_ ())
         {
-      return std::move (error_Safe_ ());
+          return std::move (error_Safe_ ());
         }
         else
         {
@@ -1778,7 +1888,7 @@ namespace Utils
 #ifdef EXPECTED_WITH_RUNTIME_CHECKS
         if (wasChecked_ ())
         {
-      return std::move (error_Safe_ ());
+          return std::move (error_Safe_ ());
         }
         else
         {
