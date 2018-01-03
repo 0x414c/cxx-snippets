@@ -96,7 +96,7 @@ namespace Utils
       constexpr bool
       has (flag_type flags) const noexcept
       {
-        return ((underlying_type (flags) & underlying_type (flags_)) != underlying_zero);
+        return ((underlying_type (flags) & underlying_type (flags_)) != underlying_zero_);
       }
 
 
@@ -127,7 +127,7 @@ namespace Utils
       constexpr bool
       none (void) const noexcept
       {
-        return (underlying_type (flags_) == underlying_zero);
+        return (underlying_type (flags_) == underlying_zero_);
       }
 
 
@@ -184,7 +184,7 @@ namespace Utils
       constexpr void
       reset (void) noexcept
       {
-        flags_ = flag_zero;
+        flags_ = flag_zero_;
       }
 
 
@@ -326,12 +326,12 @@ namespace Utils
       /**
        * @brief
        */
-      static constexpr flag_type flag_zero { };
+      static constexpr flag_type flag_zero_ { };
 
       /**
        * @brief
        */
-      static constexpr underlying_type underlying_zero { };
+      static constexpr underlying_type underlying_zero_ { };
   };
 }
 
