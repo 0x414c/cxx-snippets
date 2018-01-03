@@ -9,7 +9,7 @@
 #define FATAL_L(message) \
   do \
   { \
-    constexpr ::Utils::AssertionGuard assertion_guard ((message), (CURRENT_SOURCE_LOCATION ())); \
+    const ::Utils::AssertionGuard assertion_guard ((message), (CURRENT_SOURCE_LOCATION ())); \
     assertion_guard.crash (true); \
   } \
   while (false)
@@ -18,7 +18,7 @@
 #define FATAL_NL(message) \
   do \
   { \
-    constexpr ::Utils::AssertionGuard assertion_guard ((message)); \
+    const ::Utils::AssertionGuard assertion_guard ((message)); \
     assertion_guard.crash (false); \
   } \
   while (false)
