@@ -22,7 +22,7 @@ namespace Utils
    * @brief
    */
   template <typename TType, TType ... TValues>
-  constexpr bool AlwaysFalseV = ValueOf <AlwaysFalse <TType, TValues ...>>;
+  inline constexpr bool AlwaysFalseV = ValueOf <AlwaysFalse <TType, TValues ...>>;
 }
 
 

@@ -4,8 +4,8 @@
 
 namespace Config::Utils::SourceLocation
 {
-  constexpr const char Default_function[] ("(unknown)");
-  constexpr const char Default_file[] ("(unknown)");
+  inline constexpr const char Default_function[] ("(unknown)");
+  inline constexpr const char Default_file[] ("(unknown)");
 }
 
 

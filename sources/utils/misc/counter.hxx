@@ -4,7 +4,7 @@
 
 namespace Utils::Counter
 {
-  constexpr int Max_value { 32 };
+  inline constexpr int Max_value { 32 };
 
 
   namespace

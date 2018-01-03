@@ -7,15 +7,15 @@ namespace Utils
   /**
    * @brief
    */
-  template <typename TType>
-  using TypeOf = typename TType::type;
+  template <typename TTrait>
+  using TypeOf = typename TTrait::type;
 
 
   /**
    * @brief
    */
-  template <typename TType>
-  constexpr auto ValueOf = TType::value;
+  template <typename TTrait>
+  inline constexpr auto ValueOf = TTrait::value;
 }
 
 

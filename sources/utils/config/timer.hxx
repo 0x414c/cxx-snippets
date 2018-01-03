@@ -4,7 +4,7 @@
 
 namespace Config::Utils::Timer
 {
-  constexpr const char Default_description[] ("(no description)");
+  inline constexpr const char Default_description[] ("(no description)");
 }
 
 

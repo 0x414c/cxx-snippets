@@ -8,9 +8,9 @@
 namespace Config::Utils::Rationalize
 {
   template <typename TType>
-  constexpr TType Max_denominator { 1'000'000 };
+  inline constexpr TType Max_denominator { 1'000'000 };
 
-  constexpr std::size_t Max_iterations (23);
+  inline constexpr std::size_t Max_iterations (23);
 }
 
 
