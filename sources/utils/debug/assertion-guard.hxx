@@ -33,7 +33,7 @@ namespace Utils
        * @brief
        * @param that
        */
-      constexpr AssertionGuard (const self_type & that [[maybe_unused]]) noexcept = default;
+      constexpr AssertionGuard (const self_type & that [[maybe_unused]]) noexcept = delete;
 
 
       /**
@@ -124,7 +124,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
 
 
