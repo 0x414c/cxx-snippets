@@ -2,7 +2,7 @@
 #define UTILS_ALGORITHMS_MIN_HXX
 
 
-#include <type_traits> // std::common_type
+#include <type_traits> // std::common_type_t
 #include <utility> // std::forward
 
 
@@ -15,7 +15,7 @@ namespace Utils
    * @return
    */
   template <typename TFirst>
-  constexpr typename std::common_type <TFirst>::type
+  constexpr std::common_type_t <TFirst>
   min (TFirst && first)
   {
     return std::forward <TFirst> (first);
@@ -34,7 +34,7 @@ namespace Utils
    * @return
    */
   template <typename TFirst, typename TSecond, typename ... TRest>
-  constexpr typename std::common_type <TFirst, TSecond, TRest ...>::type
+  constexpr std::common_type_t <TFirst, TSecond, TRest ...>
   min (TFirst && first, TSecond && second, TRest && ... rest)
   {
     if (second < first)
