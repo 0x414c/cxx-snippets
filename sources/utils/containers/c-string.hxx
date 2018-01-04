@@ -27,11 +27,23 @@ namespace Utils
 
       /**
        * @brief
+       */
+      constexpr BasicCString (void) noexcept = delete;
+
+      /**
+       * @brief
+       * @param that
+       */
+      constexpr BasicCString (const self_type & that [[maybe_unused]]) noexcept = default;
+
+
+      /**
+       * @brief
        * @tparam TSize
        * @param data
        */
       template <std::size_t TSize>
-      constexpr BasicCString (const char_type (& data)[TSize]) :
+      constexpr BasicCString (const char_type (& data)[TSize]) noexcept :
         data_ (data),
         size_ (TSize - 1)
       { }
@@ -61,18 +73,6 @@ namespace Utils
 
       /**
        * @brief
-       * @param i
-       * @return
-       */
-      constexpr char_type
-      operator [] (std::size_t i) const noexcept
-      {
-        return data_[i];
-      }
-
-
-      /**
-       * @brief
        * @return
        */
       constexpr operator const char_type * (void) const noexcept
@@ -81,16 +81,37 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
+      operator = (const self_type & that [[maybe_unused]]) noexcept = default;
+
+
+      /**
+       * @brief
+       * @param pos
+       * @return
+       */
+      constexpr char_type
+      operator [] (std::size_t pos) const noexcept
+      {
+        return data_[pos];
+      }
+
+
   private:
     /**
      * @brief
      */
-    const char_type * const data_;
+    const char_type * data_;
 
     /**
      * @brief
      */
-    const std::size_t size_;
+    std::size_t size_;
   };
 
 

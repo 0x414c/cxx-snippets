@@ -88,8 +88,8 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr const self_type &
-      operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
+      constexpr self_type &
+      operator = (const self_type & that [[maybe_unused]]) noexcept = default;
 
       /**
        * @brief
@@ -105,17 +105,17 @@ namespace Utils
       /**
        * @brief
        */
-      const CString function_ { Config::Utils::SourceLocation::Default_function };
+      CString function_ { Config::Utils::SourceLocation::Default_function };
 
       /**
        * @brief
        */
-      const CString file_ { Config::Utils::SourceLocation::Default_file };
+      CString file_ { Config::Utils::SourceLocation::Default_file };
 
       /**
        * @brief
        */
-      const std::size_t line_ { };
+      std::size_t line_ { };
   };
 }
 
