@@ -223,7 +223,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (const self_type & that) noexcept
       {
         if (this != &that)
@@ -240,7 +240,7 @@ namespace Utils
        * @param flags
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (flag_type flags) noexcept
       {
         flags_ = flags;
@@ -254,7 +254,7 @@ namespace Utils
        * @param flags
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (underlying_type flags) noexcept
       {
         flags_ = flags;

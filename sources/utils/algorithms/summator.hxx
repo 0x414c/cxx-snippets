@@ -96,7 +96,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (const self_type & that)
       {
         if (this != &that)
@@ -114,7 +114,7 @@ namespace Utils
        * @param new_initial_value
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (term_type new_initial_value)
       {
         sum_ = new_initial_value;
@@ -250,7 +250,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (const self_type & that)
       {
         if (this != &that)
@@ -269,7 +269,7 @@ namespace Utils
        * @param new_initial_value
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (term_type new_initial_value)
       {
         sum_ = new_initial_value;
@@ -376,7 +376,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (const self_type & that)
       {
         if (this != &that)
@@ -394,7 +394,7 @@ namespace Utils
        * @param new_initial_value
        * @return
        */
-      constexpr const self_type &
+      constexpr self_type &
       operator = (term_type new_initial_value)
       {
         summation_policy_ = new_initial_value;
