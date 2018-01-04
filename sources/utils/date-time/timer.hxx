@@ -43,7 +43,7 @@ namespace Utils
        * @param that
        * @return
        */
-      Timer (const self_type & that);
+      Timer (const self_type & that [[maybe_unused]]) = default;
 
       /**
        * @brief
@@ -129,8 +129,8 @@ namespace Utils
        * @param that
        * @return
        */
-      const self_type &
-      operator = (const self_type & that) = delete;
+      self_type &
+      operator = (const self_type & that [[maybe_unused]]) noexcept = default;
 
 
     private:

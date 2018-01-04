@@ -16,16 +16,6 @@ namespace Utils
   }
 
 
-  Timer::Timer (const self_type & that) :
-    description_ (that.description_),
-    is_automatic_ (that.is_automatic_),
-    time_started_ (that.time_started_),
-    time_stopped_ (that.time_stopped_)
-  {
-    initialize_ ();
-  }
-
-
   Timer::Timer (const CString & description) :
     description_ (description)
   {
