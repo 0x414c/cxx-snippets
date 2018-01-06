@@ -15,7 +15,7 @@ namespace Utils
    * @param compare
    * @return
    */
-  template <typename TArithmetic, class TCompare = std::less <TArithmetic>>
+  template <typename TArithmetic, typename TCompare = std::less <TArithmetic>>
   constexpr TArithmetic
   abs (TArithmetic x, TCompare compare = TCompare ())
   {

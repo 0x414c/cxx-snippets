@@ -15,7 +15,7 @@ namespace Utils
    * @param compare
    * @return
    */
-  template <typename TX, class TCompare = std::less <TX>>
+  template <typename TX, typename TCompare = std::less <TX>>
   constexpr TX
   sign (TX x, TCompare compare = TCompare ())
   {
