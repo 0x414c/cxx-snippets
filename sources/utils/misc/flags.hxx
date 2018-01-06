@@ -271,7 +271,7 @@ namespace Utils
       constexpr bool
       operator == (const self_type & that) const noexcept
       {
-        return (flags_ == that.flags_);
+        return ((this == &that) || (flags_ == that.flags_));
       }
 
 
