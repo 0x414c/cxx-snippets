@@ -15,16 +15,13 @@ namespace Utils
    * @param compare
    * @return
    */
-  template <typename TArithmetic, typename TCompare = std::less <TArithmetic>>
+  template <typename TArithmetic>
   constexpr TArithmetic
-  abs (TArithmetic x, TCompare compare = TCompare ())
+  abs (TArithmetic x)
   {
-    static_assert (
-      std::is_arithmetic_v <TArithmetic>,
-      "Type `TArithmetic' should be an arithmetic one"
-    );
+    static_assert (std::is_arithmetic_v <TArithmetic>);
 
-    if (compare (x, TArithmetic (0)))
+    if (x < TArithmetic (0))
     {
       return -x;
     }

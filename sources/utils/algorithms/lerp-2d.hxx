@@ -34,10 +34,9 @@ namespace Utils
     TZ z_0_0, TZ z_0_1, TZ z_1_1, TZ z_1_0
   )
   {
-    static_assert (
-      std::is_arithmetic_v <TX> && std::is_arithmetic_v <TY>,
-      "Types `TX', `TY' and `TZ' should be an arithmetic ones"
-    );
+    static_assert (std::is_arithmetic_v <TX>);
+    static_assert (std::is_arithmetic_v <TY>);
+    static_assert (std::is_arithmetic_v <TZ>);
 
     const TZ z_0 (lerp (x, x_0, x_1, z_0_0, z_1_0));
     const TZ z_1 (lerp (x, x_0, x_1, z_0_1, z_1_1));

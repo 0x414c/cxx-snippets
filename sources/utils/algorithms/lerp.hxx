@@ -22,10 +22,8 @@ namespace Utils
   constexpr TY
   lerp (TX x, TX x_0, TX x_1, TY y_0, TY y_1)
   {
-    static_assert (
-      std::is_arithmetic_v <TX> && std::is_arithmetic_v <TY>,
-      "Types `TX' and `TY' should be an arithmetic ones"
-    );
+    static_assert (std::is_arithmetic_v <TX>);
+    static_assert (std::is_arithmetic_v <TY>);
 
     return (y_0 + (x - x_0) * (y_1 - y_0) / (x_1 - x_0));
   }

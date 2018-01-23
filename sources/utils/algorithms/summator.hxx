@@ -18,10 +18,7 @@ namespace Utils
   template <typename TTerm>
   class NaiveSummationPolicy final
   {
-    static_assert (
-      std::is_arithmetic_v <TTerm>,
-      "Type `TTerm' should be an arithmetic one"
-    );
+    static_assert (std::is_arithmetic_v <TTerm>);
 
 
     public:
@@ -138,10 +135,7 @@ namespace Utils
   template <typename TTerm>
   class CompensatingSummationPolicy final
   {
-    static_assert (
-      std::is_arithmetic_v <TTerm>,
-      "Type `TTerm' should be an arithmetic one"
-    );
+    static_assert (std::is_arithmetic_v <TTerm>);
 
 
     public:
@@ -311,10 +305,7 @@ namespace Utils
   >
   class Summator final
   {
-    static_assert (
-      std::is_arithmetic_v <TTerm>,
-      "Type `TTerm' should be an arithmetic one"
-    );
+    static_assert (std::is_arithmetic_v <TTerm>);
 
 
     public:

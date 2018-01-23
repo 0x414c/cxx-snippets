@@ -14,28 +14,25 @@ namespace Utils
 {
   /**
    * @brief
-   * @tparam TFloat
+   * @tparam TFloatingPoint
    * @param x
    * @param y
    * @param rel_tol
    * @param abs_tol
    * @return
    */
-  template <typename TFloat>
+  template <typename TFloatingPoint>
   constexpr bool
   isClose (
-    TFloat x, TFloat y,
-    TFloat rel_tol = Config::Utils::IsClose::Relative_tolerance <TFloat>,
-    TFloat abs_tol = Config::Utils::IsClose::Absolute_tolerance <TFloat>
+    TFloatingPoint x, TFloatingPoint y,
+    TFloatingPoint rel_tol = Config::Utils::IsClose::Relative_tolerance <TFloatingPoint>,
+    TFloatingPoint abs_tol = Config::Utils::IsClose::Absolute_tolerance <TFloatingPoint>
   )
   {
-    static_assert (
-      std::is_floating_point_v <TFloat>,
-      "Type `TFloat' should be a floating-point one"
-    );
+    static_assert (std::is_floating_point_v <TFloatingPoint>);
 
-    ASSERT (!(rel_tol < TFloat (0)), "`rel_tol' should not be less than 0");
-    ASSERT (!(abs_tol < TFloat (0)), "`abs_tol' should not be less than 0");
+    ASSERT (!(rel_tol < TFloatingPoint (0)), "`rel_tol' should not be less than 0");
+    ASSERT (!(abs_tol < TFloatingPoint (0)), "`abs_tol' should not be less than 0");
 
     if (std::isfinite (x) && std::isfinite (y))
     {
@@ -48,7 +45,7 @@ namespace Utils
       }
       else
       {
-        const TFloat abs_diff (std::fabs (x - y));
+        const TFloatingPoint abs_diff (std::fabs (x - y));
 
         return (
              (abs_diff <= abs_tol)

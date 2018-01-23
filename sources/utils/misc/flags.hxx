@@ -18,12 +18,8 @@ namespace Utils
   template <typename TFlag>
   class Flags final
   {
-    static_assert (std::is_enum_v <TFlag>, "Type `TFlag' should be an enumeration type");
-
-    static_assert (
-      std::is_unsigned_v <std::underlying_type_t <TFlag>>,
-      "Underlying type of `TFlag' enumeration should be an unsigned one"
-    );
+    static_assert (std::is_enum_v <TFlag>);
+    static_assert (std::is_unsigned_v <std::underlying_type_t <TFlag>>);
 
 
     public:

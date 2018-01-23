@@ -10,11 +10,11 @@
 
 namespace Utils
 {
-  template <typename TInt>
-  constexpr std::uint8_t ctz (TInt x) noexcept
+  template <typename TIntegral>
+  constexpr std::uint8_t ctz (TIntegral x) noexcept
   {
     static_assert (
-      AlwaysFalseV <TInt>, "ctz <TInt>: You can only use one of the specified template specializations"
+      AlwaysFalseV <TIntegral>, "ctz <TIntegral>: There is no suitable template specialization available"
     );
 
     return 0;
@@ -23,12 +23,12 @@ namespace Utils
 
   namespace
   {
-    template <std::size_t TWidth>
+    template <std::size_t TSize>
     struct CtzLut final
     {
       static_assert (
-        AlwaysFalseV <std::size_t, TWidth>,
-        "CtzLut <TWidth>: You can only use one of the specified template specializations"
+        AlwaysFalseV <std::size_t, TSize>,
+        "CtzLut <TSize>: There is no suitable template specialization available"
       );
     };
 
@@ -103,7 +103,7 @@ namespace Utils
 
     if (x != 0)
     {
-      return lut_type::lut[((x & -x) * lut_type::factor) >> lut_type::shift];
+      return lut_type::lut[((x & - x) * lut_type::factor) >> lut_type::shift];
     }
     else
     {
@@ -129,7 +129,7 @@ namespace Utils
 
     if (x != 0)
     {
-      return lut_type::lut[((x & -x) * lut_type::factor) >> lut_type::shift];
+      return lut_type::lut[((x & - x) * lut_type::factor) >> lut_type::shift];
     }
     else
     {
@@ -155,7 +155,7 @@ namespace Utils
 
     if (x != 0)
     {
-      return lut_type::lut[((x & -x) * lut_type::factor) >> lut_type::shift];
+      return lut_type::lut[((x & - x) * lut_type::factor) >> lut_type::shift];
     }
     else
     {
@@ -181,7 +181,7 @@ namespace Utils
 
     if (x != 0)
     {
-      return lut_type::lut[((x & -x) * lut_type::factor) >> lut_type::shift];
+      return lut_type::lut[((x & - x) * lut_type::factor) >> lut_type::shift];
     }
     else
     {

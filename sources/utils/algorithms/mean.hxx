@@ -25,10 +25,7 @@ namespace Utils
     using value_type = typename std::iterator_traits <TInputIterator>::value_type;
 
 
-    static_assert (
-      std::is_arithmetic_v <value_type>,
-      "Type `value_type' should be an arithmetic one"
-    );
+    static_assert (std::is_arithmetic_v <value_type>);
 
 //    ASSERT (std::distance (first, last) > 1, "distance between `first' and `last' should be >= 2");
 

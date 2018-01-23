@@ -10,33 +10,30 @@ namespace Utils
 {
   /**
    * @brief
-   * @tparam TX
+   * @tparam TSigned
    * @param x
    * @param compare
    * @return
    */
-  template <typename TX, typename TCompare = std::less <TX>>
-  constexpr TX
-  sign (TX x, TCompare compare = TCompare ())
+  template <typename TSigned>
+  constexpr TSigned
+  sign (TSigned x)
   {
-    static_assert (
-      std::is_signed_v <TX>,
-      "Type `TX' should be a signed one"
-    );
+    static_assert (std::is_signed_v <TSigned>);
 
-    if (compare (TX (0), x))
+    if (TSigned (0) < x)
     {
-      return TX (1);
+      return TSigned (1);
     }
     else
     {
-      if (compare (x, TX (0)))
+      if (x < TSigned (0))
       {
-        return TX (-1);
+        return TSigned (- 1);
       }
       else
       {
-        return TX (0);
+        return TSigned (0);
       }
     }
   }

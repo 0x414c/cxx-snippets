@@ -16,7 +16,7 @@ namespace Utils
          AlwaysFalseV <bool, TCopyConstructible, TCopyAssignable, TMoveConstructible, TMoveAssignable>
       && AlwaysFalseV <TTag>,
       "EnableCopyMove <TCopyConstructible, TCopyAssignable, TMoveConstructible, TMoveAssignable, TTag>: "
-      "You can only use one of the specified template specializations"
+      "There is no suitable template specialization available"
     );
   };
 
