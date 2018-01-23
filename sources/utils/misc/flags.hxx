@@ -33,12 +33,15 @@ namespace Utils
        */
       using underlying_type = std::underlying_type_t <TFlag>;
 
+
+    private:
       /**
        * @brief
        */
       using self_type = Flags;
 
 
+    public:
       /**
        * @brief
        */

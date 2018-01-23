@@ -26,12 +26,15 @@ namespace Utils
        */
       using clock_type = std::chrono::steady_clock;
 
+
+    private:
       /**
        * @brief
        */
       using self_type = Timer;
 
 
+    public:
       /**
        * @brief
        * @return

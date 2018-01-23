@@ -10,7 +10,7 @@ namespace Utils
   template <
     bool TCopyConstructible, bool TCopyAssignable, bool TMoveConstructible, bool TMoveAssignable, typename TTag
   >
-  class EnableCopyMove
+  struct EnableCopyMove
   {
     static_assert (
          AlwaysFalseV <bool, TCopyConstructible, TCopyAssignable, TMoveConstructible, TMoveAssignable>
@@ -22,7 +22,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <false, false, false, false, TTag>
+  struct EnableCopyMove <false, false, false, false, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -44,7 +44,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <false, false, false, true, TTag>
+  struct EnableCopyMove <false, false, false, true, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -66,7 +66,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <false, false, true, false, TTag>
+  struct EnableCopyMove <false, false, true, false, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -88,7 +88,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <false, false, true, true, TTag>
+  struct EnableCopyMove <false, false, true, true, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -110,7 +110,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <false, true, false, false, TTag>
+  struct EnableCopyMove <false, true, false, false, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -132,7 +132,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <false, true, false, true, TTag>
+  struct EnableCopyMove <false, true, false, true, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -154,7 +154,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <false, true, true, false, TTag>
+  struct EnableCopyMove <false, true, true, false, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -176,7 +176,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <false, true, true, true, TTag>
+  struct EnableCopyMove <false, true, true, true, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -198,7 +198,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <true, false, false, false, TTag>
+  struct EnableCopyMove <true, false, false, false, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -220,7 +220,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <true, false, false, true, TTag>
+  struct EnableCopyMove <true, false, false, true, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -242,7 +242,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <true, false, true, false, TTag>
+  struct EnableCopyMove <true, false, true, false, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -264,7 +264,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <true, false, true, true, TTag>
+  struct EnableCopyMove <true, false, true, true, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -286,7 +286,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <true, true, false, false, TTag>
+  struct EnableCopyMove <true, true, false, false, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -308,7 +308,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <true, true, false, true, TTag>
+  struct EnableCopyMove <true, true, false, true, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -330,7 +330,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <true, true, true, false, TTag>
+  struct EnableCopyMove <true, true, true, false, TTag>
   {
     private:
       using self_type = EnableCopyMove;
@@ -352,7 +352,7 @@ namespace Utils
 
 
   template <typename TTag>
-  class EnableCopyMove <true, true, true, true, TTag>
+  struct EnableCopyMove <true, true, true, true, TTag>
   {
     private:
       using self_type = EnableCopyMove;

@@ -17,13 +17,14 @@ namespace Utils
    */
   class AssertionGuard final
   {
-    public:
+    private:
       /**
        * @brief
        */
       using self_type = AssertionGuard;
 
 
+    public:
       /**
        * @brief
        */

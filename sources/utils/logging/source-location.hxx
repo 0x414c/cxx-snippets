@@ -18,13 +18,14 @@ namespace Utils
    */
   class SourceLocation final
   {
-    public:
+    private:
       /**
        * @brief
        */
       using self_type = SourceLocation;
 
 
+    public:
       /**
        * @brief
        */

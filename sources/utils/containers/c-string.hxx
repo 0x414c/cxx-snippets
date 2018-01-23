@@ -19,12 +19,15 @@ namespace Utils
        */
       using char_type = TChar;
 
+
+    private:
       /**
        * @brief
        */
       using self_type = BasicCString;
 
 
+    public:
       /**
        * @brief
        */
