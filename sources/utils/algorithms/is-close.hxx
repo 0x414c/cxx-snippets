@@ -8,6 +8,7 @@
 
 #include "../config/is-close.hxx" // Config::Utils::IsClose::{Absolute_tolerance, Relative_tolerance}
 #include "../debug/assert.hxx" // ASSERT
+#include "abs.hxx" // abs
 
 
 namespace Utils
@@ -45,12 +46,12 @@ namespace Utils
       }
       else
       {
-        const TFloatingPoint abs_diff (std::fabs (x - y));
+        const TFloatingPoint abs_diff (abs (x - y));
 
         return (
              (abs_diff <= abs_tol)
-          || (abs_diff <= (rel_tol * std::fabs (x)))
-          || (abs_diff <= (rel_tol * std::fabs (y)))
+          || (abs_diff <= (rel_tol * abs (x)))
+          || (abs_diff <= (rel_tol * abs (y)))
         );
       }
     }
