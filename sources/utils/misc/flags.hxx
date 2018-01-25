@@ -28,13 +28,13 @@ namespace Utils
        */
       using flag_type = TFlag;
 
+
+    private:
       /**
        * @brief
        */
       using underlying_type = std::underlying_type_t <TFlag>;
 
-
-    private:
       /**
        * @brief
        */
@@ -58,14 +58,9 @@ namespace Utils
        * @brief
        * @param flags
        */
-      constexpr Flags (std::initializer_list <flag_type> flags) noexcept
+      constexpr Flags (const std::initializer_list <flag_type> & flags) noexcept
       {
-        underlying_type new_flags { };
-        for (flag_type flag : flags)
-        {
-          new_flags |= underlying_type (flag);
-        }
-        flags_ = flag_type (new_flags);
+        flags_ = combine_ (flags);
       }
 
 
@@ -81,21 +76,12 @@ namespace Utils
       /**
        * @brief
        * @param flags
-       */
-      explicit constexpr Flags (underlying_type flags) noexcept :
-        flags_ (flags)
-      { }
-
-
-      /**
-       * @brief
-       * @param flags
        * @return
        */
       constexpr bool
       has (flag_type flags) const noexcept
       {
-        return ((underlying_type (flags) & underlying_type (flags_)) != underlying_zero_);
+        return ((underlying_type (flags_) & underlying_type (flags)) != underlying_zero_);
       }
 
 
@@ -105,9 +91,9 @@ namespace Utils
        * @return
        */
       constexpr bool
-      has (std::initializer_list <flag_type> flags) const noexcept
+      has (const std::initializer_list <flag_type> & flags) const noexcept
       {
-        for (flag_type flag : flags)
+        for (const flag_type flag : flags)
         {
           if (!has (flag))
           {
@@ -116,6 +102,25 @@ namespace Utils
         }
 
         return true;
+      }
+
+
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
+      constexpr bool
+      is (flag_type flags) const noexcept
+      {
+        return (flags_ == flags);
+      }
+
+
+      constexpr bool
+      is (const std::initializer_list <flag_type> & flags) const noexcept
+      {
+        return is (combine_ (flags));
       }
 
 
@@ -170,9 +175,39 @@ namespace Utils
        * @return
        */
       constexpr void
+      set (const std::initializer_list <flag_type> & flags) noexcept
+      {
+        for (const flag_type flag : flags)
+        {
+          set (flag);
+        }
+      }
+
+
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
+      constexpr void
       unset (flag_type flags) noexcept
       {
         flags_ = underlying_type (flags_) ^ underlying_type (flags);
+      }
+
+
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
+      constexpr void
+      unset (const std::initializer_list <flag_type> & flags) noexcept
+      {
+        for (const flag_type flag : flags)
+        {
+          unset (flag);
+        }
       }
 
 
@@ -191,29 +226,19 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr explicit operator flag_type (void) const noexcept
-      {
-        return flags_;
-      }
-
-
-      /**
-       * @brief
-       * @return
-       */
-      constexpr explicit operator underlying_type (void) const noexcept
-      {
-        return underlying_type (flags_);
-      }
-
-
-      /**
-       * @brief
-       * @return
-       */
       constexpr explicit operator bool (void) const noexcept
       {
         return any ();
+      }
+
+
+      /**
+       * @brief
+       * @return
+       */
+      constexpr explicit operator flag_type (void) const noexcept
+      {
+        return flags_;
       }
 
 
@@ -242,21 +267,10 @@ namespace Utils
       constexpr self_type &
       operator = (flag_type flags) noexcept
       {
-        flags_ = flags;
-
-        return *this;
-      }
-
-
-      /**
-       * @brief
-       * @param flags
-       * @return
-       */
-      constexpr self_type &
-      operator = (underlying_type flags) noexcept
-      {
-        flags_ = flags;
+        if (flags_ != flags)
+        {
+          flags_ = flags;
+        }
 
         return *this;
       }
@@ -270,32 +284,15 @@ namespace Utils
       constexpr bool
       operator == (const self_type & that) const noexcept
       {
-        return ((this == &that) || (flags_ == that.flags_));
-      }
-
-
-      /**
-       * @brief
-       * @param flags
-       * @return
-       */
-      constexpr bool
-      operator == (flag_type flags) const noexcept
-      {
-        return (flags_ == flags);
-      }
-
-
-      /**
-       * @brief
-       * @param flags
-       * @return
-       */
-      constexpr bool
-      operator == (underlying_type flags) const noexcept
-      {
-        return (underlying_type (flags_) == flags);
-      }
+        if (this == &that)
+        {
+          return true;
+        }
+        else
+        {
+          return (flags_ == that.flags_);
+        }
+      };
 
 
       /**
@@ -309,7 +306,7 @@ namespace Utils
       {
         output
           << "Flags{"
-          << std::hex << std::showbase << underlying_type (self)
+          << std::hex << std::showbase << underlying_type (self.flags_)
           << '}';
 
         return output;
@@ -317,6 +314,24 @@ namespace Utils
 
 
     private:
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
+      constexpr flag_type
+      combine_ (const std::initializer_list <flag_type> & flags) const noexcept
+      {
+        underlying_type all_flags { };
+        for (const flag_type flag : flags)
+        {
+          all_flags |= underlying_type (flag);
+        }
+
+        return flag_type (all_flags);
+      }
+
+
       /**
        * @brief
        */
