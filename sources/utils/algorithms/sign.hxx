@@ -2,7 +2,6 @@
 #define UTILS_ALGORITHMS_SIGN_HXX
 
 
-#include <functional> // std::less
 #include <type_traits> // std::is_signed_v
 
 

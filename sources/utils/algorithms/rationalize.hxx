@@ -3,7 +3,7 @@
 
 
 #include <cstddef> // std::size_t
-#include <cmath> // std::{isfinite, trunc, fabs}
+#include <cmath> // std::{isfinite, trunc}
 
 #include <limits> // std::numeric_limits
 #include <tuple> // std::tuple
@@ -23,6 +23,7 @@ namespace Utils
    *   (error, maximal denominator value and maximal iterations count) by using Continued Fractions method.
    * For the reference see `http://mathworld.wolfram.com/ContinuedFraction.html'.
    * The absolute error value will be |p / q - x|.
+   * TODO: Functions from `cmath' is not constexpr by standard
    * @tparam TIntegral
    * @tparam TFloatingPoint
    * @param x
@@ -45,9 +46,9 @@ namespace Utils
     static_assert (std::is_integral_v <TIntegral>);
     static_assert (std::is_floating_point_v <TFloatingPoint>);
 
-    ASSERT (!(rel_tol < TFloatingPoint (0)), "`rel_tol' should not be less than 0");
-    ASSERT (!(abs_tol < TFloatingPoint (0)), "`abs_tol' should not be less than 0");
-    ASSERT (!(max_denominator <= TIntegral (0)), "`max_denominator' should not be less than or equal to 0");
+    ASSERT (!(rel_tol < TFloatingPoint (0)), "`rel_tol' must not be less than 0");
+    ASSERT (!(abs_tol < TFloatingPoint (0)), "`abs_tol' must not be less than 0");
+    ASSERT (!(max_denominator <= TIntegral (0)), "`max_denominator' must not be less than or equal to 0");
 
     if (!std::isfinite (x))
     {
@@ -69,7 +70,7 @@ namespace Utils
 #pragma GCC diagnostic pop
 
     /*
-     * If we got "almost integer" `x' or one of the trivial cases, we should return pair 〈a0; 1, e〉,
+     * If we got "almost integer" `x' or one of the trivial cases, we must return pair 〈a0; 1, e〉,
      *   or the loop will stuck at division by 0 later.
      */
     if (isClose (TFloatingPoint (a_1), x, rel_tol, abs_tol) || (max_denominator == 1) || (max_iterations == 1))

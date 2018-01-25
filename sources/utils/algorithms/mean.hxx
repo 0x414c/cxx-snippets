@@ -27,7 +27,8 @@ namespace Utils
 
     static_assert (std::is_arithmetic_v <value_type>);
 
-//    ASSERT (std::distance (first, last) > 1, "distance between `first' and `last' should be >= 2");
+    // TODO: `std::distance' is not usable as a constexpr function yet
+    // ASSERT (std::distance (first, last) > 1, "Distance between `first' and `last' must be greater than 1");
 
     difference_type count (0);
     value_type mean (0);

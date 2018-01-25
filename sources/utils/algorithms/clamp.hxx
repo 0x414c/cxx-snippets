@@ -5,6 +5,7 @@
 #include <functional> // std::less
 
 #include "../debug/assert.hxx" // ASSERT
+#include "../type-traits/always-false.hxx" // ::Utils::AlwaysFalseV
 
 
 namespace Utils
@@ -29,7 +30,7 @@ namespace Utils
   constexpr const TX &
   clamp (const TX & x, const TX & x_min, const TX & x_max, TCompare compare = TCompare ())
   {
-    ASSERT (!compare (x_max, x_min), "`x_max' should not be less than `x_min'");
+    ASSERT (!compare (x_max, x_min), "`x_max' must not be less than `x_min'");
 
     if (compare (x, x_min))
     {
@@ -67,7 +68,7 @@ namespace Utils
     TCompare compare = TCompare ()
   )
   {
-    ASSERT (!compare (x_max, x_min), "`x_max' should not be less than `x_min'");
+    ASSERT (!compare (x_max, x_min), "`x_max' must not be less than `x_min'");
 
     if (compare (x, x_min))
     {

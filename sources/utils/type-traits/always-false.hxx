@@ -14,7 +14,7 @@ namespace Utils
    */
   template <typename TType, TType ...>
   struct AlwaysFalse :
-    std::false_type
+    public std::false_type
   { };
 
 
