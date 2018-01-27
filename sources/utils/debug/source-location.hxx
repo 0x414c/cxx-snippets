@@ -16,7 +16,7 @@ namespace Utils
   /**
    * @brief
    */
-  class SourceLocation final
+  struct SourceLocation final
   {
     private:
       /**
@@ -130,7 +130,7 @@ namespace Utils
  *   `__FUNCTION__' or
  *   `__func__'?
  */
-#define CURRENT_SOURCE_LOCATION() (::Utils::SourceLocation (__PRETTY_FUNCTION__, __FILE__, __LINE__))
+#define CURRENT_SOURCE_LOCATION() (::Utils::SourceLocation ((__PRETTY_FUNCTION__),( __FILE__), (__LINE__)))
 
 
 #endif // UTILS_LOGGING_SOURCELOCATION_HXX

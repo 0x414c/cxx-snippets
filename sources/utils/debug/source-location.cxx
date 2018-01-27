@@ -1,6 +1,6 @@
 #include <ostream> // std::ostream
 
-#include "source-location.hxx" // SourceLocation
+#include "source-location.hxx" // SourceLocation::*
 
 
 namespace Utils
@@ -9,7 +9,8 @@ namespace Utils
   operator << (std::ostream & output, const SourceLocation::self_type & self)
   {
     output
-      << "SourceLocation{function:" << self.function_
+      << "SourceLocation{"
+      << "function:" << self.function_
       << ";file:" << self.file_
       << ";line:" << self.line_
       << '}';

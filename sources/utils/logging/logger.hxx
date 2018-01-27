@@ -11,7 +11,7 @@
 #include <fmt/ostream.h> // fmt::print[std::ostream]
 
 #include "../containers/c-string.hxx" // CString
-#include "source-location.hxx" // SourceLocation
+#include "../debug/source-location.hxx" // SourceLocation
 
 
 namespace Utils

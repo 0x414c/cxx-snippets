@@ -2,7 +2,7 @@
 #define UTILS_DEBUG_FATAL_HXX
 
 
-#include "../logging/source-location.hxx" // CURRENT_SOURCE_LOCATION
+#include "source-location.hxx" // CURRENT_SOURCE_LOCATION
 #include "assertion-guard.hxx" // AssertionGuard
 
 

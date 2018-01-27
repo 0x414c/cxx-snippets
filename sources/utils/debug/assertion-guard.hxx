@@ -2,12 +2,10 @@
 #define UTILS_DEBUG_ASSERTIONGUARD_HXX
 
 
-#include <cstdlib> // std::abort
-
-#include "../config/logger.hxx" // Config::Utils::Logger::{Assert, Check, Fatal}_prefix
+#include "../config/logger.hxx" // Config::Utils::Logger::{Assert_prefix, Check_prefix, Fatal_prefix}
 #include "../containers/c-string.hxx" // CString
 #include "../logging/logger.hxx" // Logger::log_Detailed
-#include "../logging/source-location.hxx" // SourceLocation
+#include "source-location.hxx" // SourceLocation
 
 
 namespace Utils
@@ -69,12 +67,14 @@ namespace Utils
       {
         if (!condition)
         {
+          assertionFailure_ ();
+
           Logger::log_Detailed (
             source_location_, Config::Utils::Logger::Assert_prefix,
             "Assertion `{0:s}' failed: `{1:s}'", condition_as_text, message_
           );
 
-          std::abort ();
+          crashProgram_ ();
         }
       }
 
@@ -90,6 +90,8 @@ namespace Utils
       {
         if (!condition)
         {
+          assertionFailure_ ();
+
           Logger::log_Detailed (
             source_location_, Config::Utils::Logger::Check_prefix,
             "Check `{0:s}' failed: `{1:s}'", condition_as_text, message_
@@ -116,7 +118,7 @@ namespace Utils
           Logger::log (Config::Utils::Logger::Fatal_prefix, "Fatal error: `{0:s}'", message_);
         }
 
-        std::abort ();
+        crashProgram_ ();
       }
 
 
@@ -130,6 +132,11 @@ namespace Utils
 
 
     private:
+      void
+      assertionFailure_ (void) const noexcept;
+
+      [[noreturn]] void crashProgram_ (void) const noexcept;
+
       /**
        * @brief
        */

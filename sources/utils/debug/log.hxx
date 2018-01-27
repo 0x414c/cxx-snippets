@@ -4,7 +4,7 @@
 
 #include "../config/logger.hxx" // ::Config::Utils::Logger::*
 #include "../logging/logger.hxx" // ::Utils::Logger::{log, log_Detailed}
-#include "../logging/source-location.hxx" // CURRENT_SOURCE_LOCATION
+#include "source-location.hxx" // CURRENT_SOURCE_LOCATION
 #include "../preproc/stringify.hxx" // STRINGIFY_E
 
 

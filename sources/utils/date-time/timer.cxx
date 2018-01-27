@@ -1,6 +1,6 @@
 #include <utility> // std::move
 
-#include "timer.hxx" // Utils::Timer::*
+#include "timer.hxx" // Timer::*
 
 #include "../config/logger.hxx" // Config::Utils::Logger::Timer_prefix
 #include "../containers/c-string.hxx" // CString
