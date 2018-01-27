@@ -1,14 +1,15 @@
 #include <cstdlib> // std::abort
 
 #include "assertion.hxx" // Assertion::*
+#include "crash-program.hxx" // crashProgram
 
 
 namespace Utils
 {
-  void
+  [[noreturn]] void
   Assertion::crashProgram_ (void) const noexcept
   {
-    std::abort ();
+    crashProgram ();
   }
 
 

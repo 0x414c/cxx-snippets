@@ -88,28 +88,6 @@ namespace Utils
 
       /**
        * @brief
-       * @param show_location
-       */
-      [[noreturn]] void
-      crash (bool show_location) const
-      {
-//        if (show_location)
-//        {
-//          Logger::log_Detailed (
-//            source_location_, Config::Utils::Logger::Fatal_prefix, "Fatal error: `{0:s}'", message_
-//          );
-//        }
-//        else
-//        {
-//          Logger::log (Config::Utils::Logger::Fatal_prefix, "Fatal error: `{0:s}'", message_);
-//        }
-
-        crashProgram_ ();
-      }
-
-
-      /**
-       * @brief
        * @param that
        * @return
        */

@@ -2,15 +2,14 @@
 #define UTILS_DEBUG_FATAL_HXX
 
 
+#include "crash-program.hxx" // ::Utils::crashProgram
 #include "source-location.hxx" // CURRENT_SOURCE_LOCATION
-#include "assertion-guard.hxx" // AssertionGuard
 
 
 #define FATAL_L(message) \
   do \
   { \
-    const ::Utils::AssertionGuard assertion_guard ((message), (CURRENT_SOURCE_LOCATION ())); \
-    assertion_guard.crash (true); \
+    ::Utils::crashProgram ((message), (CURRENT_SOURCE_LOCATION ())); \
   } \
   while (false)
 
@@ -18,8 +17,7 @@
 #define FATAL_NL(message) \
   do \
   { \
-    const ::Utils::AssertionGuard assertion_guard ((message)); \
-    assertion_guard.crash (false); \
+    ::Utils::crashProgram ((message)); \
   } \
   while (false)
 
