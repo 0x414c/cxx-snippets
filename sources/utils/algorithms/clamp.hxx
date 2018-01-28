@@ -60,7 +60,7 @@ namespace Utils
    * @param compare
    * @return
    */
-  template <typename TX, typename TY, typename TCompare = std::less <TX>>
+  template <typename TX, typename TY = TX, typename TCompare = std::less <TX>>
   constexpr const TY &
   clamp (
     const TX & x, const TX & x_min, const TX & x_max, const TY & y_min, const TY & y_max,

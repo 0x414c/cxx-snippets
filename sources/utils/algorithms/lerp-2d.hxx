@@ -26,7 +26,7 @@ namespace Utils
    * @param z_1_0
    * @return
    */
-  template <typename TX, typename TY, typename TZ>
+  template <typename TX, typename TY = TX, typename TZ = TX>
   constexpr TZ
   lerp_2d (
     TX x, TY y,

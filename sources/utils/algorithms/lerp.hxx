@@ -18,7 +18,7 @@ namespace Utils
    * @param y_1
    * @return
    */
-  template <typename TX, typename TY>
+  template <typename TX, typename TY = TX>
   constexpr TY
   lerp (TX x, TX x_0, TX x_1, TY y_0, TY y_1)
   {
