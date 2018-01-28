@@ -7,15 +7,15 @@ namespace Utils
   /**
    * @brief
    */
-  template <typename TTrait>
-  using TypeOf = typename TTrait::type;
+  template <typename TMetafunction>
+  using TypeOf = typename TMetafunction::type;
 
 
   /**
    * @brief
    */
-  template <typename TTrait>
-  inline constexpr auto ValueOf = TTrait::value;
+  template <typename TMetafunction>
+  inline constexpr auto ValueOf = TMetafunction::value;
 }
 
 

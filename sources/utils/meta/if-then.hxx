@@ -9,16 +9,16 @@ namespace Utils
 {
   /**
    * @brief
-   * @tparam TValue
+   * @tparam TCondition
    * @tparam TType
    */
-  template <bool TValue, typename TType>
+  template <bool TCondition, typename TType>
   struct IfThen
   {
     /**
      * @brief
      */
-    static constexpr bool value { TValue };
+    static constexpr bool value { TCondition };
   };
 
 
