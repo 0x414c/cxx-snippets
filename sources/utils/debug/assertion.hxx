@@ -5,7 +5,7 @@
 #include "../config/logger.hxx" // Config::Utils::Logger::{Assert_prefix, Check_prefix, Fatal_prefix}
 #include "../containers/c-string.hxx" // CString
 #include "../logging/logger.hxx" // Logger::log_Detailed
-#include "condition.hxx" // CONDITION, Condition
+#include "condition.hxx" // Condition
 
 
 namespace Utils

@@ -13,7 +13,7 @@ namespace Utils
   /**
    * @brief
    */
-  struct Condition
+  struct Condition final
   {
     private:
       /**
@@ -55,7 +55,7 @@ namespace Utils
       constexpr bool
       value (void) const noexcept
       {
-          return value_;
+        return value_;
       }
 
 
@@ -66,7 +66,7 @@ namespace Utils
       constexpr const CString &
       source (void) const noexcept
       {
-          return source_;
+        return source_;
       }
 
 
@@ -77,7 +77,7 @@ namespace Utils
       constexpr const SourceLocation &
       sourceLocation (void) const noexcept
       {
-          return source_location_;
+        return source_location_;
       }
 
 
@@ -87,7 +87,7 @@ namespace Utils
        */
       constexpr explicit operator bool (void) const noexcept
       {
-          return value ();
+        return value ();
       }
 
 
