@@ -4,6 +4,8 @@
 
 #include <cstddef> // std::size_t
 
+#include <type_traits> // std::is_same_v
+
 
 namespace Utils
 {
@@ -13,6 +15,14 @@ namespace Utils
   template <typename TChar>
   class BasicCString final
   {
+    static_assert (
+         std::is_same_v <TChar, char>
+      || std::is_same_v <TChar, wchar_t>
+      || std::is_same_v <TChar, char16_t>
+      || std::is_same_v <TChar, char32_t>
+    );
+
+
     public:
       /**
        * @brief
@@ -118,7 +128,25 @@ namespace Utils
   };
 
 
+  /**
+   * @brief
+   */
   using CString = BasicCString <char>;
+
+  /**
+   * @brief
+   */
+  using WCString = BasicCString <wchar_t>;
+
+  /**
+   * @brief
+   */
+  using U16CString = BasicCString <char16_t>;
+
+  /**
+   * @brief
+   */
+  using U32CString = BasicCString <char32_t>;
 }
 
 
