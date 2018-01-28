@@ -1,5 +1,5 @@
-#ifndef UTILS_MISC_WEAKSCOPEDENUM_HXX
-#define UTILS_MISC_WEAKSCOPEDENUM_HXX
+#ifndef UTILS_LANG_WEAKSCOPEDENUM_HXX
+#define UTILS_LANG_WEAKSCOPEDENUM_HXX
 
 
 #include <type_traits> // std::{enable_if_t, is_enum_v, underlying_type_t}
@@ -22,4 +22,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_MISC_WEAKSCOPEDENUM_HXX
+#endif // UTILS_LANG_WEAKSCOPEDENUM_HXX
