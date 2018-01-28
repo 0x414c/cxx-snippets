@@ -1,5 +1,5 @@
-#ifndef UTILS_TYPETRAITS_REMOVECVREF_HXX
-#define UTILS_TYPETRAITS_REMOVECVREF_HXX
+#ifndef UTILS_META_REMOVECVREF_HXX
+#define UTILS_META_REMOVECVREF_HXX
 
 
 #include <type_traits> // std::{remove_cv, remove_reference_t}
@@ -24,4 +24,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_TYPETRAITS_REMOVECVREF_HXX
+#endif // UTILS_META_REMOVECVREF_HXX

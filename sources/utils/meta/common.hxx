@@ -1,5 +1,5 @@
-#ifndef UTILS_TYPETRAITS_COMMON_HXX
-#define UTILS_TYPETRAITS_COMMON_HXX
+#ifndef UTILS_META_COMMON_HXX
+#define UTILS_META_COMMON_HXX
 
 
 namespace Utils
@@ -19,4 +19,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_TYPETRAITS_COMMON_HXX
+#endif // UTILS_META_COMMON_HXX

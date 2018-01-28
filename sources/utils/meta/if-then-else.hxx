@@ -1,5 +1,5 @@
-#ifndef UTILS_TYPETRAITS_IFTHENELSE_HXX
-#define UTILS_TYPETRAITS_IFTHENELSE_HXX
+#ifndef UTILS_META_IFTHENELSE_HXX
+#define UTILS_META_IFTHENELSE_HXX
 
 
 #include "common.hxx" // TypeOf
@@ -95,4 +95,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_TYPETRAITS_IFTHENELSE_HXX
+#endif // UTILS_META_IFTHENELSE_HXX

@@ -5,8 +5,8 @@
 #include <ostream> // std::ostream
 #include <type_traits> // std::{is_arithmetic_v, is_floating_point_v, is_integral_v}
 
-#include "../type-traits/choose.hxx" // ChooseT
-#include "../type-traits/if-then.hxx" // IfThen
+#include "../meta/choose.hxx" // ChooseT
+#include "../meta/if-then.hxx" // IfThen
 
 
 namespace Utils

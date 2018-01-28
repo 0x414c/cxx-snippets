@@ -1,5 +1,5 @@
-#ifndef UTILS_TYPETRAITS_IFTHEN_HXX
-#define UTILS_TYPETRAITS_IFTHEN_HXX
+#ifndef UTILS_META_IFTHEN_HXX
+#define UTILS_META_IFTHEN_HXX
 
 
 #include "common.hxx" // ValueOf
@@ -50,4 +50,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_TYPETRAITS_IFTHEN_HXX
+#endif // UTILS_META_IFTHEN_HXX

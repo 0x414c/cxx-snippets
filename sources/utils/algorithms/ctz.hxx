@@ -5,7 +5,7 @@
 #include <cstddef> // std::size_t
 #include <cstdint> // std::{int8_t, uint8_t, int32_t, uint32_t, int64_t, uint64_t}
 
-#include "../type-traits/always-false.hxx" // AlwaysFalseV
+#include "../meta/always-false.hxx" // AlwaysFalseV
 
 
 namespace Utils

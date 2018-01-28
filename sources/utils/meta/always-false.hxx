@@ -1,5 +1,5 @@
-#ifndef UTILS_TYPETRAITS_ALWAYSFALSE_HXX
-#define UTILS_TYPETRAITS_ALWAYSFALSE_HXX
+#ifndef UTILS_META_ALWAYSFALSE_HXX
+#define UTILS_META_ALWAYSFALSE_HXX
 
 
 #include <type_traits> // std::false_type
@@ -26,4 +26,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_TYPETRAITS_ALWAYSFALSE_HXX
+#endif // UTILS_META_ALWAYSFALSE_HXX

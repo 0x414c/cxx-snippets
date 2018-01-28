@@ -1,5 +1,5 @@
-#ifndef UTILS_TYPETRAITS_CHOOSE_HXX
-#define UTILS_TYPETRAITS_CHOOSE_HXX
+#ifndef UTILS_META_CHOOSE_HXX
+#define UTILS_META_CHOOSE_HXX
 
 
 #include "common.hxx" // TypeOf, ValueOf
@@ -31,4 +31,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_TYPETRAITS_CHOOSE_HXX
+#endif // UTILS_META_CHOOSE_HXX
