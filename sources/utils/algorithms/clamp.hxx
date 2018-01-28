@@ -5,7 +5,6 @@
 #include <functional> // std::less
 
 #include "../debug/assert.hxx" // ASSERT
-#include "../type-traits/always-false.hxx" // ::Utils::AlwaysFalseV
 
 
 namespace Utils
