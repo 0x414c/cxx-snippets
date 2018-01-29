@@ -34,10 +34,24 @@ namespace Utils
       /**
        * @brief
        * @param that
+       */
+      constexpr Unit (self_type && that [[maybe_unused]]) noexcept = default;
+
+      /**
+       * @brief
+       * @param that
        * @return
        */
       constexpr self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = default;
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = default;
 
 
       /**

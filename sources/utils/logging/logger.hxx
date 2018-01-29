@@ -21,7 +21,32 @@ namespace Utils
    */
   class Logger final
   {
+    private:
+      /**
+       * @brief
+       */
+      using self_type = Logger;
+
+
     public:
+      /**
+       * @brief
+       */
+      Logger (void) noexcept = delete;
+
+      /**
+       * @brief
+       * @param that
+       */
+      Logger (const self_type & that [[maybe_unused]]) noexcept = delete;
+
+      /**
+       * @brief
+       * @param that
+       */
+      Logger (self_type && that [[maybe_unused]]) noexcept = delete;
+
+
       /**
        * @brief
        * @tparam TArgs
@@ -65,6 +90,23 @@ namespace Utils
           source_location.function (), source_location.file (), source_location.line ()
         );
       }
+
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      self_type &
+      operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
     private:

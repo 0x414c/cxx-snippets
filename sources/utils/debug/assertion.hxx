@@ -34,6 +34,12 @@ namespace Utils
        */
       constexpr Assertion (const self_type & that [[maybe_unused]]) noexcept = delete;
 
+      /**
+       * @brief
+       * @param that
+       */
+      constexpr Assertion (self_type && that [[maybe_unused]]) noexcept = delete;
+
 
       /**
        * @brief
@@ -93,6 +99,14 @@ namespace Utils
        */
       constexpr self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
     private:

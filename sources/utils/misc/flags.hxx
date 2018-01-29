@@ -53,6 +53,12 @@ namespace Utils
        */
       constexpr Flags (const self_type & that [[maybe_unused]]) noexcept = default;
 
+      /**
+       * @brief
+       * @param that
+       */
+      constexpr Flags (self_type && that [[maybe_unused]]) noexcept = default;
+
 
       /**
        * @brief
@@ -248,15 +254,15 @@ namespace Utils
        * @return
        */
       constexpr self_type &
-      operator = (const self_type & that) noexcept
-      {
-        if (this != &that)
-        {
-          flags_ = that.flags_;
-        }
+      operator = (const self_type & that) noexcept = default;
 
-        return *this;
-      }
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
+      operator = (self_type && that) noexcept = default;
 
 
       /**

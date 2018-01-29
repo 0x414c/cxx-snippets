@@ -34,6 +34,12 @@ namespace Utils
        */
       constexpr Condition (const self_type & that [[maybe_unused]]) noexcept = default;
 
+      /**
+       * @brief
+       * @param that
+       */
+      constexpr Condition (self_type && that [[maybe_unused]]) noexcept = default;
+
 
       /**
        * @brief
@@ -107,6 +113,14 @@ namespace Utils
        */
       constexpr self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = default;
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = default;
 
 
     private:

@@ -40,21 +40,21 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr NaiveSummationPolicy (void) = default;
+      constexpr NaiveSummationPolicy (void) noexcept = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr NaiveSummationPolicy (const self_type & that [[maybe_unused]]) = default;
+      constexpr NaiveSummationPolicy (const self_type & that [[maybe_unused]]) noexcept = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr NaiveSummationPolicy (self_type && that [[maybe_unused]]) = default;
+      constexpr NaiveSummationPolicy (self_type && that [[maybe_unused]]) noexcept = default;
 
 
       /**
@@ -63,7 +63,7 @@ namespace Utils
        * @param initial_value
        * @return
        */
-      constexpr explicit NaiveSummationPolicy (term_type initial_value) :
+      constexpr explicit NaiveSummationPolicy (term_type initial_value) noexcept :
         sum_ (initial_value)
       { }
 
@@ -73,7 +73,7 @@ namespace Utils
        * @return
        */
       constexpr term_type
-      total (void) const
+      total (void) const noexcept
       {
         return sum_;
       }
@@ -84,7 +84,7 @@ namespace Utils
        * @param term
        */
       constexpr void
-      add (term_type term)
+      add (term_type term) noexcept
       {
         sum_ += term;
       }
@@ -92,30 +92,28 @@ namespace Utils
 
       /**
        * @brief
-       * TODO: [1;0] Const?
        * @param that
        * @return
        */
       constexpr self_type &
-      operator = (const self_type & that)
-      {
-        if (this != &that)
-        {
-          sum_ = that.sum_;
-        }
+      operator = (const self_type & that [[maybe_unused]]) noexcept = default;
 
-        return *this;
-      }
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = default;
 
 
       /**
        * @brief
-       * TODO: [1;0] Const?
        * @param new_initial_value
        * @return
        */
       constexpr self_type &
-      operator = (term_type new_initial_value)
+      operator = (term_type new_initial_value) noexcept
       {
         sum_ = new_initial_value;
 
@@ -160,14 +158,21 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr CompensatingSummationPolicy (void) = default;
+      constexpr CompensatingSummationPolicy (void) noexcept = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr CompensatingSummationPolicy (const self_type & that [[maybe_unused]]) = default;
+      constexpr CompensatingSummationPolicy (const self_type & that [[maybe_unused]]) noexcept = default;
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr CompensatingSummationPolicy (self_type && that [[maybe_unused]]) noexcept = default;
 
 
       /**
@@ -176,7 +181,7 @@ namespace Utils
        * @param initial_value
        * @return
        */
-      constexpr explicit CompensatingSummationPolicy (term_type initial_value) :
+      constexpr explicit CompensatingSummationPolicy (term_type initial_value) noexcept :
         sum_ (initial_value)
       { }
 
@@ -187,7 +192,7 @@ namespace Utils
        * @return
        */
       constexpr term_type
-      total (void) const
+      total (void) const noexcept
       {
         return (sum_ + correction_);
       }
@@ -216,7 +221,7 @@ namespace Utils
        * @param term
        */
       constexpr void
-      add (term_type term)
+      add (term_type term) noexcept
       {
         // Algorithm from [1], [2]:
         // So far, so good: `correction_' is zero:
@@ -246,34 +251,31 @@ namespace Utils
 
       /**
        * @brief
-       * TODO: [1;0] Const?
        * @param that
        * @return
        */
       constexpr self_type &
-      operator = (const self_type & that)
-      {
-        if (this != &that)
-        {
-          sum_ = that.sum_;
-          correction_ = that.correction_;
-        }
+      operator = (const self_type & that [[maybe_unused]]) noexcept = default;
 
-        return *this;
-      }
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = default;
 
 
       /**
        * @brief
-       * TODO: [1;0] Const?
        * @param new_initial_value
        * @return
        */
       constexpr self_type &
-      operator = (term_type new_initial_value)
+      operator = (term_type new_initial_value) noexcept
       {
         sum_ = new_initial_value;
-        correction_ = term_zero;
+        correction_ = term_zero_;
 
         return *this;
       }
@@ -293,7 +295,7 @@ namespace Utils
       /**
        * @brief
        */
-      static constexpr term_type term_zero { };
+      static constexpr term_type term_zero_ { };
   };
 
 
@@ -338,14 +340,21 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr Summator (void) = default;
+      constexpr Summator (void) noexcept = default;
 
       /**
        * @brief
        * @param that
        * @return
        */
-      constexpr Summator (const self_type & that [[maybe_unused]]) = default;
+      constexpr Summator (const self_type & that [[maybe_unused]]) noexcept = default;
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr Summator (self_type && that [[maybe_unused]]) noexcept = default;
 
 
       /**
@@ -354,7 +363,7 @@ namespace Utils
        * @param initial_value
        * @return
        */
-      constexpr explicit Summator (term_type initial_value) :
+      constexpr explicit Summator (term_type initial_value) noexcept :
         summation_policy_ (initial_value)
       { }
 
@@ -364,7 +373,7 @@ namespace Utils
        * TODO: [1;0] Explicit?
        * @return
        */
-      constexpr explicit operator term_type (void) const
+      constexpr explicit operator term_type (void) const noexcept
       {
         return summation_policy_.total ();
       }
@@ -372,30 +381,28 @@ namespace Utils
 
       /**
        * @brief
-       * TODO: [1;0] Const?
        * @param that
        * @return
        */
       constexpr self_type &
-      operator = (const self_type & that)
-      {
-        if (this != &that)
-        {
-          summation_policy_ = that.summation_policy_;
-        }
+      operator = (const self_type & that [[maybe_unused]]) noexcept = default;
 
-        return *this;
-      }
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = default;
 
 
       /**
        * @brief
-       * TODO: [1;0] Const?
        * @param new_initial_value
        * @return
        */
       constexpr self_type &
-      operator = (term_type new_initial_value)
+      operator = (term_type new_initial_value) noexcept
       {
         summation_policy_ = new_initial_value;
 
@@ -405,12 +412,11 @@ namespace Utils
 
       /**
        * @brief
-       * TODO: [1;0] Const?
        * @param term
        * @return
        */
-      constexpr const self_type &
-      operator += (term_type term)
+      constexpr self_type &
+      operator += (term_type term) noexcept
       {
         summation_policy_.add (term);
 
@@ -420,12 +426,11 @@ namespace Utils
 
       /**
        * @brief
-       * TODO: [1;0] Const?
        * @param term
        * @return
        */
-      constexpr const self_type &
-      operator -= (term_type term)
+      constexpr self_type &
+      operator -= (term_type term) noexcept
       {
         summation_policy_.add (-term);
 

@@ -50,6 +50,13 @@ namespace Utils
 
       /**
        * @brief
+       * @param that
+       * @return
+       */
+      Timer (self_type && that [[maybe_unused]]) = default;
+
+      /**
+       * @brief
        * @param description
        * @return
        */
@@ -134,6 +141,14 @@ namespace Utils
        */
       self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = default;
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = default;
 
 
     private:
