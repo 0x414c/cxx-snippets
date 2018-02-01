@@ -6,6 +6,8 @@
 
 #include <type_traits> // std::is_same_v
 
+// #include "../debug/assert.hxx" // ASSERT
+
 
 namespace Utils
 {
@@ -125,6 +127,8 @@ namespace Utils
       constexpr char_type
       operator [] (std::size_t pos) const noexcept
       {
+        // ASSERT (pos < size (), "`pos' must be less than `size ()'");
+
         return data ()[pos];
       }
 

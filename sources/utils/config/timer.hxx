@@ -2,9 +2,12 @@
 #define UTILS_CONFIG_TIMER_HXX
 
 
+#include "../containers/c-string.hxx" // CString
+
+
 namespace Config::Utils::Timer
 {
-  inline constexpr const char Default_description[] ("(no description)");
+  inline constexpr ::Utils::CString Default_description ("(no description)");
 }
 
 

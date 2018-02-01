@@ -4,7 +4,7 @@
 
 #include <cstddef> // std::size_t
 
-//#include <string_view> // std::string_view
+// #include <string_view> // std::string_view
 #include <ostream> // std::ostream
 
 #include "../config/source-location.hxx" // Config::Utils::SourceLocation::{Default_file, Default_function}
