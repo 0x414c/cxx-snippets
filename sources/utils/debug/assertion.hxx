@@ -52,6 +52,17 @@ namespace Utils
 
       /**
        * @brief
+       * @return
+       */
+      constexpr const Condition &
+      condition (void) noexcept
+      {
+        return condition_;
+      }
+
+
+      /**
+       * @brief
        * @param message
        * @return
        */

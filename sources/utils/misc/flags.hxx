@@ -303,6 +303,25 @@ namespace Utils
 
       /**
        * @brief
+       * @param that
+       * @return
+       */
+      constexpr bool
+      operator == (self_type && that) const noexcept
+      {
+        if (this == &that)
+        {
+          return true;
+        }
+        else
+        {
+          return (flags_ == that.flags_);
+        }
+      };
+
+
+      /**
+       * @brief
        * @param output
        * @param self
        * @return

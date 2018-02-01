@@ -125,7 +125,7 @@ namespace Utils
       constexpr char_type
       operator [] (std::size_t pos) const noexcept
       {
-        return data_[pos];
+        return data ()[pos];
       }
 
 

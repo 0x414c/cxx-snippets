@@ -201,20 +201,20 @@ namespace Utils
       /**
        * @brief Kahan's compensated summation method employs the correction `e' on every step of a recursive summation.
        * After each partial sum is formed, the correction is computed and immediately added to the next term `x[i]'
-       * before that term is added to the partial sum.  Thus the idea is to capture the rounding errors and feed them
-       * back into the summation [5, p. 9].
+       *   before that term is added to the partial sum.  Thus the idea is to capture the rounding errors and feed them
+       *   back into the summation [5, p. 9].
        *
        * Each term is first corrected for the error that has accumulated so far.
        * Then the new sum is calculated by adding this corrected term to the running total.
        * Finally, a new correction term is calculated as the difference between the change in the sums and the
-       * corrected term [1, p. 1].
+       *   corrected term [1, p. 1].
        *
        * For the reference see:
        * [1] `http://www.drdobbs.com/floating-point-summation';
        * [2] `https://en.wikipedia.org/wiki/Kahan_summation_algorithm';
        * [3] `http://www.phys.uconn.edu/~rozman/Courses/P2200_11F/downloads/sum-howto.pdf';
-       * [4] Kahan, William (January 1965). "Further remarks on reducing truncation errors", doi:10.1145/363707.363723;
-       * [5] Higham, Nicholas J. (1993). "The accuracy of floating point summation", doi:10.1137/0914050;
+       * [4] Kahan, William (January 1965). Further remarks on reducing truncation errors, doi:10.1145/363707.363723;
+       * [5] Higham, Nicholas J. (1993). The accuracy of floating point summation, doi:10.1137/0914050;
        * [6] Kahan, William (1972). A Survey of Error Analysis. pp. 1214-1239;
        * [7] Higham, Nicholas J. (2002). Accuracy and Stability of Numerical Algorithms (2 ed). SIAM. pp. 110–123;
        * [8] Kahan, William (1973). Implementation of algorithms (lecture notes by W.S. Haugeland and D. Hough). p. 107.
@@ -236,16 +236,16 @@ namespace Utils
         // Next time around, the lost low part will be added to `corrected_term' in a fresh attempt.
 
         // Algorithm from [3], [5] (ditto):
-//        const T old_sum (sum_);
-//        const T corrected_term (term + correction_);
-//        sum_ = old_sum + corrected_term;
-//        correction_ = (old_sum - sum_) + corrected_term;
-//
+/*        const term_type old_sum (sum_);
+        const term_type corrected_term (term + correction_);
+        sum_ = old_sum + corrected_term;
+        correction_ = (old_sum - sum_) + corrected_term;*/
+
         // Algorithm from [8] (ditto):
-//        const T corrected_term (correction_ + term);
-//        const T new_sum (sum_ + corrected_term);
-//        correction_ = (sum_ - new_sum) + corrected_term;
-//        sum_ = new_sum;
+/*        const term_type corrected_term (correction_ + term);
+        const term_type new_sum (sum_ + corrected_term);
+        correction_ = (sum_ - new_sum) + corrected_term;
+        sum_ = new_sum;*/
       }
 
 

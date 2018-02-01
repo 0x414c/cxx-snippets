@@ -6,11 +6,11 @@ namespace Config::Utils::IsClose
 {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
-  template <typename TType>
-  inline constexpr TType Relative_tolerance { 1e-8l };
+  template <typename TFloatingPoint>
+  inline constexpr TFloatingPoint Relative_tolerance { 1e-8l };
 
-  template <typename TType>
-  inline constexpr TType Absolute_tolerance { 1e-16l };
+  template <typename TFloatingPoint>
+  inline constexpr TFloatingPoint Absolute_tolerance { 1e-16l };
 #pragma GCC diagnostic pop
 }
 
