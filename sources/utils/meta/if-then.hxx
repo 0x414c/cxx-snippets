@@ -2,7 +2,7 @@
 #define UTILS_META_IFTHEN_HXX
 
 
-#include "common.hxx" // ValueOf
+#include "common.hxx" // TypeOf
 
 
 namespace Utils
@@ -18,6 +18,12 @@ namespace Utils
     /**
      * @brief
      */
+    using type = TType;
+
+
+    /**
+     * @brief
+     */
     static constexpr bool value { TCondition };
   };
 
@@ -27,18 +33,12 @@ namespace Utils
    * @tparam TType
    */
   template <typename TType>
-  struct IfThen <true, TType>
+  struct IfThen <false, TType>
   {
     /**
      * @brief
      */
-    using type = TType;
-
-
-    /**
-     * @brief
-     */
-    static constexpr bool value { true };
+    static constexpr bool value { false };
   };
 
 

@@ -14,7 +14,16 @@ namespace Utils
    * @tparam TIfRest
    */
   template <bool TCondition, typename TIfFirst, typename ... TIfRest>
-  struct IfThenElse
+  struct IfThenElse;
+
+
+  /**
+   * @brief
+   * @tparam TCondition
+   * @tparam TIfFirst
+   */
+  template <bool TCondition, typename TIfFirst>
+  struct IfThenElse <TCondition, TIfFirst>
   {
     /**
      * @brief
@@ -26,32 +35,11 @@ namespace Utils
   /**
    * @brief
    * @tparam TCondition
-   * @tparam TIfTrue
-   * @tparam TIfFalse
+   * @tparam TIfFirst
    */
-  template <bool TCondition, typename TIfTrue, typename TIfFalse>
-  struct IfThenElse <TCondition, TIfTrue, TIfFalse>
-  {
-    /**
-     * @brief
-     */
-    using type = TypeOf <TIfTrue>;
-  };
-
-
-  /**
-   * @brief
-   * @tparam TIfTrue
-   * @tparam TIfFalse
-   */
-  template <typename TIfTrue, typename TIfFalse>
-  struct IfThenElse <false, TIfTrue, TIfFalse>
-  {
-    /**
-     * @brief
-     */
-    using type = TypeOf <TIfFalse>;
-  };
+  template <typename TIfFirst>
+  struct IfThenElse <false, TIfFirst>
+  { };
 
 
   /**
@@ -73,13 +61,6 @@ namespace Utils
 
   /**
    * @brief
-   */
-  template <bool TCondition, typename TIfFirst, typename ... TIfRest>
-  using IfThenElseT = TypeOf <IfThenElse <TCondition, TIfFirst, TIfRest ...>>;
-
-
-  /**
-   * @brief
    * @tparam TIfTrue
    * @tparam TIfFalseFirst
    * @tparam TIfFalseRest
@@ -90,8 +71,15 @@ namespace Utils
     /**
      * @brief
      */
-    using type = IfThenElseT <ValueOf <TIfFalseFirst>, TIfFalseFirst, TIfFalseRest ...>;
+    using type = TypeOf <IfThenElse <ValueOf <TIfFalseFirst>, TIfFalseFirst, TIfFalseRest ...>>;
   };
+
+
+  /**
+   * @brief
+   */
+  template <bool TCondition, typename TIfFirst, typename ... TIfRest>
+  using IfThenElseT = TypeOf <IfThenElse <TCondition, TIfFirst, TIfRest ...>>;
 }
 
 

@@ -15,7 +15,7 @@ namespace Utils
    * @brief
    */
   template <typename TMetafunction>
-  inline constexpr auto ValueOf = TMetafunction::value;
+  inline constexpr auto ValueOf { TMetafunction::value };
 }
 
 
