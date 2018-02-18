@@ -5,7 +5,7 @@
 #include <type_traits> // std::{enable_if_t, is_enum_v, underlying_type_t}
 
 
-namespace Utils
+namespace Utils::Lang
 {
   /**
    * @brief
