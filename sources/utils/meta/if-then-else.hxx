@@ -13,7 +13,7 @@ namespace Utils
    * @tparam TIfFirst
    * @tparam TIfRest
    */
-  template <bool TCondition, typename TIfFirst, typename ... TIfRest>
+  template <bool TCondition, typename ... TIf>
   struct IfThenElse;
 
 
