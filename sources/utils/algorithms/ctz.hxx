@@ -21,20 +21,20 @@ namespace Utils
   }
 
 
-  namespace
+  namespace CtzInternals_
   {
     template <std::size_t TSize>
-    struct CtzLut final
+    struct CtzLut_ final
     {
       static_assert (
         AlwaysFalseV <std::size_t, TSize>,
-        "CtzLut <TSize>: There is no suitable template specialization available"
+        "CtzLut_ <TSize>: There is no suitable template specialization available"
       );
     };
 
 
     template <>
-    struct CtzLut <8> final
+    struct CtzLut_ <8> final
     {
       static constexpr auto width { 8 };
 
@@ -47,7 +47,7 @@ namespace Utils
 
 
     template <>
-    struct CtzLut <16> final
+    struct CtzLut_ <16> final
     {
       static constexpr auto width { 16 };
 
@@ -60,7 +60,7 @@ namespace Utils
 
 
     template <>
-    struct CtzLut <32> final
+    struct CtzLut_ <32> final
     {
       static constexpr auto width { 32 };
 
@@ -76,7 +76,7 @@ namespace Utils
 
 
     template <>
-    struct CtzLut <64> final
+    struct CtzLut_ <64> final
     {
       static constexpr auto width { 64 };
 
@@ -98,7 +98,7 @@ namespace Utils
   constexpr std::uint8_t
   ctz (std::uint8_t x) noexcept
   {
-    using lut_type = CtzLut <8>;
+    using lut_type = CtzInternals_::CtzLut_ <8>;
 
 
     if (x != 0)
@@ -124,7 +124,7 @@ namespace Utils
   constexpr std::uint8_t
   ctz (std::uint16_t x) noexcept
   {
-    using lut_type = CtzLut <16>;
+    using lut_type = CtzInternals_::CtzLut_ <16>;
 
 
     if (x != 0)
@@ -150,7 +150,7 @@ namespace Utils
   constexpr std::uint8_t
   ctz (std::uint32_t x) noexcept
   {
-    using lut_type = CtzLut <32>;
+    using lut_type = CtzInternals_::CtzLut_ <32>;
 
 
     if (x != 0)
@@ -176,7 +176,7 @@ namespace Utils
   constexpr std::uint8_t
   ctz (std::uint64_t x) noexcept
   {
-    using lut_type = CtzLut <64>;
+    using lut_type = CtzInternals_::CtzLut_ <64>;
 
 
     if (x != 0)
