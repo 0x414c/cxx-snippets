@@ -18,6 +18,9 @@ namespace Utils
   template <typename ... TTypes>
   struct AlignedUnionStorage
   {
+    static_assert (sizeof ... (TTypes) > 0);
+
+
     /**
      * @brief
      */
