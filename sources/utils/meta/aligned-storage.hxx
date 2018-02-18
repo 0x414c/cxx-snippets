@@ -17,6 +17,9 @@ namespace Utils
   template <std::size_t TSize, std::size_t TAlignment>
   struct AlignedStorage
   {
+    static_assert (TSize > 0);
+
+
     /**
      * @brief
      */
