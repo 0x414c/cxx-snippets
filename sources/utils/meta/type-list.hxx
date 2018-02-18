@@ -100,7 +100,7 @@ namespace Utils
    * @tparam TTypeList
    * @tparam TCompare
    */
-  template <typename TTypeList, template <typename TType> typename TCompare>
+  template <typename TTypeList, typename TCompare>
   struct FindIf;
 
 
@@ -112,7 +112,7 @@ namespace Utils
      * @tparam TTypeList
      * @tparam TCompare
      */
-    template <bool TCondition, typename TTypeList, template <typename TType> typename TCompare>
+    template <bool TCondition, typename TTypeList, typename TCompare>
     struct FindIfImpl_
     {
       /**
@@ -127,7 +127,7 @@ namespace Utils
      * @tparam TTypeList
      * @tparam TCompare
      */
-    template <typename TTypeList, template <typename TType> typename TCompare>
+    template <typename TTypeList, typename TCompare>
     struct FindIfImpl_ <false, TTypeList, TCompare>
     {
       /**
@@ -143,13 +143,13 @@ namespace Utils
    * @tparam TTypeList
    * @tparam TCompare
    */
-  template <typename TTypeList, template <typename TType> typename TCompare>
+  template <typename TTypeList, typename TCompare>
   struct FindIf
   {
     /**
      * @brief
      */
-    using type = TypeOf <FindIfInternals_::FindIfImpl_ <ValueOf <TCompare <TypeOf <TTypeList>>>, TTypeList, TCompare>>;
+    using type = TypeOf <FindIfInternals_::FindIfImpl_ <ValueOf <TCompare, TypeOf <TTypeList>>, TTypeList, TCompare>>;
   };
 
 
@@ -157,7 +157,7 @@ namespace Utils
    * @brief
    * @tparam TCompare
    */
-  template <template <typename TType> typename TCompare>
+  template <typename TCompare>
   struct FindIf <Null, TCompare>
   {
     /**
@@ -170,7 +170,7 @@ namespace Utils
   /**
    * @brief
    */
-  template <typename TTypeList, template <typename TType> typename TCompare>
+  template <typename TTypeList, typename TCompare>
   using FindIfT = TypeOf <FindIf <TTypeList, TCompare>>;
 
 
@@ -179,7 +179,7 @@ namespace Utils
    * @tparam TTypeList
    * @tparam TCompare
    */
-  template <typename TTypeList, template <typename TType> typename TCompare>
+  template <typename TTypeList, typename TCompare>
   struct Has
   {
     /**
@@ -195,7 +195,7 @@ namespace Utils
    * @tparam TCompare
    * @return
    */
-  template <typename TTypeList, template <typename TType> typename TCompare>
+  template <typename TTypeList, typename TCompare>
   inline constexpr bool HasV (ValueOf <Has <TTypeList, TCompare>>);
 }
 
