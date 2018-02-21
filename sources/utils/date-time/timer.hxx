@@ -7,6 +7,7 @@
 #include "../config/timer.hxx" // Config::Utils::Timer::Default_description
 #include "../containers/c-string.hxx" // CString
 #include "../preproc/paste.hxx" // PASTE_E
+#include "../misc/bool-flag.hxx" // BoolFlag
 
 
 namespace Utils
@@ -32,6 +33,13 @@ namespace Utils
        * @brief
        */
       using self_type = Timer;
+
+
+    public:
+      /**
+       * @brief
+       */
+      using is_automatic_flag = BoolFlag <self_type>;
 
 
     public:
@@ -66,7 +74,7 @@ namespace Utils
        * @brief
        * @param is_automatic
        */
-      explicit Timer (bool is_automatic);
+      explicit Timer (is_automatic_flag is_automatic);
 
       /**
        * @brief
@@ -74,7 +82,7 @@ namespace Utils
        * @param is_automatic
        * @return
        */
-      explicit Timer (const CString & description, bool is_automatic);
+      explicit Timer (const CString & description, is_automatic_flag is_automatic);
 
       /**
        * @brief
@@ -205,7 +213,7 @@ namespace Utils
   /**
    * @brief
    */
-  #define TIMER_CREATE(id, description) ::Utils::Timer (PASTE_E (timer_, id)) ((description), false)
+  #define TIMER_CREATE(id, description) ::Utils::Timer (PASTE_E (timer_, id)) ((description), ::Utils::Timer::is_automatic_flag (false))
 
 
   /**

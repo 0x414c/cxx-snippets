@@ -9,7 +9,7 @@ namespace Utils
    * @tparam TTag
    */
   template <typename TTag>
-  class BoolFlag
+  class BoolFlag final
   {
     private:
       /**

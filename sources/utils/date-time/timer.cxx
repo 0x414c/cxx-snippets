@@ -5,6 +5,7 @@
 #include "../config/logger.hxx" // Config::Utils::Logger::Timer_prefix
 #include "../containers/c-string.hxx" // CString
 #include "../logging/logger.hxx" // Logger::log
+#include "../misc/bool-flag.hxx" // BoolFlag
 #include "format-duration.hxx" // formatDuration
 
 
@@ -23,14 +24,14 @@ namespace Utils
   }
 
 
-  Timer::Timer (bool is_automatic) :
+  Timer::Timer (is_automatic_flag is_automatic) :
     is_automatic_ (is_automatic)
   {
     initialize_ ();
   }
 
 
-  Timer::Timer (const CString & description, bool is_automatic) :
+  Timer::Timer (const CString & description, is_automatic_flag is_automatic) :
     description_ (description),
     is_automatic_ (is_automatic)
   {
