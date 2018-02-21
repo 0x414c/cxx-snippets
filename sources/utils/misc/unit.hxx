@@ -60,7 +60,7 @@ namespace Utils
        * @return
        */
       constexpr bool
-      operator == ( const self_type & that [[maybe_unused]]) const noexcept
+      operator == (const self_type & that [[maybe_unused]]) const noexcept
       {
         return true;
       }
@@ -72,7 +72,7 @@ namespace Utils
        * @return
        */
       constexpr bool
-      operator != (const self_type & that) const noexcept
+      operator != (const self_type & that [[maybe_unused]]) const noexcept
       {
         return !operator == (that);
       }
