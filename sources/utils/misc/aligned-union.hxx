@@ -1,54 +1,68 @@
-#ifndef UTILS_TYPETRAITS_ALIGNEDUNIONSTORAGEMANAGER_HXX
-#define UTILS_TYPETRAITS_ALIGNEDUNIONSTORAGEMANAGER_HXX
+#ifndef UTILS_MISC_ALIGNEDUNION_HXX
+#define UTILS_MISC_ALIGNEDUNION_HXX
 
 
 #include <memory> // std::addressof
-#include <type_traits> /* std::{conjunction_v, disjunction, enable_if_t, is_array, is_assignable_v, is_constructible_v,
-  is_nothrow_constructible_v, is_nothrow_assignable_v, is_reference, is_void, negation} */
+#include <type_traits> // std::*
 #include <utility> // std::forward
 
-#include "aligned-union-storage.hxx" // AlignedUnionStorageT
+#include "../meta/aligned-union-storage.hxx" // AlignedUnionStorageT
 
 
 namespace Utils
 {
+  namespace AlignedUnionInternals_
+  {
+    /**
+     * @brief
+     * @tparam TType
+     */
+    template <typename TType>
+    inline constexpr bool IsAllowedV_ (
+         std::is_object_v <TType>
+      && !std::is_array_v <TType>
+      && std::is_destructible_v <TType>
+    );
+  }
+
+
   /**
    * @brief Unsafe union-like class that holds static uninitialized storage and provides methods for constructing,
-   * accessing and destroying objects of different types in that storage.
+   *   accessing and destroying objects of different types in that storage.
    * NOTE: [2] Does not manage memory by itself and does not track types of active objects!
    * @tparam TTypes
    */
   template <typename ... TTypes>
-  class AlignedUnionStorageManager final
+  class AlignedUnion final
   {
-    static_assert (
-      std::conjunction_v <
-        std::negation <
-          std::disjunction <
-            std::is_function <TTypes>, std::is_reference <TTypes>, std::is_void <TTypes>, std::is_array <TTypes>
-          >
-        > ...
-      >
-    );
+    static_assert (sizeof ... (TTypes) > 0);
+    static_assert ((AlignedUnionInternals_::IsAllowedV_ <TTypes> && ...));
+
+
+    private:
+      /**
+       * @brief
+       */
+      using self_type = AlignedUnion;
 
 
     public:
       /**
        * @brief
        */
-      using self_type = AlignedUnionStorageManager;
-
-
-      /**
-       * @brief
-       */
-      constexpr AlignedUnionStorageManager (void) noexcept = default;
+      AlignedUnion (void) noexcept = default;
 
       /**
        * @brief
        * @param that
        */
-      constexpr AlignedUnionStorageManager (const self_type & that [[maybe_unused]]) noexcept = delete;
+      AlignedUnion (const self_type & that [[maybe_unused]]) noexcept = delete;
+
+      /**
+       * @brief
+       * @param that
+       */
+      AlignedUnion (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
       /**
@@ -60,6 +74,8 @@ namespace Utils
       const TType &
       get (void) const noexcept
       {
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
+
         return *get_ <TType> ();
       }
 
@@ -73,6 +89,8 @@ namespace Utils
       TType &
       get (void) noexcept
       {
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
+
         return *get_ <TType> ();
       }
 
@@ -91,6 +109,7 @@ namespace Utils
       construct (TArgs && ... args)
       noexcept (std::is_nothrow_constructible_v <TType, TArgs && ...>)
       {
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
         static_assert (std::is_constructible_v <TType, TArgs && ...>);
 
         return *construct_ <TType, TArgs ...> (get_ (), std::forward <TArgs> (args) ...);
@@ -109,6 +128,7 @@ namespace Utils
       assign (TArg && arg)
       noexcept (std::is_nothrow_assignable_v <TType &, TArg &&>)
       {
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
         static_assert (std::is_assignable_v <TType &, TArg &&>);
 
         get <TType> () = std::forward <TArg> (arg);
@@ -126,6 +146,8 @@ namespace Utils
       destroy (void)
       noexcept (std::is_nothrow_destructible_v <TType>)
       {
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
+
         destroy_ <TType> ();
       }
 
@@ -135,8 +157,16 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr self_type &
+      self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
+
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      self_type &
+      operator = (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
     private:
@@ -144,7 +174,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr const void *
+      const void *
       get_ (void) const noexcept
       {
         return std::addressof (storage_);
@@ -155,7 +185,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr void *
+      void *
       get_ (void) noexcept
       {
         return std::addressof (storage_);
@@ -168,10 +198,12 @@ namespace Utils
        * @return
        */
       template <typename TType>
-      constexpr const TType *
+      const TType *
       get_ (void) const noexcept
       {
-        return static_cast <const TType *> (get_ ());
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
+
+        return (const TType *) (get_ ());
       }
 
 
@@ -181,10 +213,12 @@ namespace Utils
        * @return
        */
       template <typename TType>
-      constexpr TType *
+      TType *
       get_ (void) noexcept
       {
-        return static_cast <TType *> (get_ ());
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
+
+        return (TType *) (get_ ());
       }
 
 
@@ -203,6 +237,7 @@ namespace Utils
       construct_ (void * address, TArgs && ... args)
       noexcept (std::is_nothrow_constructible_v <TType, TArgs && ...>)
       {
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
         static_assert (std::is_constructible_v <TType, TArgs && ...>);
 
         return ::new (address) (TType) (std::forward <TArgs> (args) ...);
@@ -218,7 +253,9 @@ namespace Utils
       destroy_ (void)
       noexcept (std::is_nothrow_destructible_v <TType>)
       {
-        get_ <TType> ()->~TType ();
+        static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
+
+        get_ <TType> ()->TType::~TType ();
       }
 
 
@@ -230,4 +267,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_TYPETRAITS_ALIGNEDUNIONSTORAGEMANAGER_HXX
+#endif // UTILS_MISC_ALIGNEDUNION_HXX
