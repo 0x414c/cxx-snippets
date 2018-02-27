@@ -20,7 +20,7 @@ namespace Utils
       /**
        * @brief
        */
-      constexpr Null (void) noexcept = delete;
+      explicit constexpr Null (void) noexcept = delete;
 
       /**
        * @brief
@@ -33,6 +33,11 @@ namespace Utils
        * @param that
        */
       constexpr Null (self_type && that [[maybe_unused]]) noexcept = delete;
+
+      /**
+       * @brief
+       */
+      ~Null (void) noexcept = delete;
 
       /**
        * @brief
