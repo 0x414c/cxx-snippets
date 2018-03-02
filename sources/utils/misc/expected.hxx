@@ -1577,7 +1577,6 @@ namespace Utils
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
           && !std::is_convertible_v <TThatResult &&, result_type>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, error_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>
@@ -1597,7 +1596,6 @@ namespace Utils
         typename TThatResult = result_type,
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, error_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>
@@ -2227,7 +2225,6 @@ namespace Utils
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
           && std::is_assignable_v <result_type &, TThatResult &&>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, error_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>
