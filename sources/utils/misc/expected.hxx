@@ -191,7 +191,10 @@ namespace Utils
     >
     union ResultOrError_ final
     {
-      static_assert (IsAllowedV_ <TResult> && IsAllowedV_ <TError>);
+      static_assert (
+           IsAllowedV_ <TResult>
+        && IsAllowedV_ <TError>
+      );
 
 
       public:
@@ -249,7 +252,10 @@ namespace Utils
     template <typename TResult, typename TError>
     union ResultOrError_ <TResult, TError, false>
     {
-      static_assert (IsAllowedV_ <TResult> && IsAllowedV_ <TError>);
+      static_assert (
+           IsAllowedV_ <TResult>
+        && IsAllowedV_ <TError>
+      );
 
 
       public:
@@ -321,7 +327,10 @@ namespace Utils
     >
     class ExpectedStorage_
     {
-      static_assert (IsAllowedV_ <TResult> && IsAllowedV_ <TError>);
+      static_assert (
+           IsAllowedV_ <TResult>
+        && IsAllowedV_ <TError>
+      );
 
 
       public:
@@ -575,7 +584,10 @@ namespace Utils
     template <typename TResult, typename TError>
     class ExpectedStorage_ <TResult, TError, false, true>
     {
-      static_assert (IsAllowedV_ <TResult> && IsAllowedV_ <TError>);
+      static_assert (
+           IsAllowedV_ <TResult>
+        && IsAllowedV_ <TError>
+      );
 
 
       public:
@@ -829,7 +841,10 @@ namespace Utils
     template <typename TResult, typename TError>
     class ExpectedStorage_ <TResult, TError, false, false>
     {
-      static_assert (IsAllowedV_ <TResult> && IsAllowedV_ <TError>);
+      static_assert (
+           IsAllowedV_ <TResult>
+        && IsAllowedV_ <TError>
+      );
 
 
       public:
@@ -1114,7 +1129,10 @@ namespace Utils
       private ExpectedStorage_ <TResult, TError>,
       private TSafetyPolicy
     {
-      static_assert (IsAllowedV_ <TResult> && IsAllowedV_ <TError>);
+      static_assert (
+           IsAllowedV_ <TResult>
+        && IsAllowedV_ <TError>
+      );
 
 
       public:
@@ -1137,6 +1155,8 @@ namespace Utils
         using storage_type::assign_;
 
         using storage_type::destroy_;
+
+        using storage_type::clear_;
 
         using safety_policy_type::wasChecked_;
 
@@ -1517,7 +1537,7 @@ namespace Utils
 
 
     private:
-      error_type error_;
+      error_type error_ { };
   };
 
 
@@ -1525,7 +1545,7 @@ namespace Utils
   Unexpected (TType) -> Unexpected <TType>;
 
 
-  template <typename TResult, typename TError, typename TSafetyPolicy = CheckedNoDiscardPolicy>
+  template <typename TResult, typename TError, typename TSafetyPolicy = UncheckedPolicy>
   class [[nodiscard]] Expected final :
     private ExpectedInternals_::ExpectedBase_ <TResult, TError, TSafetyPolicy>,
     private EnableCopyMove <
@@ -1538,7 +1558,10 @@ namespace Utils
       Expected <TResult, TError, TSafetyPolicy>
     >
   {
-    static_assert (ExpectedInternals_::IsAllowedV_ <TResult> && ExpectedInternals_::IsAllowedV_ <TError>);
+    static_assert (
+         ExpectedInternals_::IsAllowedV_ <TResult>
+      && ExpectedInternals_::IsAllowedV_ <TError>
+    );
 
 
     public:
@@ -2514,20 +2537,22 @@ namespace Utils
       constexpr const result_type &
       operator * (void) const & noexcept
       {
-        return base_type::result_Safe_ ();
+        return base_type::result_Checked_ ();
       }
 
 
       constexpr result_type &
       operator * (void) & noexcept
       {
-        return base_type::result_Safe_ ();
+        return base_type::result_Checked_ ();
       }
 
 
       constexpr const result_type &&
       operator * (void) const && noexcept
       {
+        base_type::wasChecked_ (true);
+
         return std::move (base_type::result_Safe_ ());
       }
 
@@ -2535,6 +2560,8 @@ namespace Utils
       constexpr result_type &&
       operator * (void) && noexcept
       {
+        base_type::wasChecked_ (true);
+
         return std::move (base_type::result_Safe_ ());
       }
 
