@@ -198,9 +198,9 @@ namespace Utils
 
 
       public:
-        using result_type = TResult;
+        using result_type = std::remove_const_t <TResult>;
 
-        using error_type = TError;
+        using error_type = std::remove_const_t <TError>;
 
 
       private:
@@ -259,9 +259,9 @@ namespace Utils
 
 
       public:
-        using result_type = TResult;
+        using result_type = std::remove_const_t <TResult>;
 
-        using error_type = TError;
+        using error_type = std::remove_const_t <TError>;
 
 
       private:
@@ -314,18 +314,8 @@ namespace Utils
     };
 
 
-    template <
-      typename TResult, typename TError,
-      bool TIsTriviallyAssignable =
-           std::is_trivially_copy_assignable_v <TResult>
-        && std::is_trivially_move_assignable_v <TResult>
-        && std::is_trivially_copy_assignable_v <TError>
-        && std::is_trivially_move_assignable_v <TError>,
-      bool TIsTriviallyDestructible =
-           std::is_trivially_destructible_v <TResult>
-        && std::is_trivially_destructible_v <TError>
-    >
-    class ExpectedStorage_
+    template <typename TResult, typename TError, typename TDerived>
+    class ExpectedStorageBase_
     {
       static_assert (
            IsAllowedV_ <TResult>
@@ -338,16 +328,18 @@ namespace Utils
 
         using error_type = TError;
 
+        using derived_type = TDerived;
+
 
       private:
-        using self_type = ExpectedStorage_;
+        using self_type = ExpectedStorageBase_;
 
 
       public:
-        constexpr ExpectedStorage_ (void) noexcept = default;
+        constexpr ExpectedStorageBase_ (void) noexcept = default;
 
 
-        constexpr ExpectedStorage_ (const self_type & that)
+        constexpr ExpectedStorageBase_ (const self_type & that)
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
@@ -356,16 +348,16 @@ namespace Utils
         {
           if (that.isResult_ ())
           {
-            construct_ (Result, that.get_ (Result));
+            ((derived_type *) (this))->construct_ (Result, that.get_ (Result));
           }
           else
           {
-            construct_ (Error, that.get_ (Error));
+            ((derived_type *) (this))->construct_ (Error, that.get_ (Error));
           }
         }
 
 
-        constexpr ExpectedStorage_ (self_type && that)
+        constexpr ExpectedStorageBase_ (self_type && that)
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
@@ -374,17 +366,17 @@ namespace Utils
         {
           if (that.isResult_ ())
           {
-            construct_ (Result, std::move (that.get_ (Result)));
+            ((derived_type *) (this))->construct_ (Result, std::move (that.get_ (Result)));
           }
           else
           {
-            construct_ (Error, std::move (that.get_ (Error)));
+            ((derived_type *) (this))->construct_ (Error, std::move (that.get_ (Error)));
           }
         }
 
 
         template <typename ... TArgs>
-        constexpr ExpectedStorage_ (ResultTag, TArgs && ... args)
+        constexpr ExpectedStorageBase_ (ResultTag, TArgs && ... args)
         noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
           is_result_ (true),
           result_or_error_ (Result, std::forward <TArgs> (args) ...)
@@ -392,7 +384,7 @@ namespace Utils
 
 
         template <typename ... TArgs>
-        constexpr ExpectedStorage_ (ErrorTag, TArgs && ... args)
+        constexpr ExpectedStorageBase_ (ErrorTag, TArgs && ... args)
         noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
           is_result_ (false),
           result_or_error_ (Error, std::forward <TArgs> (args) ...)
@@ -445,18 +437,18 @@ namespace Utils
         template <typename TThatResult>
         constexpr void
         construct_ (ResultTag, TThatResult && that_result)
-        noexcept (std::is_nothrow_assignable_v <result_type &, TThatResult &&>)
+        noexcept (std::is_nothrow_constructible_v <result_type &, TThatResult &&>)
         {
-          get_ (Result) = std::forward <TThatResult> (that_result);
+          result_or_error_.result = std::forward <TThatResult> (that_result);
         }
 
 
         template <typename TThatError>
         constexpr void
         construct_ (ErrorTag, TThatError && that_error)
-        noexcept (std::is_nothrow_assignable_v <error_type &, TThatError &&>)
+        noexcept (std::is_nothrow_constructible_v <error_type &, TThatError &&>)
         {
-          get_ (Error) = std::forward <TThatError> (that_error);
+          result_or_error_.error = std::forward <TThatError> (that_error);
         }
 
 
@@ -506,24 +498,24 @@ namespace Utils
             {
               if (that.isResult_ ())
               {
-                assign_ (Result, that.get_ (Result));
+                ((derived_type *) (this))->assign_ (Result, that.get_ (Result));
               }
               else
               {
-                destroy_ (Result);
-                construct_ (Error, that.get_ (Error));
+                ((derived_type *) (this))->destroy_ (Result);
+                ((derived_type *) (this))->construct_ (Error, that.get_ (Error));
               }
             }
             else
             {
               if (that.isResult_ ())
               {
-                destroy_ (Error);
-                construct_ (Result, that.get_ (Result));
+                ((derived_type *) (this))->destroy_ (Error);
+                ((derived_type *) (this))->construct_ (Result, that.get_ (Result));
               }
               else
               {
-                assign_ (Error, that.get_ (Error));
+                ((derived_type *) (this))->assign_ (Error, that.get_ (Error));
               }
             }
 
@@ -546,24 +538,24 @@ namespace Utils
             {
               if (that.isResult_ ())
               {
-                assign_ (Result, std::move (that.get_ (Result)));
+                ((derived_type *) (this))->assign_ (Result, std::move (that.get_ (Result)));
               }
               else
               {
-                destroy_ (Result);
-                construct_ (Error, std::move (that.get_ (Error)));
+                ((derived_type *) (this))->destroy_ (Result);
+                ((derived_type *) (this))->construct_ (Error, std::move (that.get_ (Error)));
               }
             }
             else
             {
               if (that.isResult_ ())
               {
-                destroy_ (Error);
-                construct_ (Result, std::move (that.get_ (Result)));
+                ((derived_type *) (this))->destroy_ (Error);
+                ((derived_type *) (this))->construct_ (Result, std::move (that.get_ (Result)));
               }
               else
               {
-                assign_ (Error, std::move (that.get_ (Error)));
+                ((derived_type *) (this))->assign_ (Error, std::move (that.get_ (Error)));
               }
             }
 
@@ -581,8 +573,22 @@ namespace Utils
     };
 
 
-    template <typename TResult, typename TError>
-    class ExpectedStorage_ <TResult, TError, false, true>
+    template <
+      typename TResult, typename TError,
+      bool TIsTriviallyAssignable =
+           std::is_trivially_copy_assignable_v <TResult>
+        && std::is_trivially_move_assignable_v <TResult>
+        && std::is_trivially_copy_assignable_v <TError>
+        && std::is_trivially_move_assignable_v <TError>,
+      bool TIsTriviallyDestructible =
+           std::is_trivially_destructible_v <TResult>
+        && std::is_trivially_destructible_v <TError>
+    >
+    class ExpectedStorage_ :
+      private ExpectedStorageBase_ <
+        TResult, TError,
+        ExpectedStorage_ <TResult, TError, TIsTriviallyAssignable, TIsTriviallyDestructible>
+      >
     {
       static_assert (
            IsAllowedV_ <TResult>
@@ -599,104 +605,140 @@ namespace Utils
       private:
         using self_type = ExpectedStorage_;
 
+        using base_type = ExpectedStorageBase_ <result_type, error_type, self_type>;
+
+        friend base_type;
+
+
+      public:
+        constexpr ExpectedStorage_ (void) noexcept = default;
+
+        constexpr ExpectedStorage_ (const self_type & that [[maybe_unused]])
+        //noexcept (std::is_nothrow_copy_constructible_v <base_type>) =
+        noexcept (
+             std::is_nothrow_copy_constructible_v <result_type>
+          && std::is_nothrow_copy_constructible_v <error_type>
+        ) =
+        default;
+
+        constexpr ExpectedStorage_ (self_type && that [[maybe_unused]])
+        //noexcept (std::is_nothrow_move_constructible_v <base_type>) =
+        noexcept (
+             std::is_nothrow_move_constructible_v <result_type>
+          && std::is_nothrow_move_constructible_v <error_type>
+        ) =
+        default;
+
+
+        template <typename ... TArgs>
+        constexpr ExpectedStorage_ (ResultTag, TArgs && ... args)
+        noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TArgs && ...>) :
+          base_type (Result, std::forward <TArgs> (args) ...)
+        { }
+
+
+        template <typename ... TArgs>
+        constexpr ExpectedStorage_ (ErrorTag, TArgs && ... args)
+        noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TArgs && ...>) :
+          base_type (Error, std::forward <TArgs> (args) ...)
+        { }
+
+
+      protected:
+        using base_type::isResult_;
+
+        using base_type::get_;
+
+        using base_type::construct_;
+
+        using base_type::assign_;
+
+        using base_type::destroy_;
+
+        using base_type::clear_;
+
+
+      public:
+        self_type &
+        operator = (const self_type & that)
+        noexcept (std::is_nothrow_copy_assignable_v <base_type>) =
+        default;
+
+        self_type &
+        operator = (self_type && that)
+        noexcept (std::is_nothrow_move_assignable_v <base_type>) =
+        default;
+    };
+
+
+    template <typename TResult, typename TError>
+    class ExpectedStorage_ <TResult, TError, false, true> :
+      private ExpectedStorageBase_ <TResult, TError, ExpectedStorage_ <TResult, TError, false, true>>
+    {
+      static_assert (
+           IsAllowedV_ <TResult>
+        && IsAllowedV_ <TError>
+      );
+
+
+      public:
+        using result_type = TResult;
+
+        using error_type = TError;
+
+
+      private:
+        using self_type = ExpectedStorage_;
+
+        using base_type = ExpectedStorageBase_ <result_type, error_type, self_type>;
+
+        friend base_type;
+
 
       public:
         ExpectedStorage_ (void) noexcept = default;
 
-
-        ExpectedStorage_ (const self_type & that)
+        ExpectedStorage_ (const self_type & that [[maybe_unused]])
+        //noexcept (std::is_nothrow_copy_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
-        ) :
-          is_result_ (that.isResult_ ())
-        {
-          if (that.isResult_ ())
-          {
-            construct_ (Result, that.get_ (Result));
-          }
-          else
-          {
-            construct_ (Error, that.get_ (Error));
-          }
-        }
+        ) =
+        default;
 
-
-        ExpectedStorage_ (self_type && that)
+        ExpectedStorage_ (self_type && that [[maybe_unused]])
+        //noexcept (std::is_nothrow_move_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
-        ) :
-          is_result_ (that.isResult_ ())
-        {
-          if (that.isResult_ ())
-          {
-            construct_ (Result, std::move (that.get_ (Result)));
-          }
-          else
-          {
-            construct_ (Error, std::move (that.get_ (Error)));
-          }
-        }
+        ) =
+        default;
 
 
         template <typename ... TArgs>
         ExpectedStorage_ (ResultTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
-          is_result_ (true),
-          result_or_error_ (Result, std::forward <TArgs> (args) ...)
+        noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TArgs && ...>) :
+          base_type (Result, std::forward <TArgs> (args) ...)
         { }
 
 
         template <typename ... TArgs>
         ExpectedStorage_ (ErrorTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
-          is_result_ (false),
-          result_or_error_ (Error, std::forward <TArgs> (args) ...)
+        noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TArgs && ...>) :
+          base_type (Error, std::forward <TArgs> (args) ...)
         { }
 
 
       protected:
-        [[nodiscard]] bool
-        isResult_ (void) const noexcept
-        {
-          return is_result_;
-        }
+        using base_type::isResult_;
 
+        using base_type::get_;
 
-        void
-        isResult_ (bool is_result) noexcept
-        {
-          is_result_ = is_result;
-        }
+        using base_type::assign_;
 
+        using base_type::destroy_;
 
-        const result_type &
-        get_ (ResultTag) const noexcept
-        {
-          return result_or_error_.result;
-        }
-
-
-        result_type &
-        get_ (ResultTag) noexcept
-        {
-          return result_or_error_.result;
-        }
-
-
-        const error_type &
-        get_ (ErrorTag) const noexcept
-        {
-          return result_or_error_.error;
-        }
-
-
-        error_type &
-        get_ (ErrorTag) noexcept
-        {
-          return result_or_error_.error;
-        }
+        using base_type::clear_;
 
 
         template <typename TThatResult>
@@ -717,129 +759,22 @@ namespace Utils
         }
 
 
-        template <typename TThatResult>
-        void
-        assign_ (ResultTag, TThatResult && that_result)
-        noexcept (std::is_nothrow_assignable_v <result_type &, TThatResult &&>)
-        {
-          get_ (Result) = std::forward <TThatResult> (that_result);
-        }
-
-
-        template <typename TThatError>
-        void
-        assign_ (ErrorTag, TThatError && that_error)
-        noexcept (std::is_nothrow_assignable_v <error_type &, TThatError &&>)
-        {
-          get_ (Error) = std::forward <TThatError> (that_error);
-        }
-
-
-        void
-        destroy_ (ResultTag) noexcept
-        { }
-
-
-        void
-        destroy_ (ErrorTag) noexcept
-        { }
-
-
-        void
-        clear_ (void) noexcept
-        { }
-
-
       public:
         self_type &
-        operator = (const self_type & that) noexcept (
-             std::is_nothrow_copy_assignable_v <result_type>
-          && std::is_nothrow_copy_assignable_v <error_type>
-        )
-        {
-          if (this != &that)
-          {
-            if (isResult_ ())
-            {
-              if (that.isResult_ ())
-              {
-                assign_ (Result, that.get_ (Result));
-              }
-              else
-              {
-                destroy_ (Result);
-                construct_ (Error, that.get_ (Error));
-              }
-            }
-            else
-            {
-              if (that.isResult_ ())
-              {
-                destroy_ (Error);
-                construct_ (Result, that.get_ (Result));
-              }
-              else
-              {
-                assign_ (Error, that.get_ (Error));
-              }
-            }
-
-            isResult_ (that.isResult_ ());
-          }
-
-          return *this;
-        }
-
+        operator = (const self_type & that)
+        noexcept (std::is_nothrow_copy_assignable_v <base_type>) =
+        default;
 
         self_type &
-        operator = (self_type && that) noexcept (
-             std::is_nothrow_move_assignable_v <result_type>
-          && std::is_nothrow_move_assignable_v <error_type>
-        )
-        {
-          if (this != &that)
-          {
-            if (isResult_ ())
-            {
-              if (that.isResult_ ())
-              {
-                assign_ (Result, std::move (that.get_ (Result)));
-              }
-              else
-              {
-                destroy_ (Result);
-                construct_ (Error, std::move (that.get_ (Error)));
-              }
-            }
-            else
-            {
-              if (that.isResult_ ())
-              {
-                destroy_ (Error);
-                construct_ (Result, std::move (that.get_ (Result)));
-              }
-              else
-              {
-                assign_ (Error, std::move (that.get_ (Error)));
-              }
-            }
-
-            isResult_ (that.isResult_ ());
-          }
-
-          return *this;
-        }
-
-
-      private:
-        bool is_result_ { };
-
-        ResultOrError_ <result_type, error_type> result_or_error_ { };
+        operator = (self_type && that)
+        noexcept (std::is_nothrow_move_assignable_v <base_type>) =
+        default;
     };
 
 
     template <typename TResult, typename TError>
-    class ExpectedStorage_ <TResult, TError, false, false>
+    class ExpectedStorage_ <TResult, TError, false, false> :
+      private ExpectedStorageBase_ <TResult, TError, ExpectedStorage_ <TResult, TError, false, false>>
     {
       static_assert (
            IsAllowedV_ <TResult>
@@ -856,60 +791,42 @@ namespace Utils
       private:
         using self_type = ExpectedStorage_;
 
+        using base_type = ExpectedStorageBase_ <result_type, error_type, self_type>;
+
+        friend base_type;
+
 
       public:
         ExpectedStorage_ (void) noexcept = default;
 
-
-        ExpectedStorage_ (const self_type & that)
+        ExpectedStorage_ (const self_type & that [[maybe_unused]])
+        //noexcept (std::is_nothrow_copy_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
-        ) :
-          is_result_ (that.isResult_ ())
-        {
-          if (that.isResult_ ())
-          {
-            construct_ (Result, that.get_ (Result));
-          }
-          else
-          {
-            construct_ (Error, that.get_ (Error));
-          }
-        }
+        ) =
+        default;
 
-
-        ExpectedStorage_ (self_type && that)
+        ExpectedStorage_ (self_type && that [[maybe_unused]])
+        //noexcept (std::is_nothrow_move_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
-        ) :
-          is_result_ (that.isResult_ ())
-        {
-          if (that.isResult_ ())
-          {
-            construct_ (Result, std::move (that.get_ (Result)));
-          }
-          else
-          {
-            construct_ (Error, std::move (that.get_ (Error)));
-          }
-        }
+        ) =
+        default;
 
 
         template <typename ... TArgs>
         ExpectedStorage_ (ResultTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
-          is_result_ (true),
-          result_or_error_ (Result, std::forward <TArgs> (args) ...)
+        noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TArgs && ...>) :
+          base_type (Result, std::forward <TArgs> (args) ...)
         { }
 
 
         template <typename ... TArgs>
         ExpectedStorage_ (ErrorTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
-          is_result_ (false),
-          result_or_error_ (Error, std::forward <TArgs> (args) ...)
+        noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TArgs && ...>) :
+          base_type (Error, std::forward <TArgs> (args) ...)
         { }
 
 
@@ -924,46 +841,11 @@ namespace Utils
 
 
       protected:
-        [[nodiscard]] bool
-        isResult_ (void) const noexcept
-        {
-          return is_result_;
-        }
+        using base_type::isResult_;
 
+        using base_type::get_;
 
-        void
-        isResult_ (bool is_result) noexcept
-        {
-          is_result_ = is_result;
-        }
-
-
-        const result_type &
-        get_ (ResultTag) const noexcept
-        {
-          return result_or_error_.result;
-        }
-
-
-        result_type &
-        get_ (ResultTag) noexcept
-        {
-          return result_or_error_.result;
-        }
-
-
-        const error_type &
-        get_ (ErrorTag) const noexcept
-        {
-          return result_or_error_.error;
-        }
-
-
-        error_type &
-        get_ (ErrorTag) noexcept
-        {
-          return result_or_error_.error;
-        }
+        using base_type::assign_;
 
 
         template <typename TThatResult>
@@ -981,24 +863,6 @@ namespace Utils
         noexcept (std::is_nothrow_constructible_v <error_type &, TThatError &&>)
         {
           ::new ((void *) (std::addressof (get_ (Error)))) (error_type) (std::forward <TThatError> (that_error));
-        }
-
-
-        template <typename TThatResult>
-        void
-        assign_ (ResultTag, TThatResult && that_result)
-        noexcept (std::is_nothrow_assignable_v <result_type &, TThatResult &&>)
-        {
-          get_ (Result) = std::forward <TThatResult> (that_result);
-        }
-
-
-        template <typename TThatError>
-        void
-        assign_ (ErrorTag, TThatError && that_error)
-        noexcept (std::is_nothrow_assignable_v <error_type &, TThatError &&>)
-        {
-          get_ (Error) = std::forward <TThatError> (that_error);
         }
 
 
@@ -1038,89 +902,14 @@ namespace Utils
 
       public:
         self_type &
-        operator = (const self_type & that) noexcept (
-             std::is_nothrow_copy_assignable_v <result_type>
-          && std::is_nothrow_copy_assignable_v <error_type>
-        )
-        {
-          if (this != &that)
-          {
-            if (isResult_ ())
-            {
-              if (that.isResult_ ())
-              {
-                assign_ (Result, that.get_ (Result));
-              }
-              else
-              {
-                destroy_ (Result);
-                construct_ (Error, that.get_ (Error));
-              }
-            }
-            else
-            {
-              if (that.isResult_ ())
-              {
-                destroy_ (Error);
-                construct_ (Result, that.get_ (Result));
-              }
-              else
-              {
-                assign_ (Error, that.get_ (Error));
-              }
-            }
-
-            isResult_ (that.isResult_ ());
-          }
-
-          return *this;
-        }
-
+        operator = (const self_type & that)
+        noexcept (std::is_nothrow_copy_assignable_v <base_type>) =
+        default;
 
         self_type &
-        operator = (self_type && that) noexcept (
-             std::is_nothrow_move_assignable_v <result_type>
-          && std::is_nothrow_move_assignable_v <error_type>
-        )
-        {
-          if (this != &that)
-          {
-            if (isResult_ ())
-            {
-              if (that.isResult_ ())
-              {
-                assign_ (Result, std::move (that.get_ (Result)));
-              }
-              else
-              {
-                destroy_ (Result);
-                construct_ (Error, std::move (that.get_ (Error)));
-              }
-            }
-            else
-            {
-              if (that.isResult_ ())
-              {
-                destroy_ (Error);
-                construct_ (Result, std::move (that.get_ (Result)));
-              }
-              else
-              {
-                assign_ (Error, std::move (that.get_ (Error)));
-              }
-            }
-
-            isResult_ (that.isResult_ ());
-          }
-
-          return *this;
-        }
-
-
-      private:
-        bool is_result_ { };
-
-        ResultOrError_ <result_type, error_type> result_or_error_ { };
+        operator = (self_type && that)
+        noexcept (std::is_nothrow_move_assignable_v <base_type>) =
+        default;
     };
 
 
