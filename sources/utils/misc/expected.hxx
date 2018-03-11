@@ -16,82 +16,153 @@
 
 namespace Utils
 {
+  /**
+   * @brief
+   */
   struct ResultTag
   {
+    /**
+     * @brief
+     */
     explicit constexpr ResultTag (void) noexcept = default;
   };
 
 
+  /**
+   * @brief
+   */
   inline constexpr ResultTag Result;
 
 
+  /**
+   * @brief
+   */
   struct ErrorTag
   {
     explicit constexpr ErrorTag (void) noexcept = default;
   };
 
 
+  /**
+   * @brief
+   */
   inline constexpr ErrorTag Error;
 
 
+  /**
+   * @brief
+   */
   class UncheckedPolicy
   {
     private:
+      /**
+       * @brief
+       */
       using self_type = UncheckedPolicy;
 
 
     public:
+      /**
+       * @brief
+       */
       constexpr UncheckedPolicy (void) noexcept = default;
 
+      /**
+       * @brief
+       * @param that
+       */
       constexpr UncheckedPolicy (const self_type & that [[maybe_unused]]) noexcept = default;
 
+      /**
+       * @brief
+       * @param that
+       */
       constexpr UncheckedPolicy (self_type && that [[maybe_unused]]) noexcept = default;
 
 
     protected:
-      constexpr bool
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr bool
       wasChecked_ (void) const noexcept
       {
         return true;
       }
 
 
+      /**
+       * @brief
+       * @param was_checked
+       * @return
+       */
       constexpr void
       wasChecked_ (bool was_checked [[maybe_unused]]) const noexcept
       { }
 
 
     public:
-      self_type &
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
       operator = (const self_type & that [[maybe_unused]]) noexcept = default;
 
-      self_type &
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
       operator = (self_type && that [[maybe_unused]]) noexcept = default;
   };
 
 
+  /**
+   * @brief
+   */
   class CheckedNoDiscardPolicy
   {
     private:
+      /**
+       * @brief
+       */
       using self_type = CheckedNoDiscardPolicy;
 
 
     public:
+      /**
+       * @brief
+       */
       CheckedNoDiscardPolicy (void) noexcept = default;
 
 
+      /**
+       * @brief
+       * @param that
+       */
       CheckedNoDiscardPolicy (const self_type & that) noexcept
       {
         that.wasChecked_ (true);
       }
 
 
+      /**
+       * @brief
+       * @param that
+       */
       CheckedNoDiscardPolicy (self_type && that) noexcept
       {
         that.wasChecked_ (true);
       }
 
 
+      /**
+       * @brief
+       */
       ~CheckedNoDiscardPolicy (void) noexcept
       {
         if (!wasChecked_ ())
@@ -102,13 +173,21 @@ namespace Utils
 
 
     protected:
-      bool
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] bool
       wasChecked_ (void) const noexcept
       {
         return was_checked_;
       }
 
 
+      /**
+       * @brief
+       * @param was_checked
+       */
       void
       wasChecked_ (bool was_checked) const noexcept
       {
@@ -117,6 +196,11 @@ namespace Utils
 
 
     public:
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
       self_type &
       operator = (const self_type & that) noexcept
       {
@@ -130,6 +214,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
       self_type &
       operator = (self_type && that) noexcept
       {
@@ -144,12 +233,19 @@ namespace Utils
 
 
     private:
+      /**
+       * @brief
+       */
       mutable bool was_checked_ { false };
   };
 
 
   namespace ExpectedInternals_
   {
+    /**
+     * @brief
+     * @tparam TType
+     */
     template <typename TType>
     inline constexpr bool IsAllowedV_ (
          std::is_object_v <TType>
@@ -160,34 +256,61 @@ namespace Utils
     );
 
 
+    /**
+     * @brief
+     */
     struct Dummy_ final
     {
       private:
+        /**
+         * @brief
+         */
         using self_type = Dummy_;
 
 
       public:
+        /**
+         * @brief
+         */
         constexpr Dummy_ (void) noexcept = default;
 
+        /**
+         * @brief
+         */
         constexpr Dummy_ (const self_type &) noexcept = delete;
 
+        /**
+         * @brief
+         */
         constexpr Dummy_ (self_type &&) noexcept = delete;
 
-        Dummy_ &
+        /**
+         * @brief
+         * @return
+         */
+        constexpr Dummy_ &
         operator = (const self_type &) noexcept = delete;
 
-        Dummy_ &
+        /**
+         * @brief
+         * @return
+         */
+        constexpr Dummy_ &
         operator = (self_type &&) noexcept = delete;
     };
 
 
+    /**
+     * @brief
+     * @tparam TResult
+     * @tparam TError
+     * @tparam TIsTriviallyDestructible
+     */
     template <
       typename TResult, typename TError,
-      bool TIsTriviallyAssignable =
-           std::is_trivially_copy_assignable_v <TResult>
-        && std::is_trivially_move_assignable_v <TResult>
-        && std::is_trivially_copy_assignable_v <TError>
-        && std::is_trivially_move_assignable_v <TError>
+      bool TIsTriviallyDestructible =
+           std::is_trivially_destructible_v <TResult>
+        && std::is_trivially_destructible_v <TError>
     >
     union ResultOrError_ final
     {
@@ -198,25 +321,50 @@ namespace Utils
 
 
       public:
+        /**
+         * @brief
+         */
         using result_type = std::remove_const_t <TResult>;
 
+        /**
+         * @brief
+         */
         using error_type = std::remove_const_t <TError>;
 
 
       private:
+        /**
+         * @brief
+         */
         using self_type = ResultOrError_;
 
 
       public:
+        /**
+         * @brief
+         */
         constexpr ResultOrError_ (void) noexcept
         { }
 
 
+        /**
+         * @brief
+         * @param that
+         */
         constexpr ResultOrError_ (const self_type & that [[maybe_unused]]) noexcept = delete;
 
+        /**
+         * @brief
+         * @param that
+         */
         constexpr ResultOrError_ (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         constexpr ResultOrError_ (ResultTag, TArgs && ... args)
         noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
@@ -224,6 +372,11 @@ namespace Utils
         { }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         constexpr ResultOrError_ (ErrorTag, TArgs && ... args)
         noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
@@ -231,24 +384,48 @@ namespace Utils
         { }
 
 
-        self_type &
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
+        constexpr self_type &
         operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
 
-        self_type &
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
+        constexpr self_type &
         operator = (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
       private:
-        Dummy_ dummy_ { };
+        /**
+         * @brief
+         */
+        Dummy_ dummy_;
 
 
       public:
+        /**
+         * @brief
+         */
         result_type result;
 
+        /**
+         * @brief
+         */
         error_type error;
     };
 
 
+    /**
+     * @brief
+     * @tparam TResult
+     * @tparam TError
+     */
     template <typename TResult, typename TError>
     union ResultOrError_ <TResult, TError, false>
     {
@@ -259,29 +436,57 @@ namespace Utils
 
 
       public:
+        /**
+         * @brief
+         */
         using result_type = std::remove_const_t <TResult>;
 
+        /**
+         * @brief
+         */
         using error_type = std::remove_const_t <TError>;
 
 
       private:
+        /**
+         * @brief
+         */
         using self_type = ResultOrError_;
 
 
       public:
+        /**
+         * @brief
+         */
         ResultOrError_ (void) noexcept
         { };
 
 
+        /**
+         * @brief
+         * @param that
+         */
         ResultOrError_ (const self_type & that [[maybe_unused]]) noexcept = delete;
 
+        /**
+         * @brief
+         * @param that
+         */
         ResultOrError_ (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
+        /**
+         * @brief
+         */
         ~ResultOrError_ (void) noexcept
         { }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         ResultOrError_ (ResultTag, TArgs && ... args)
         noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
@@ -289,6 +494,11 @@ namespace Utils
         { }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         ResultOrError_ (ErrorTag, TArgs && ... args)
         noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
@@ -296,24 +506,49 @@ namespace Utils
         { }
 
 
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
         self_type &
         operator = (const self_type & that [[maybe_unused]]) noexcept = delete;
 
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
         self_type &
         operator = (self_type && that [[maybe_unused]]) noexcept = delete;
 
 
       private:
-        Dummy_ dummy_ { };
+        /**
+         * @brief
+         */
+        Dummy_ dummy_;
 
 
       public:
+        /**
+         * @brief
+         */
         result_type result;
 
+        /**
+         * @brief
+         */
         error_type error;
     };
 
 
+    /**
+     * @brief
+     * @tparam TResult
+     * @tparam TError
+     * @tparam TDerived
+     */
     template <typename TResult, typename TError, typename TDerived>
     class ExpectedStorageBase_
     {
@@ -324,21 +559,40 @@ namespace Utils
 
 
       public:
+        /**
+         * @brief
+         */
         using result_type = TResult;
 
+        /**
+         * @brief
+         */
         using error_type = TError;
 
+        /**
+         * @brief
+         */
         using derived_type = TDerived;
 
 
       private:
+        /**
+         * @brief
+         */
         using self_type = ExpectedStorageBase_;
 
 
       public:
+        /**
+         * @brief
+         */
         constexpr ExpectedStorageBase_ (void) noexcept = default;
 
 
+        /**
+         * @brief
+         * @param that
+         */
         constexpr ExpectedStorageBase_ (const self_type & that)
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
@@ -348,15 +602,19 @@ namespace Utils
         {
           if (that.isResult_ ())
           {
-            ((derived_type *) (this))->construct_ (Result, that.get_ (Result));
+            derived_ ()->construct_ (Result, that.get_ (Result));
           }
           else
           {
-            ((derived_type *) (this))->construct_ (Error, that.get_ (Error));
+            derived_ ()->construct_ (Error, that.get_ (Error));
           }
         }
 
 
+        /**
+         * @brief
+         * @param that
+         */
         constexpr ExpectedStorageBase_ (self_type && that)
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
@@ -366,15 +624,20 @@ namespace Utils
         {
           if (that.isResult_ ())
           {
-            ((derived_type *) (this))->construct_ (Result, std::move (that.get_ (Result)));
+            derived_ ()->construct_ (Result, std::move (that.get_ (Result)));
           }
           else
           {
-            ((derived_type *) (this))->construct_ (Error, std::move (that.get_ (Error)));
+            derived_ ()->construct_ (Error, std::move (that.get_ (Error)));
           }
         }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         constexpr ExpectedStorageBase_ (ResultTag, TArgs && ... args)
         noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
@@ -383,6 +646,11 @@ namespace Utils
         { }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         constexpr ExpectedStorageBase_ (ErrorTag, TArgs && ... args)
         noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
@@ -392,6 +660,10 @@ namespace Utils
 
 
       protected:
+        /**
+         * @brief
+         * @return
+         */
         [[nodiscard]] constexpr bool
         isResult_ (void) const noexcept
         {
@@ -399,6 +671,11 @@ namespace Utils
         }
 
 
+        /**
+         * @brief
+         * @param is_result
+         * @return
+         */
         constexpr void
         isResult_ (bool is_result) noexcept
         {
@@ -406,52 +683,86 @@ namespace Utils
         }
 
 
-        constexpr const result_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const result_type &
         get_ (ResultTag) const noexcept
         {
           return result_or_error_.result;
         }
 
 
-        constexpr result_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr result_type &
         get_ (ResultTag) noexcept
         {
           return result_or_error_.result;
         }
 
 
-        constexpr const error_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const error_type &
         get_ (ErrorTag) const noexcept
         {
           return result_or_error_.error;
         }
 
 
-        constexpr error_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr error_type &
         get_ (ErrorTag) noexcept
         {
           return result_or_error_.error;
         }
 
 
+        /**
+         * @brief
+         * @tparam TThatResult
+         * @param that_result
+         * @return
+         */
         template <typename TThatResult>
         constexpr void
         construct_ (ResultTag, TThatResult && that_result)
-        noexcept (std::is_nothrow_constructible_v <result_type &, TThatResult &&>)
+        noexcept (std::is_nothrow_constructible_v <result_type, TThatResult &&>)
         {
-          result_or_error_.result = std::forward <TThatResult> (that_result);
+          get_ (Result) = std::forward <TThatResult> (that_result);
         }
 
 
+        /**
+         * @brief
+         * @tparam TThatError
+         * @param that_error
+         * @return
+         */
         template <typename TThatError>
         constexpr void
         construct_ (ErrorTag, TThatError && that_error)
-        noexcept (std::is_nothrow_constructible_v <error_type &, TThatError &&>)
+        noexcept (std::is_nothrow_constructible_v <error_type, TThatError &&>)
         {
-          result_or_error_.error = std::forward <TThatError> (that_error);
+          get_ (Error) = std::forward <TThatError> (that_error);
         }
 
 
+        /**
+         * @brief
+         * @tparam TThatResult
+         * @param that_result
+         * @return
+         */
         template <typename TThatResult>
         constexpr void
         assign_ (ResultTag, TThatResult && that_result)
@@ -461,6 +772,12 @@ namespace Utils
         }
 
 
+        /**
+         * @brief
+         * @tparam TThatError
+         * @param that_error
+         * @return
+         */
         template <typename TThatError>
         constexpr void
         assign_ (ErrorTag, TThatError && that_error)
@@ -470,26 +787,47 @@ namespace Utils
         }
 
 
+        /**
+         * @brief
+         * @return
+         */
         constexpr void
         destroy_ (ResultTag) noexcept
         { }
 
 
+        /**
+         * @brief
+         * @return
+         */
         constexpr void
         destroy_ (ErrorTag) noexcept
         { }
 
 
+        /**
+         * @brief
+         * @return
+         */
         constexpr void
         clear_ (void) noexcept
         { }
 
 
       public:
-        self_type &
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
+        constexpr self_type &
         operator = (const self_type & that) noexcept (
              std::is_nothrow_copy_assignable_v <result_type>
+          && std::is_nothrow_destructible_v <result_type>
+          && std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_assignable_v <error_type>
+          && std::is_nothrow_destructible_v <error_type>
+          && std::is_nothrow_copy_constructible_v <error_type>
         )
         {
           if (this != &that)
@@ -498,24 +836,24 @@ namespace Utils
             {
               if (that.isResult_ ())
               {
-                ((derived_type *) (this))->assign_ (Result, that.get_ (Result));
+                derived_ ()->assign_ (Result, that.get_ (Result));
               }
               else
               {
-                ((derived_type *) (this))->destroy_ (Result);
-                ((derived_type *) (this))->construct_ (Error, that.get_ (Error));
+                derived_ ()->destroy_ (Result);
+                derived_ ()->construct_ (Error, that.get_ (Error));
               }
             }
             else
             {
               if (that.isResult_ ())
               {
-                ((derived_type *) (this))->destroy_ (Error);
-                ((derived_type *) (this))->construct_ (Result, that.get_ (Result));
+                derived_ ()->destroy_ (Error);
+                derived_ ()->construct_ (Result, that.get_ (Result));
               }
               else
               {
-                ((derived_type *) (this))->assign_ (Error, that.get_ (Error));
+                derived_ ()->assign_ (Error, that.get_ (Error));
               }
             }
 
@@ -526,10 +864,19 @@ namespace Utils
         }
 
 
-        self_type &
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
+        constexpr self_type &
         operator = (self_type && that) noexcept (
              std::is_nothrow_move_assignable_v <result_type>
+          && std::is_nothrow_destructible_v <result_type>
+          && std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_assignable_v <error_type>
+          && std::is_nothrow_destructible_v <error_type>
+          && std::is_nothrow_move_constructible_v <error_type>
         )
         {
           if (this != &that)
@@ -538,24 +885,24 @@ namespace Utils
             {
               if (that.isResult_ ())
               {
-                ((derived_type *) (this))->assign_ (Result, std::move (that.get_ (Result)));
+                derived_ ()->assign_ (Result, std::move (that.get_ (Result)));
               }
               else
               {
-                ((derived_type *) (this))->destroy_ (Result);
-                ((derived_type *) (this))->construct_ (Error, std::move (that.get_ (Error)));
+                derived_ ()->destroy_ (Result);
+                derived_ ()->construct_ (Error, std::move (that.get_ (Error)));
               }
             }
             else
             {
               if (that.isResult_ ())
               {
-                ((derived_type *) (this))->destroy_ (Error);
-                ((derived_type *) (this))->construct_ (Result, std::move (that.get_ (Result)));
+                derived_ ()->destroy_ (Error);
+                derived_ ()->construct_ (Result, std::move (that.get_ (Result)));
               }
               else
               {
-                ((derived_type *) (this))->assign_ (Error, std::move (that.get_ (Error)));
+                derived_ ()->assign_ (Error, std::move (that.get_ (Error)));
               }
             }
 
@@ -567,12 +914,47 @@ namespace Utils
 
 
       private:
-        bool is_result_ { };
+        /**
+         * @brief
+         */
+        bool is_result_;
 
-        ResultOrError_ <result_type, error_type> result_or_error_ { };
+        /**
+         * @brief
+         */
+        ResultOrError_ <result_type, error_type> result_or_error_;
+
+
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const derived_type *
+        derived_ (void) const noexcept
+        {
+          return (const derived_type *) (this);
+        }
+
+
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr derived_type *
+        derived_ (void) noexcept
+        {
+          return (derived_type *) (this);
+        }
     };
 
 
+    /**
+     * @brief
+     * @tparam TResult
+     * @tparam TError
+     * @tparam TIsTriviallyAssignable
+     * @tparam TIsTriviallyDestructible
+     */
     template <
       typename TResult, typename TError,
       bool TIsTriviallyAssignable =
@@ -586,8 +968,7 @@ namespace Utils
     >
     class ExpectedStorage_ :
       private ExpectedStorageBase_ <
-        TResult, TError,
-        ExpectedStorage_ <TResult, TError, TIsTriviallyAssignable, TIsTriviallyDestructible>
+        TResult, TError, ExpectedStorage_ <TResult, TError, TIsTriviallyAssignable, TIsTriviallyDestructible>
       >
     {
       static_assert (
@@ -597,32 +978,56 @@ namespace Utils
 
 
       public:
+        /**
+         * @brief
+         */
         using result_type = TResult;
 
+        /**
+         * @brief
+         */
         using error_type = TError;
 
 
       private:
+        /**
+         * @brief
+         */
         using self_type = ExpectedStorage_;
 
+        /**
+         * @brief
+         */
         using base_type = ExpectedStorageBase_ <result_type, error_type, self_type>;
 
+        /**
+         * @brief
+         */
         friend base_type;
 
 
       public:
+        /**
+         * @brief
+         */
         constexpr ExpectedStorage_ (void) noexcept = default;
 
+        /**
+         * @brief
+         * @param that
+         */
         constexpr ExpectedStorage_ (const self_type & that [[maybe_unused]])
-        //noexcept (std::is_nothrow_copy_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
         ) =
         default;
 
+        /**
+         * @brief
+         * @param that
+         */
         constexpr ExpectedStorage_ (self_type && that [[maybe_unused]])
-        //noexcept (std::is_nothrow_move_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
@@ -630,47 +1035,96 @@ namespace Utils
         default;
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         constexpr ExpectedStorage_ (ResultTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TArgs && ...>) :
+        noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
           base_type (Result, std::forward <TArgs> (args) ...)
         { }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         constexpr ExpectedStorage_ (ErrorTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TArgs && ...>) :
+        noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
           base_type (Error, std::forward <TArgs> (args) ...)
         { }
 
 
       protected:
+        /**
+         * @brief
+         */
         using base_type::isResult_;
 
+        /**
+         * @brief
+         */
         using base_type::get_;
 
+        /**
+         * @brief
+         */
         using base_type::construct_;
 
+        /**
+         * @brief
+         */
         using base_type::assign_;
 
+        /**
+         * @brief
+         */
         using base_type::destroy_;
 
+        /**
+         * @brief
+         */
         using base_type::clear_;
 
 
       public:
-        self_type &
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
+        constexpr self_type &
         operator = (const self_type & that)
-        noexcept (std::is_nothrow_copy_assignable_v <base_type>) =
+        noexcept (
+             std::is_nothrow_copy_assignable_v <result_type>
+          && std::is_nothrow_copy_assignable_v <error_type>
+        ) =
         default;
 
-        self_type &
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
+        constexpr self_type &
         operator = (self_type && that)
-        noexcept (std::is_nothrow_move_assignable_v <base_type>) =
+        noexcept (
+             std::is_nothrow_move_assignable_v <result_type>
+          && std::is_nothrow_move_assignable_v <error_type>
+        ) =
         default;
     };
 
 
+    /**
+     * @brief
+     * @tparam TResult
+     * @tparam TError
+     */
     template <typename TResult, typename TError>
     class ExpectedStorage_ <TResult, TError, false, true> :
       private ExpectedStorageBase_ <TResult, TError, ExpectedStorage_ <TResult, TError, false, true>>
@@ -682,32 +1136,56 @@ namespace Utils
 
 
       public:
+        /**
+         * @brief
+         */
         using result_type = TResult;
 
+        /**
+         * @brief
+         */
         using error_type = TError;
 
 
       private:
+        /**
+         * @brief
+         */
         using self_type = ExpectedStorage_;
 
+        /**
+         * @brief
+         */
         using base_type = ExpectedStorageBase_ <result_type, error_type, self_type>;
 
+        /**
+         * @brief
+         */
         friend base_type;
 
 
       public:
+        /**
+         * @brief
+         */
         ExpectedStorage_ (void) noexcept = default;
 
+        /**
+         * @brief
+         * @param that
+         */
         ExpectedStorage_ (const self_type & that [[maybe_unused]])
-        //noexcept (std::is_nothrow_copy_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
         ) =
         default;
 
+        /**
+         * @brief
+         * @param that
+         */
         ExpectedStorage_ (self_type && that [[maybe_unused]])
-        //noexcept (std::is_nothrow_move_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
@@ -715,63 +1193,119 @@ namespace Utils
         default;
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         ExpectedStorage_ (ResultTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TArgs && ...>) :
+        noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
           base_type (Result, std::forward <TArgs> (args) ...)
         { }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         ExpectedStorage_ (ErrorTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TArgs && ...>) :
+        noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
           base_type (Error, std::forward <TArgs> (args) ...)
         { }
 
 
       protected:
+        /**
+         * @brief
+         */
         using base_type::isResult_;
 
+        /**
+         * @brief
+         */
         using base_type::get_;
 
+        /**
+         * @brief
+         */
         using base_type::assign_;
 
+        /**
+         * @brief
+         */
         using base_type::destroy_;
 
+        /**
+         * @brief
+         */
         using base_type::clear_;
 
 
+        /**
+         * @brief
+         * @tparam TThatResult
+         * @param that_result
+         */
         template <typename TThatResult>
         void
         construct_ (ResultTag, TThatResult && that_result)
-        noexcept (std::is_nothrow_constructible_v <result_type &, TThatResult &&>)
+        noexcept (std::is_nothrow_constructible_v <result_type, TThatResult &&>)
         {
           ::new ((void *) (std::addressof (get_ (Result)))) (result_type) (std::forward <TThatResult> (that_result));
         }
 
 
+        /**
+         * @brief
+         * @tparam TThatError
+         * @param that_error
+         */
         template <typename TThatError>
         void
         construct_ (ErrorTag, TThatError && that_error)
-        noexcept (std::is_nothrow_constructible_v <error_type &, TThatError &&>)
+        noexcept (std::is_nothrow_constructible_v <error_type, TThatError &&>)
         {
           ::new ((void *) (std::addressof (get_ (Error)))) (error_type) (std::forward <TThatError> (that_error));
         }
 
 
       public:
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
         self_type &
         operator = (const self_type & that)
-        noexcept (std::is_nothrow_copy_assignable_v <base_type>) =
+        noexcept (
+             std::is_nothrow_copy_assignable_v <result_type>
+          && std::is_nothrow_copy_assignable_v <error_type>
+        ) =
         default;
 
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
         self_type &
         operator = (self_type && that)
-        noexcept (std::is_nothrow_move_assignable_v <base_type>) =
+        noexcept (
+             std::is_nothrow_move_assignable_v <result_type>
+          && std::is_nothrow_move_assignable_v <error_type>
+        ) =
         default;
     };
 
 
+    /**
+     * @brief
+     * @tparam TResult
+     * @tparam TError
+     */
     template <typename TResult, typename TError>
     class ExpectedStorage_ <TResult, TError, false, false> :
       private ExpectedStorageBase_ <TResult, TError, ExpectedStorage_ <TResult, TError, false, false>>
@@ -783,32 +1317,56 @@ namespace Utils
 
 
       public:
+        /**
+         * @brief
+         */
         using result_type = TResult;
 
+        /**
+         * @brief
+         */
         using error_type = TError;
 
 
       private:
+        /**
+         * @brief
+         */
         using self_type = ExpectedStorage_;
 
+        /**
+         * @brief
+         */
         using base_type = ExpectedStorageBase_ <result_type, error_type, self_type>;
 
+        /**
+         * @brief
+         */
         friend base_type;
 
 
       public:
+        /**
+         * @brief
+         */
         ExpectedStorage_ (void) noexcept = default;
 
+        /**
+         * @brief
+         * @param that
+         */
         ExpectedStorage_ (const self_type & that [[maybe_unused]])
-        //noexcept (std::is_nothrow_copy_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
         ) =
         default;
 
+        /**
+         * @brief
+         * @param that
+         */
         ExpectedStorage_ (self_type && that [[maybe_unused]])
-        //noexcept (std::is_nothrow_move_constructible_v <base_type>) =
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
@@ -816,20 +1374,33 @@ namespace Utils
         default;
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         ExpectedStorage_ (ResultTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TArgs && ...>) :
+        noexcept (std::is_nothrow_constructible_v <result_type, TArgs && ...>) :
           base_type (Result, std::forward <TArgs> (args) ...)
         { }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         ExpectedStorage_ (ErrorTag, TArgs && ... args)
-        noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TArgs && ...>) :
+        noexcept (std::is_nothrow_constructible_v <error_type, TArgs && ...>) :
           base_type (Error, std::forward <TArgs> (args) ...)
         { }
 
 
+        /**
+         * @brief
+         */
         ~ExpectedStorage_ (void)
         noexcept (
              std::is_nothrow_destructible_v <result_type>
@@ -841,31 +1412,53 @@ namespace Utils
 
 
       protected:
+        /**
+         * @brief
+         */
         using base_type::isResult_;
 
+        /**
+         * @brief
+         */
         using base_type::get_;
 
+        /**
+         * @brief
+         */
         using base_type::assign_;
 
 
+        /**
+         * @brief
+         * @tparam TThatResult
+         * @param that_result
+         */
         template <typename TThatResult>
         void
         construct_ (ResultTag, TThatResult && that_result)
-        noexcept (std::is_nothrow_constructible_v <result_type &, TThatResult &&>)
+        noexcept (std::is_nothrow_constructible_v <result_type, TThatResult &&>)
         {
           ::new ((void *) (std::addressof (get_ (Result)))) (result_type) (std::forward <TThatResult> (that_result));
         }
 
 
+        /**
+         * @brief
+         * @tparam TThatError
+         * @param that_error
+         */
         template <typename TThatError>
         void
         construct_ (ErrorTag, TThatError && that_error)
-        noexcept (std::is_nothrow_constructible_v <error_type &, TThatError &&>)
+        noexcept (std::is_nothrow_constructible_v <error_type, TThatError &&>)
         {
           ::new ((void *) (std::addressof (get_ (Error)))) (error_type) (std::forward <TThatError> (that_error));
         }
 
 
+        /**
+         * @brief
+         */
         void
         destroy_ (ResultTag)
         noexcept (std::is_nothrow_destructible_v <result_type>)
@@ -874,6 +1467,9 @@ namespace Utils
         }
 
 
+        /**
+         * @brief
+         */
         void
         destroy_ (ErrorTag)
         noexcept (std::is_nothrow_destructible_v <error_type>)
@@ -882,6 +1478,9 @@ namespace Utils
         }
 
 
+        /**
+         * @brief
+         */
         void
         clear_ (void)
         noexcept (
@@ -901,18 +1500,40 @@ namespace Utils
 
 
       public:
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
         self_type &
         operator = (const self_type & that)
-        noexcept (std::is_nothrow_copy_assignable_v <base_type>) =
+        noexcept (
+             std::is_nothrow_copy_assignable_v <result_type>
+          && std::is_nothrow_copy_assignable_v <error_type>
+        ) =
         default;
 
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
         self_type &
         operator = (self_type && that)
-        noexcept (std::is_nothrow_move_assignable_v <base_type>) =
+        noexcept (
+             std::is_nothrow_move_assignable_v <result_type>
+          && std::is_nothrow_move_assignable_v <error_type>
+        ) =
         default;
     };
 
 
+    /**
+     * @brief
+     * @tparam TResult
+     * @tparam TError
+     * @tparam TSafetyPolicy
+     */
     template <typename TResult, typename TError, typename TSafetyPolicy>
     class ExpectedBase_ :
       private ExpectedStorage_ <TResult, TError>,
@@ -925,40 +1546,83 @@ namespace Utils
 
 
       public:
+        /**
+         * @brief
+         */
         using result_type = TResult;
 
+        /**
+         * @brief
+         */
         using error_type = TError;
 
+        /**
+         * @brief
+         */
         using storage_type = ExpectedStorage_ <result_type, error_type>;
 
+        /**
+         * @brief
+         */
         using safety_policy_type = TSafetyPolicy;
 
 
       protected:
+        /**
+         * @brief
+         */
         using storage_type::isResult_;
 
+        /**
+         * @brief
+         */
         using storage_type::get_;
 
+        /**
+         * @brief
+         */
         using storage_type::construct_;
 
+        /**
+         * @brief
+         */
         using storage_type::assign_;
 
+        /**
+         * @brief
+         */
         using storage_type::destroy_;
 
+        /**
+         * @brief
+         */
         using storage_type::clear_;
 
+        /**
+         * @brief
+         */
         using safety_policy_type::wasChecked_;
 
 
       private:
+        /**
+         * @brief
+         */
         using self_type = ExpectedBase_;
 
 
       public:
+        /**
+         * @brief
+         */
         constexpr ExpectedBase_ (void)
         noexcept (std::is_nothrow_default_constructible_v <safety_policy_type>) =
         default;
 
+        /**
+         * @brief
+         * @param that
+         */
         constexpr ExpectedBase_ (const self_type & that [[maybe_unused]])
         noexcept (
              std::is_nothrow_copy_constructible_v <storage_type>
@@ -966,6 +1630,10 @@ namespace Utils
         ) =
         default;
 
+        /**
+         * @brief
+         * @param that
+         */
         constexpr ExpectedBase_ (self_type && that [[maybe_unused]])
         noexcept (
              std::is_nothrow_move_constructible_v <storage_type>
@@ -974,11 +1642,15 @@ namespace Utils
         default;
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         constexpr ExpectedBase_ (ResultTag, TArgs && ... args)
         noexcept (
-             std::is_nothrow_constructible_v <result_type, TArgs && ...>
-          && std::is_nothrow_constructible_v <storage_type, ResultTag, TArgs && ...>
+             std::is_nothrow_constructible_v <storage_type, ResultTag, TArgs && ...>
           && std::is_nothrow_default_constructible_v <safety_policy_type>
         ) :
           storage_type (Result, std::forward <TArgs> (args) ...),
@@ -986,11 +1658,15 @@ namespace Utils
         { }
 
 
+        /**
+         * @brief
+         * @tparam TArgs
+         * @param args
+         */
         template <typename ... TArgs>
         constexpr ExpectedBase_ (ErrorTag, TArgs && ... args)
         noexcept (
-             std::is_nothrow_constructible_v <error_type, TArgs && ...>
-          && std::is_nothrow_constructible_v <storage_type, ErrorTag, TArgs && ...>
+             std::is_nothrow_constructible_v <storage_type, ErrorTag, TArgs && ...>
           && std::is_nothrow_default_constructible_v <safety_policy_type>
         ) :
           storage_type (Error, std::forward <TArgs> (args) ...),
@@ -999,21 +1675,33 @@ namespace Utils
 
 
       protected:
-        constexpr const result_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const result_type &
         result_ (void) const noexcept
         {
           return storage_type::get_ (Result);
         }
 
 
-        constexpr result_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr result_type &
         result_ (void) noexcept
         {
           return storage_type::get_ (Result);
         }
 
 
-        constexpr const result_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const result_type &
         result_Safe_ (void) const noexcept
         {
           if (isResult_ ())
@@ -1027,7 +1715,11 @@ namespace Utils
         }
 
 
-        constexpr result_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr result_type &
         result_Safe_ (void) noexcept
         {
           if (isResult_ ())
@@ -1041,7 +1733,11 @@ namespace Utils
         }
 
 
-        constexpr const result_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const result_type &
         result_Checked_ (void) const noexcept
         {
           if (safety_policy_type::wasChecked_ ())
@@ -1055,7 +1751,11 @@ namespace Utils
         }
 
 
-        constexpr result_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr result_type &
         result_Checked_ (void) noexcept
         {
           if (safety_policy_type::wasChecked_ ())
@@ -1069,21 +1769,33 @@ namespace Utils
         }
 
 
-        constexpr const error_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const error_type &
         error_ (void) const noexcept
         {
           return storage_type::get_ (Error);
         }
 
 
-        constexpr error_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr error_type &
         error_ (void) noexcept
         {
           return storage_type::get_ (Error);
         }
 
 
-        constexpr const error_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const error_type &
         error_Safe_ (void) const noexcept
         {
           if (isResult_ ())
@@ -1097,7 +1809,11 @@ namespace Utils
         }
 
 
-        constexpr error_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr error_type &
         error_Safe_ (void) noexcept
         {
           if (isResult_ ())
@@ -1111,7 +1827,11 @@ namespace Utils
         }
 
 
-        constexpr const error_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr const error_type &
         error_Checked_ (void) const noexcept
         {
           if (safety_policy_type::wasChecked_ ())
@@ -1125,7 +1845,11 @@ namespace Utils
         }
 
 
-        constexpr error_type &
+        /**
+         * @brief
+         * @return
+         */
+        [[nodiscard]] constexpr error_type &
         error_Checked_ (void) noexcept
         {
           if (safety_policy_type::wasChecked_ ())
@@ -1140,7 +1864,12 @@ namespace Utils
 
 
       public:
-        self_type &
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
+        constexpr self_type &
         operator = (const self_type & that [[maybe_unused]])
         noexcept (
              std::is_nothrow_copy_assignable_v <storage_type>
@@ -1148,7 +1877,12 @@ namespace Utils
         ) =
         default;
 
-        self_type &
+        /**
+         * @brief
+         * @param that
+         * @return
+         */
+        constexpr self_type &
         operator = (self_type && that [[maybe_unused]])
         noexcept (
              std::is_nothrow_move_assignable_v <storage_type>
@@ -1159,6 +1893,10 @@ namespace Utils
   }
 
 
+  /**
+   * @brief
+   * @tparam TError
+   */
   template <typename TError>
   class Unexpected
   {
@@ -1166,27 +1904,50 @@ namespace Utils
 
 
     public:
+      /**
+       * @brief
+       */
       using error_type = TError;
 
 
     private:
+      /**
+       * @brief
+       */
       using self_type = Unexpected;
 
 
     public:
+      /**
+       * @brief
+       */
       constexpr Unexpected (void)
       noexcept (std::is_nothrow_default_constructible_v <error_type>) =
       default;
 
+      /**
+       * @brief
+       * @param that
+       */
       constexpr Unexpected (const self_type & that [[maybe_unused]])
       noexcept (std::is_nothrow_copy_constructible_v <error_type>) =
       default;
 
+      /**
+       * @brief
+       * @param that
+       */
       constexpr Unexpected (self_type && that [[maybe_unused]])
       noexcept (std::is_nothrow_move_constructible_v <error_type>) =
       default;
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param that_error
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <std::is_constructible_v <error_type, TThatError &&>> ...
@@ -1197,6 +1958,12 @@ namespace Utils
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param that_error
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <
@@ -1210,6 +1977,12 @@ namespace Utils
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <
@@ -1223,6 +1996,12 @@ namespace Utils
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <std::is_constructible_v <error_type, TThatError &&> && std::is_convertible_v <const TThatError &, error_type>> ...
@@ -1233,6 +2012,12 @@ namespace Utils
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <
@@ -1246,6 +2031,12 @@ namespace Utils
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <std::is_constructible_v <error_type, TThatError &&>> ...
@@ -1256,46 +2047,77 @@ namespace Utils
       { }
 
 
-      constexpr const error_type &
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const error_type &
       error (void) const & noexcept
       {
         return error_;
       }
 
 
-      constexpr error_type &
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr error_type &
       error (void) & noexcept
       {
         return error_;
       }
 
 
-      constexpr const error_type &&
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const error_type &&
       error (void) const && noexcept
       {
         return error_;
       }
 
 
-      constexpr error_type &&
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr error_type &&
       error (void) && noexcept
       {
         return error_;
       }
 
 
-      self_type &
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
       operator = (const self_type & that [[maybe_unused]])
       noexcept (std::is_nothrow_copy_assignable_v <error_type>) =
       default;
 
-      self_type &
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      constexpr self_type &
       operator = (self_type && that [[maybe_unused]])
       noexcept (std::is_nothrow_move_assignable_v <error_type>) =
       default;
 
 
-      constexpr bool
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      [[nodiscard]] constexpr bool
       operator == (const self_type & that) const
       {
         if (this == &that)
@@ -1309,13 +2131,24 @@ namespace Utils
       }
 
 
-      constexpr bool
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      [[nodiscard]] constexpr bool
       operator != (const self_type & that) const
       {
         return !operator == (that);
       }
 
 
+      /**
+       * @brief
+       * @param output
+       * @param self
+       * @return
+       */
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
@@ -1326,14 +2159,27 @@ namespace Utils
 
 
     private:
-      error_type error_ { };
+      /**
+       * @brief
+       */
+      error_type error_;
   };
 
 
+  /**
+   * @brief
+   * @tparam TType
+   */
   template <typename TType>
   Unexpected (TType) -> Unexpected <TType>;
 
 
+  /**
+   * @brief
+   * @tparam TResult
+   * @tparam TError
+   * @tparam TSafetyPolicy
+   */
   template <typename TResult, typename TError, typename TSafetyPolicy = UncheckedPolicy>
   class [[nodiscard]] Expected final :
     private ExpectedInternals_::ExpectedBase_ <TResult, TError, TSafetyPolicy>,
@@ -1354,26 +2200,55 @@ namespace Utils
 
 
     public:
+      /**
+       * @brief
+       */
       using result_type = TResult;
 
+      /**
+       * @brief
+       */
       using error_type = TError;
 
+      /**
+       * @brief
+       */
       using safety_policy_type = TSafetyPolicy;
 
+      /**
+       * @brief
+       */
       using unexpected_type = Unexpected <error_type>;
 
 
     private:
+      /**
+       * @brief
+       */
       using self_type = Expected;
 
+      /**
+       * @brief
+       */
       using base_type = ExpectedInternals_::ExpectedBase_ <result_type, error_type, safety_policy_type>;
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam TThatSafetyPolicy
+       */
       template <typename TThatResult, typename TThatError, typename TThatSafetyPolicy>
       friend class Expected;
 
 
     public:
+      /**
+       * @brief
+       * @tparam TDummy
+       * @tparam ...
+       */
       template <typename TDummy = void, std::enable_if_t <std::is_default_constructible_v <result_type>, TDummy> ...>
       constexpr Expected (void)
       noexcept (
@@ -1384,6 +2259,12 @@ namespace Utils
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam ...
+       * @param that_result
+       */
       template <
         typename TThatResult = result_type,
         std::enable_if_t <
@@ -1396,14 +2277,17 @@ namespace Utils
         > ...
       >
       explicit constexpr Expected (TThatResult && that_result)
-      noexcept (
-           std::is_nothrow_constructible_v <result_type, TThatResult &&>
-        && std::is_nothrow_constructible_v <base_type, ResultTag, TThatResult &&>
-      ) :
+      noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TThatResult &&>) :
         base_type (Result, std::forward <TThatResult> (that_result))
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam ...
+       * @param that_result
+       */
       template <
         typename TThatResult = result_type,
         std::enable_if_t <
@@ -1415,14 +2299,17 @@ namespace Utils
         > ...
       >
       constexpr Expected (TThatResult && that_result)
-      noexcept (
-           std::is_nothrow_constructible_v <result_type, TThatResult &&>
-        && std::is_nothrow_constructible_v <base_type, ResultTag, TThatResult &&>
-      ) :
+      noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TThatResult &&>) :
         base_type (Result, std::forward <TThatResult> (that_result))
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param unexpected
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <
@@ -1431,27 +2318,33 @@ namespace Utils
         > ...
       >
       explicit constexpr Expected (const Unexpected <TThatError> & unexpected)
-      noexcept (
-           std::is_nothrow_constructible_v <error_type, const TThatError &>
-        && std::is_nothrow_constructible_v <base_type, ErrorTag, const TThatError &>
-      ) :
+      noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, const TThatError &>) :
         base_type (Error, unexpected.error ())
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param unexpected
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <std::is_constructible_v <error_type, const TThatError &>> ...
       >
       constexpr Expected (const Unexpected <TThatError> & unexpected)
-      noexcept (
-           std::is_nothrow_constructible_v <error_type, const TThatError &>
-        && std::is_nothrow_constructible_v <base_type, ErrorTag, const TThatError &>
-      ) :
+      noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, const TThatError &>) :
         base_type (Error, unexpected.error ())
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param unexpected
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <
@@ -1460,27 +2353,34 @@ namespace Utils
         > ...
       >
       explicit constexpr Expected (Unexpected <TThatError> && unexpected)
-      noexcept (
-           std::is_nothrow_constructible_v <error_type, TThatError &&>
-        && std::is_nothrow_constructible_v <base_type, ErrorTag, TThatError &&>
-      ) :
+      noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TThatError &&>) :
         base_type (Error, std::move (unexpected.error ()))
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param unexpected
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <std::is_constructible_v <error_type, TThatError &&>> ...
       >
       constexpr Expected (Unexpected <TThatError> && unexpected)
-      noexcept (
-           std::is_nothrow_constructible_v <error_type, TThatError &&>
-        && std::is_nothrow_constructible_v <base_type, ErrorTag, TThatError &&>
-      ) :
+      noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TThatError &&>) :
         base_type (Error, std::move (unexpected.error ()))
       { }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <
@@ -1493,9 +2393,9 @@ namespace Utils
       >
       explicit constexpr Expected (const Expected <TThatResult, TThatError> & that)
       noexcept (
-           std::is_nothrow_copy_constructible_v <result_type>
+           std::is_nothrow_default_constructible_v <base_type>
+        && std::is_nothrow_copy_constructible_v <result_type>
         && std::is_nothrow_copy_constructible_v <error_type>
-        && std::is_nothrow_default_constructible_v <base_type>
       ) :
         base_type ()
       {
@@ -1514,6 +2414,13 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <
@@ -1524,9 +2431,9 @@ namespace Utils
       >
       constexpr Expected (const Expected <TThatResult, TThatError> & that)
       noexcept (
-           std::is_nothrow_copy_constructible_v <result_type>
+           std::is_nothrow_default_constructible_v <base_type>
+        && std::is_nothrow_copy_constructible_v <result_type>
         && std::is_nothrow_copy_constructible_v <error_type>
-        && std::is_nothrow_default_constructible_v <base_type>
       ) :
         base_type ()
       {
@@ -1545,6 +2452,13 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <
@@ -1557,9 +2471,9 @@ namespace Utils
       >
       explicit constexpr Expected (Expected <TThatResult, TThatError> && that)
       noexcept (
-           std::is_nothrow_move_constructible_v <result_type>
+           std::is_nothrow_default_constructible_v <base_type>
+        && std::is_nothrow_move_constructible_v <result_type>
         && std::is_nothrow_move_constructible_v <error_type>
-        && std::is_nothrow_default_constructible_v <base_type>
       ) :
         base_type ()
       {
@@ -1578,6 +2492,13 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <
@@ -1588,9 +2509,9 @@ namespace Utils
       >
       constexpr Expected (Expected <TThatResult, TThatError> && that)
       noexcept (
-           std::is_nothrow_move_constructible_v <result_type>
+           std::is_nothrow_default_constructible_v <base_type>
+        && std::is_nothrow_move_constructible_v <result_type>
         && std::is_nothrow_move_constructible_v <error_type>
-        && std::is_nothrow_default_constructible_v <base_type>
       ) :
         base_type ()
       {
@@ -1609,6 +2530,14 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TInit
+       * @tparam TArgs
+       * @tparam ...
+       * @param init
+       * @param args
+       */
       template <
         typename TInit, typename ... TArgs,
         std::enable_if_t <
@@ -1617,67 +2546,91 @@ namespace Utils
       >
       constexpr Expected (ResultTag, const std::initializer_list <TInit> & init, TArgs && ... args)
       noexcept (
-           std::is_nothrow_constructible_v <result_type, const std::initializer_list <TInit> &, TArgs && ...>
-        && std::is_nothrow_constructible_v <base_type, ResultTag, const std::initializer_list <TInit> &, TArgs && ...>
+        std::is_nothrow_constructible_v <base_type, ResultTag, const std::initializer_list <TInit> &, TArgs && ...>
       ) :
         base_type (Result, init, std::forward <TArgs> (args) ...)
       { }
 
 
+      /**
+       * @brief
+       * @tparam TArgs
+       * @tparam ...
+       * @param args
+       */
       template <
         typename ... TArgs,
         std::enable_if_t <std::is_constructible_v <result_type, TArgs && ...>> ...
       >
       constexpr Expected (ResultTag, TArgs && ... args)
-      noexcept (
-           std::is_nothrow_constructible_v <result_type, TArgs && ...>
-        && std::is_nothrow_constructible_v <base_type, ResultTag, TArgs && ...>
-      ) :
+      noexcept (std::is_nothrow_constructible_v <base_type, ResultTag, TArgs && ...>) :
         base_type (Result, std::forward <TArgs> (args) ...)
       { }
 
 
+      /**
+       * @brief
+       * @tparam TInit
+       * @tparam TArgs
+       * @tparam ...
+       * @param init
+       * @param args
+       */
       template <
         typename TInit, typename ... TArgs,
         std::enable_if_t <std::is_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>> ...
       >
       constexpr Expected (ErrorTag, const std::initializer_list <TInit> & init, TArgs && ... args)
       noexcept (
-           std::is_nothrow_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>
-        && std::is_nothrow_constructible_v <base_type, ErrorTag, const std::initializer_list <TInit> &, TArgs && ...>
+        std::is_nothrow_constructible_v <base_type, ErrorTag, const std::initializer_list <TInit> &, TArgs && ...>
       ) :
         base_type (Error, init, std::forward <TArgs> (args) ...)
       { }
 
 
+      /**
+       * @brief
+       * @tparam TArgs
+       * @tparam ...
+       * @param args
+       */
       template <
         typename ... TArgs,
         std::enable_if_t <std::is_constructible_v <error_type, TArgs && ...>> ...
       >
       constexpr Expected (ErrorTag, TArgs && ... args)
-      noexcept (
-           std::is_nothrow_constructible_v <error_type, TArgs && ...>
-        && std::is_nothrow_constructible_v <base_type, ErrorTag, TArgs && ...>
-      ) :
+      noexcept (std::is_nothrow_constructible_v <base_type, ErrorTag, TArgs && ...>) :
         base_type (Error, std::forward <TArgs> (args) ...)
       { }
 
 
-      constexpr const result_type &
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const result_type &
       result (void) const & noexcept
       {
         return base_type::result_Checked_ ();
       }
 
 
-      constexpr result_type &
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr result_type &
       result (void) & noexcept
       {
         return base_type::result_Checked_ ();
       }
 
 
-      constexpr const result_type &&
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const result_type &&
       result (void) const && noexcept
       {
         base_type::wasChecked_ (true);
@@ -1686,7 +2639,11 @@ namespace Utils
       }
 
 
-      constexpr result_type &&
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr result_type &&
       result (void) && noexcept
       {
         base_type::wasChecked_ (true);
@@ -1695,21 +2652,33 @@ namespace Utils
       }
 
 
-      constexpr const error_type &
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const error_type &
       error (void) const & noexcept
       {
         return base_type::error_Checked_ ();
       }
 
 
-      constexpr error_type &
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr error_type &
       error (void) & noexcept
       {
         return base_type::error_Checked_ ();
       }
 
 
-      constexpr const error_type &&
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const error_type &&
       error (void) const && noexcept
       {
         base_type::wasChecked_ (true);
@@ -1718,7 +2687,11 @@ namespace Utils
       }
 
 
-      constexpr error_type &&
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr error_type &&
       error (void) && noexcept
       {
         base_type::wasChecked_ (true);
@@ -1727,6 +2700,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param message
+       * @return
+       */
       constexpr const result_type &
       expect (const CString & message) const & noexcept
       {
@@ -1743,6 +2721,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param message
+       * @return
+       */
       constexpr result_type &
       expect (const CString & message) & noexcept
       {
@@ -1759,6 +2742,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param message
+       * @return
+       */
       constexpr const result_type &&
       expect (const CString & message) const && noexcept
       {
@@ -1775,6 +2763,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param message
+       * @return
+       */
       constexpr result_type &&
       expect (const CString & message) && noexcept
       {
@@ -1791,13 +2784,19 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TDummy
+       * @tparam ...
+       * @return
+       */
       template <typename TDummy = void, std::enable_if_t <std::is_default_constructible_v <result_type>, TDummy> ...>
       constexpr result_type &
       reset (ResultTag)
       noexcept (
-           std::is_nothrow_default_constructible_v <result_type>
-        && std::is_nothrow_destructible_v <result_type>
+           std::is_nothrow_destructible_v <result_type>
         && std::is_nothrow_destructible_v <error_type>
+        && std::is_nothrow_default_constructible_v <result_type>
       )
       {
         base_type::clear_ ();
@@ -1810,13 +2809,19 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TDummy
+       * @tparam ...
+       * @return
+       */
       template <typename TDummy = void, std::enable_if_t <std::is_default_constructible_v <error_type>, TDummy> ...>
       constexpr error_type &
       reset (ErrorTag)
       noexcept (
-           std::is_nothrow_default_constructible_v <error_type>
-        && std::is_nothrow_destructible_v <result_type>
+           std::is_nothrow_destructible_v <result_type>
         && std::is_nothrow_destructible_v <error_type>
+        && std::is_nothrow_default_constructible_v <error_type>
       )
       {
         base_type::clear_ ();
@@ -1829,6 +2834,15 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TInit
+       * @tparam TArgs
+       * @tparam ...
+       * @param init
+       * @param args
+       * @return
+       */
       template <
         typename TInit, typename ... TArgs,
         std::enable_if_t <std::is_constructible_v <result_type, const std::initializer_list <TInit> &, TArgs && ...>> ...
@@ -1836,9 +2850,9 @@ namespace Utils
       constexpr result_type &
       emplace (ResultTag, const std::initializer_list <TInit> & init, TArgs && ... args)
       noexcept (
-           std::is_nothrow_constructible_v <result_type, const std::initializer_list <TInit> &, TArgs && ...>
-        && std::is_nothrow_destructible_v <result_type>
+           std::is_nothrow_destructible_v <result_type>
         && std::is_nothrow_destructible_v <error_type>
+        && std::is_nothrow_constructible_v <result_type, const std::initializer_list <TInit> &, TArgs && ...>
       )
       {
         base_type::clear_ ();
@@ -1851,13 +2865,20 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TArgs
+       * @tparam ...
+       * @param args
+       * @return
+       */
       template <typename ... TArgs, std::enable_if_t <std::is_constructible_v <result_type, TArgs && ...>> ...>
       constexpr result_type &
       emplace (ResultTag, TArgs && ... args)
       noexcept (
-           std::is_nothrow_constructible_v <result_type, TArgs && ...>
-        && std::is_nothrow_destructible_v <result_type>
+           std::is_nothrow_destructible_v <result_type>
         && std::is_nothrow_destructible_v <error_type>
+        && std::is_nothrow_constructible_v <result_type, TArgs && ...>
       )
       {
         base_type::clear_ ();
@@ -1870,6 +2891,15 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TInit
+       * @tparam TArgs
+       * @tparam ...
+       * @param init
+       * @param args
+       * @return
+       */
       template <
         typename TInit, typename ... TArgs,
         std::enable_if_t <std::is_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>> ...
@@ -1877,9 +2907,9 @@ namespace Utils
       constexpr error_type &
       emplace (ErrorTag, const std::initializer_list <TInit> & init, TArgs && ... args)
       noexcept (
-           std::is_nothrow_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>
-        && std::is_nothrow_destructible_v <result_type>
+           std::is_nothrow_destructible_v <result_type>
         && std::is_nothrow_destructible_v <error_type>
+        && std::is_nothrow_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>
       )
       {
         base_type::clear_ ();
@@ -1892,6 +2922,13 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TArgs
+       * @tparam ...
+       * @param args
+       * @return
+       */
       template <
         typename ... TArgs,
         std::enable_if_t <std::is_constructible_v <error_type, TArgs && ...>> ...
@@ -1899,9 +2936,9 @@ namespace Utils
       constexpr error_type &
       emplace (ErrorTag, TArgs && ... args)
       noexcept (
-           std::is_nothrow_constructible_v <error_type, TArgs && ...>
-        && std::is_nothrow_destructible_v <result_type>
+           std::is_nothrow_destructible_v <result_type>
         && std::is_nothrow_destructible_v <error_type>
+        && std::is_nothrow_constructible_v <error_type, TArgs && ...>
       )
       {
         base_type::clear_ ();
@@ -1914,6 +2951,10 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @return
+       */
       [[nodiscard]] explicit constexpr operator bool (void) const noexcept
       {
         base_type::wasChecked_ (true);
@@ -1922,24 +2963,32 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       * @return
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <
              std::is_assignable_v <result_type &, const TThatResult &>
-          && std::is_assignable_v <error_type &, const TThatError &>
           && std::is_constructible_v <result_type &, const TThatResult &>
+          && std::is_assignable_v <error_type &, const TThatError &>
           && std::is_constructible_v <error_type &, const TThatError &>
           && !std::is_same_v <Expected <TThatResult, TThatError>, self_type>
         > ...
       >
-      self_type &
+      constexpr self_type &
       operator = (const Expected <TThatResult, TThatError> & that)
       noexcept (
            std::is_nothrow_assignable_v <result_type, const TThatResult &>
-        && std::is_nothrow_assignable_v <error_type, const TThatError &>
         && std::is_nothrow_destructible_v <result_type>
-        && std::is_nothrow_destructible_v <error_type>
         && std::is_nothrow_constructible_v <result_type, const TThatResult &>
+        && std::is_nothrow_assignable_v <error_type, const TThatError &>
+        && std::is_nothrow_destructible_v <error_type>
         && std::is_nothrow_constructible_v <error_type, const TThatError &>
       )
       {
@@ -1977,24 +3026,32 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       * @return
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <
              std::is_assignable_v <result_type &, TThatResult &&>
-          && std::is_assignable_v <error_type &, TThatError &&>
           && std::is_constructible_v <result_type &, TThatResult &&>
+          && std::is_assignable_v <error_type &, TThatError &&>
           && std::is_constructible_v <error_type &, TThatError &&>
           && !std::is_same_v <self_type, Expected <TThatResult, TThatError>>
         > ...
       >
-      self_type &
+      constexpr self_type &
       operator = (Expected <TThatResult, TThatError> && that)
       noexcept (
            std::is_nothrow_assignable_v <result_type, TThatResult &&>
-        && std::is_nothrow_assignable_v <error_type, TThatError &&>
         && std::is_nothrow_destructible_v <result_type>
-        && std::is_nothrow_destructible_v <error_type>
         && std::is_nothrow_constructible_v <result_type, TThatResult &&>
+        && std::is_nothrow_assignable_v <error_type, TThatError &&>
+        && std::is_nothrow_destructible_v <error_type>
         && std::is_nothrow_constructible_v <error_type, TThatError &&>
       )
       {
@@ -2032,6 +3089,13 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam ...
+       * @param that_result
+       * @return
+       */
       template <
         typename TThatResult = result_type,
         std::enable_if_t <
@@ -2043,7 +3107,7 @@ namespace Utils
           && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ErrorTag>
         > ...
       >
-      self_type &
+      constexpr self_type &
       operator = (TThatResult && that_result)
       noexcept (
            std::is_nothrow_assignable_v <result_type, TThatResult &&>
@@ -2071,11 +3135,18 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param unexpected
+       * @return
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <std::is_constructible_v <error_type, const TThatError &>> ...
       >
-      self_type &
+      constexpr self_type &
       operator = (const Unexpected <TThatError> & unexpected)
       noexcept (
            std::is_nothrow_assignable_v <error_type, const TThatError &>
@@ -2100,11 +3171,18 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatError
+       * @tparam ...
+       * @param unexpected
+       * @return
+       */
       template <
         typename TThatError = error_type,
         std::enable_if_t <std::is_constructible_v <error_type, TThatError &&>> ...
       >
-      self_type &
+      constexpr self_type &
       operator = (Unexpected <TThatError> && unexpected)
       noexcept (
            std::is_nothrow_assignable_v <error_type, TThatError &&>
@@ -2129,6 +3207,14 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       * @return
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <std::is_constructible_v <Expected <TThatResult, TThatError>, const self_type &>> ...
@@ -2155,6 +3241,14 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       * @return
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <std::is_constructible_v <Expected <TThatResult, TThatError>, self_type &&>> ...
@@ -2181,6 +3275,14 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       * @return
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <std::is_constructible_v <Expected <TThatResult, TThatError>, const self_type &>> ...
@@ -2207,6 +3309,14 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TThatResult
+       * @tparam TThatError
+       * @tparam ...
+       * @param that
+       * @return
+       */
       template <
         typename TThatResult, typename TThatError,
         std::enable_if_t <std::is_constructible_v <Expected <TThatResult, TThatError>, self_type &&>> ...
@@ -2233,7 +3343,12 @@ namespace Utils
       }
 
 
-      constexpr bool
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      [[nodiscard]] constexpr bool
       operator == (const self_type & that) const
       {
         if (this == &that)
@@ -2268,18 +3383,30 @@ namespace Utils
       }
 
 
-      constexpr bool
+      /**
+       * @brief
+       * @param that
+       * @return
+       */
+      [[nodiscard]] constexpr bool
       operator != (const self_type & that) const
       {
         return !operator == (that);
       }
 
 
+      /**
+       * @brief
+       * @tparam TFallback
+       * @tparam ...
+       * @param fallback
+       * @return
+       */
       template <
         typename TFallback = result_type,
         std::enable_if_t <std::is_constructible_v <TFallback, const result_type &>> ...
       >
-      constexpr TFallback
+      [[nodiscard]] constexpr TFallback
       operator || (TFallback && fallback) const &
       noexcept (std::is_nothrow_constructible_v <TFallback, const result_type &>)
       {
@@ -2299,11 +3426,18 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @tparam TFallback
+       * @tparam ...
+       * @param fallback
+       * @return
+       */
       template <
         typename TFallback = result_type,
         std::enable_if_t <std::is_constructible_v <TFallback, result_type &&>> ...
       >
-      constexpr TFallback
+      [[nodiscard]] constexpr TFallback
       operator || (TFallback && fallback) &&
       noexcept (std::is_nothrow_constructible_v <TFallback, result_type &&>)
       {
@@ -2323,21 +3457,33 @@ namespace Utils
       }
 
 
-      constexpr const result_type &
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const result_type &
       operator * (void) const & noexcept
       {
         return base_type::result_Checked_ ();
       }
 
 
-      constexpr result_type &
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr result_type &
       operator * (void) & noexcept
       {
         return base_type::result_Checked_ ();
       }
 
 
-      constexpr const result_type &&
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const result_type &&
       operator * (void) const && noexcept
       {
         base_type::wasChecked_ (true);
@@ -2346,7 +3492,11 @@ namespace Utils
       }
 
 
-      constexpr result_type &&
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr result_type &&
       operator * (void) && noexcept
       {
         base_type::wasChecked_ (true);
@@ -2355,20 +3505,34 @@ namespace Utils
       }
 
 
-      constexpr const result_type *
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr const result_type *
       operator -> (void) const noexcept
       {
         return std::addressof (operator * ());
       }
 
 
-      constexpr result_type *
+      /**
+       * @brief
+       * @return
+       */
+      [[nodiscard]] constexpr result_type *
       operator -> (void) noexcept
       {
         return std::addressof (operator * ());
       }
 
 
+      /**
+       * @brief
+       * @param output
+       * @param self
+       * @return
+       */
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
