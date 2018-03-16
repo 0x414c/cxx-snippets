@@ -10,7 +10,7 @@ namespace Utils::Lang
   /**
    * @brief
    * @tparam TEnum
-   * @param enum
+   * @param x
    * @return
    */
   template <typename TEnum, std::enable_if_t <std::is_enum_v <TEnum>> ...>

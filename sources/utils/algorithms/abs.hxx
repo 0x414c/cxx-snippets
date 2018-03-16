@@ -11,7 +11,6 @@ namespace Utils
    * @brief
    * @tparam TArithmetic
    * @param x
-   * @param compare
    * @return
    */
   template <typename TArithmetic>

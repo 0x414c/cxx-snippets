@@ -11,7 +11,6 @@ namespace Utils
    * @brief
    * @tparam TSigned
    * @param x
-   * @param compare
    * @return
    */
   template <typename TSigned>

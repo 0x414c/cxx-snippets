@@ -43,7 +43,9 @@ namespace Utils
 
       /**
        * @brief
-       * @param condition
+       * @param value
+       * @param as_text
+       * @param source_location
        */
       constexpr explicit Condition (
         bool value, const CString & as_text, const SourceLocation & source_location
