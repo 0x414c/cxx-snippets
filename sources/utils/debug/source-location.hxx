@@ -61,7 +61,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr const CString &
+      [[nodiscard]] constexpr const CString &
       function (void) const noexcept
       {
         return function_;
@@ -72,7 +72,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr const CString &
+      [[nodiscard]] constexpr const CString &
       file (void) const noexcept
       {
         return file_;
@@ -83,7 +83,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr std::size_t
+      [[nodiscard]] constexpr std::size_t
       line (void) const noexcept
       {
         return line_;

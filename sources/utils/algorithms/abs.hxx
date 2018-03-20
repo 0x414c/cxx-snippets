@@ -14,7 +14,7 @@ namespace Utils
    * @return
    */
   template <typename TArithmetic>
-  constexpr TArithmetic
+  [[nodiscard]] constexpr TArithmetic
   abs (TArithmetic x)
   {
     static_assert (std::is_arithmetic_v <TArithmetic>);

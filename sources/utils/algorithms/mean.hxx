@@ -18,7 +18,7 @@ namespace Utils
    * @return
    */
   template <typename TInputIterator>
-  constexpr typename std::iterator_traits <TInputIterator>::value_type
+  [[nodiscard]] constexpr typename std::iterator_traits <TInputIterator>::value_type
   mean (TInputIterator first, TInputIterator last)
   {
     using difference_type = typename std::iterator_traits <TInputIterator>::difference_type;

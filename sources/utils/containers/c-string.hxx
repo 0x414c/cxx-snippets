@@ -74,7 +74,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr const char_type *
+      [[nodiscard]] constexpr const char_type *
       data (void) const noexcept
       {
         return data_;
@@ -85,7 +85,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr std::size_t
+      [[nodiscard]] constexpr std::size_t
       size (void) const noexcept
       {
         return size_;
@@ -96,7 +96,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr operator const char_type * (void) const noexcept
+      [[nodiscard]] constexpr operator const char_type * (void) const noexcept
       {
         return data ();
       }
@@ -124,7 +124,7 @@ namespace Utils
        * @param pos
        * @return
        */
-      constexpr char_type
+      [[nodiscard]] constexpr char_type
       operator [] (std::size_t pos) const noexcept
       {
         // ASSERT (pos < size (), "`pos' must be less than `size ()'");

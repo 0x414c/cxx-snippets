@@ -59,7 +59,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       operator == (const self_type & that [[maybe_unused]]) const noexcept
       {
         return true;
@@ -71,7 +71,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       operator != (const self_type & that [[maybe_unused]]) const noexcept
       {
         return !operator == (that);
@@ -83,7 +83,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       operator < (const self_type & that [[maybe_unused]]) const noexcept
       {
         return false;
@@ -95,7 +95,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       operator > (const self_type & that [[maybe_unused]]) const noexcept
       {
         return false;
@@ -107,7 +107,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       operator <= (const self_type & that) const noexcept
       {
         return !operator < (that);
@@ -119,7 +119,7 @@ namespace Utils
        * @param that
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       operator >= (const self_type & that) const noexcept
       {
         return !operator > (that);

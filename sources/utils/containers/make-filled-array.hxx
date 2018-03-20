@@ -15,7 +15,7 @@ namespace Utils
    * @return
    */
   template <typename TValue, std::size_t TSize>
-  std::array <TValue, TSize>
+  [[nodiscard]] std::array <TValue, TSize>
   makeFilledArray (const TValue & value)
   {
     std::array <TValue, TSize> new_array;

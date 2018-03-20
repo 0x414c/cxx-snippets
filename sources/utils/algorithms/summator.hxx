@@ -72,7 +72,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr term_type
+      [[nodiscard]] constexpr term_type
       total (void) const noexcept
       {
         return sum_;
@@ -191,7 +191,7 @@ namespace Utils
        * For the reference see: [5], [8].
        * @return
        */
-      constexpr term_type
+      [[nodiscard]] constexpr term_type
       total (void) const noexcept
       {
         return (sum_ + correction_);
@@ -373,7 +373,7 @@ namespace Utils
        * TODO: [1;0] Explicit?
        * @return
        */
-      constexpr explicit operator term_type (void) const noexcept
+      [[nodiscard]] constexpr explicit operator term_type (void) const noexcept
       {
         return summation_policy_.total ();
       }

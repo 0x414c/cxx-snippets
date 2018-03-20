@@ -84,7 +84,7 @@ namespace Utils
        * @param flags
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       has (flag_type flags) const noexcept
       {
         return ((underlying_type (flags_) & underlying_type (flags)) != underlying_zero_);
@@ -96,7 +96,7 @@ namespace Utils
        * @param flags
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       has (const std::initializer_list <flag_type> & flags) const noexcept
       {
         for (const flag_type flag : flags)
@@ -116,14 +116,14 @@ namespace Utils
        * @param flags
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       is (flag_type flags) const noexcept
       {
         return (flags_ == flags);
       }
 
 
-      constexpr bool
+      [[nodiscard]] constexpr bool
       is (const std::initializer_list <flag_type> & flags) const noexcept
       {
         return is (combine_ (flags));
@@ -134,7 +134,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       none (void) const noexcept
       {
         return (underlying_type (flags_) == underlying_zero_);
@@ -145,7 +145,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       any (void) const noexcept
       {
         return !none ();
@@ -156,7 +156,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       all (void) const noexcept
       {
         return (underlying_type (flags_) == std::numeric_limits <underlying_type>::max ());
@@ -232,7 +232,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr explicit operator bool (void) const noexcept
+      [[nodiscard]] constexpr explicit operator bool (void) const noexcept
       {
         return any ();
       }
@@ -242,7 +242,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr explicit operator flag_type (void) const noexcept
+      [[nodiscard]] constexpr explicit operator flag_type (void) const noexcept
       {
         return flags_;
       }

@@ -14,7 +14,7 @@ namespace Utils
    * @return
    */
   template <typename TSigned>
-  constexpr TSigned
+  [[nodiscard]] constexpr TSigned
   sign (TSigned x)
   {
     static_assert (std::is_signed_v <TSigned>);

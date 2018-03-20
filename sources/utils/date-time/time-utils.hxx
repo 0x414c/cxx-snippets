@@ -13,7 +13,7 @@ namespace Utils
    * @brief
    * @return
    */
-  std::chrono::nanoseconds::rep
+  [[nodiscard]] std::chrono::nanoseconds::rep
   unixTime (void);
 
   /**
@@ -22,7 +22,7 @@ namespace Utils
    * @param y
    * @return
    */
-  constexpr int
+  [[nodiscard]] constexpr int
   tmDiff (const std::tm & x, const std::tm & y) noexcept
   {
     /*

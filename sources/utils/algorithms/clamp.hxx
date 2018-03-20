@@ -26,7 +26,7 @@ namespace Utils
    * @return
    */
   template <typename TX, typename TCompare = std::less <TX>>
-  constexpr const TX &
+  [[nodiscard]] constexpr const TX &
   clamp (const TX & x, const TX & x_min, const TX & x_max, TCompare compare = TCompare ())
   {
     ASSERT (!compare (x_max, x_min), "`x_max' must not be less than `x_min'");
@@ -61,7 +61,7 @@ namespace Utils
    * @return
    */
   template <typename TX, typename TY = TX, typename TCompare = std::less <TX>>
-  constexpr const TY &
+  [[nodiscard]] constexpr const TY &
   clamp (
     const TX & x, const TX & x_min, const TX & x_max, const TY & y_min, const TY & y_max,
     TCompare compare = TCompare ()

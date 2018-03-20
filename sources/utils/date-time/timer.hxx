@@ -93,35 +93,35 @@ namespace Utils
        * @brief
        * @return
        */
-      const CString &
+      [[nodiscard]] const CString &
       description (void) const noexcept;
 
       /**
        * @brief
        * @return
        */
-      bool
+      [[nodiscard]] bool
       isAutomatic (void) const noexcept;
 
       /**
        * @brief
        * @return
        */
-      clock_type::time_point
+      [[nodiscard]] clock_type::time_point
       timeStarted (void) const;
 
       /**
        * @brief
        * @return
        */
-      clock_type::time_point
+      [[nodiscard]] clock_type::time_point
       timeStopped (void) const;
 
       /**
        * @brief
        * @return
        */
-      clock_type::duration
+      [[nodiscard]] clock_type::duration
       timeElapsed (void) const;
 
       /**

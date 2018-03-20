@@ -14,7 +14,7 @@ namespace Utils::Lang::WeakScopedEnum
    * @return
    */
   template <typename TEnum, std::enable_if_t <std::is_enum_v <TEnum>> ...>
-  constexpr std::underlying_type_t <TEnum>
+  [[nodiscard]] constexpr std::underlying_type_t <TEnum>
   operator + (TEnum x) noexcept
   {
     return std::underlying_type_t <TEnum> (x);

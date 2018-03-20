@@ -19,7 +19,7 @@ namespace Utils
    * @return
    */
   template <typename TX, typename TY = TX>
-  constexpr TY
+  [[nodiscard]] constexpr TY
   lerp (TX x, TX x_0, TX x_1, TY y_0, TY y_1)
   {
     static_assert (std::is_arithmetic_v <TX>);

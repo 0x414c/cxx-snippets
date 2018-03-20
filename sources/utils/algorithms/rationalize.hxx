@@ -34,7 +34,7 @@ namespace Utils
    * @return
    */
   template <typename TIntegral, typename TFloatingPoint>
-  constexpr std::tuple <TIntegral, TIntegral, TFloatingPoint>
+  [[nodiscard]] constexpr std::tuple <TIntegral, TIntegral, TFloatingPoint>
   rationalize (
     TFloatingPoint x,
     TIntegral max_denominator = Config::Utils::Rationalize::Max_denominator <TIntegral>,

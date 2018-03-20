@@ -15,7 +15,7 @@ namespace Utils
    * @return
    */
   template <typename TFirst>
-  constexpr std::common_type_t <TFirst>
+  [[nodiscard]] constexpr std::common_type_t <TFirst>
   max (TFirst && first)
   {
     return std::forward <TFirst> (first);
@@ -34,7 +34,7 @@ namespace Utils
    * @return
    */
   template <typename TFirst, typename TSecond, typename ... TRest>
-  constexpr std::common_type_t <TFirst, TSecond, TRest ...>
+  [[nodiscard]] constexpr std::common_type_t <TFirst, TSecond, TRest ...>
   max (TFirst && first, TSecond && second, TRest && ... rest)
   {
     if (second < first)
@@ -46,45 +46,6 @@ namespace Utils
       return max (std::forward <TSecond> (second), std::forward <TRest> (rest) ...);
     }
   }
-
-
-//  /**
-//   * @brief
-//   * @tparam TFirst
-//   * @param first
-//   * @return
-//   */
-//  template <typename TFirst>
-//  constexpr const TFirst &
-//  max (const TFirst & first)
-//  {
-//    return first;
-//  }
-//
-//
-//  /**
-//   * @brief
-//   * NOTE: a <= b -> (b >= a == a <= b) ? b : a === (b < a) ? a : b -> max (a, b) == b <=> a == b.
-//   * @tparam TFirstSecond
-//   * @tparam TRest
-//   * @param first
-//   * @param second
-//   * @param rest
-//   * @return
-//   */
-//  template <typename TFirstSecond, typename ... TRest>
-//  constexpr const TFirstSecond &
-//  max (const TFirstSecond & first, const TFirstSecond & second, const TRest & ... rest)
-//  {
-//    if (second < first)
-//    {
-//      return max (first, rest ...);
-//    }
-//    else
-//    {
-//      return max (second, rest ...);
-//    }
-//  }
 }
 
 

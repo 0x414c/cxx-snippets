@@ -17,7 +17,8 @@ namespace Utils
    * @return
    */
   template <typename TIntegral>
-  constexpr std::uint8_t ctz (TIntegral x) noexcept
+  [[nodiscard]] constexpr std::uint8_t
+  ctz (TIntegral x) noexcept
   {
     static_assert (
       AlwaysFalseV <TIntegral>, "ctz <TIntegral>: There is no suitable template specialization available"
@@ -170,7 +171,7 @@ namespace Utils
    * @return
    */
   template <>
-  constexpr std::uint8_t
+  [[nodiscard]] constexpr std::uint8_t
   ctz (std::uint8_t x) noexcept
   {
     using lut_type = CtzInternals_::CtzLut_ <8>;
@@ -193,7 +194,7 @@ namespace Utils
    * @return
    */
   template <>
-  constexpr std::uint8_t
+  [[nodiscard]] constexpr std::uint8_t
   ctz (std::int8_t x) noexcept
   {
     return ctz (std::uint8_t (x));
@@ -206,7 +207,7 @@ namespace Utils
    * @return
    */
   template <>
-  constexpr std::uint8_t
+  [[nodiscard]] constexpr std::uint8_t
   ctz (std::uint16_t x) noexcept
   {
     using lut_type = CtzInternals_::CtzLut_ <16>;
@@ -229,7 +230,7 @@ namespace Utils
    * @return
    */
   template <>
-  constexpr std::uint8_t
+  [[nodiscard]] constexpr std::uint8_t
   ctz (std::int16_t x) noexcept
   {
     return ctz (std::uint16_t (x));

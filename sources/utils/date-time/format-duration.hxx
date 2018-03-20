@@ -17,7 +17,7 @@ namespace Utils
    * @return
    */
   template <typename TDuration>
-  std::string
+  [[nodiscard]] std::string
   formatDuration (TDuration duration)
   {
     using namespace std::chrono;

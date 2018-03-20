@@ -23,7 +23,7 @@ namespace Utils
    * @return
    */
   template <typename TFloatingPoint>
-  constexpr bool
+  [[nodiscard]] constexpr bool
   isClose (
     TFloatingPoint x, TFloatingPoint y,
     TFloatingPoint rel_tol = Config::Utils::IsClose::Relative_tolerance <TFloatingPoint>,

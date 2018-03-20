@@ -60,7 +60,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr bool
+      [[nodiscard]] constexpr bool
       value (void) const noexcept
       {
         return value_;
@@ -71,7 +71,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr const CString &
+      [[nodiscard]] constexpr const CString &
       source (void) const noexcept
       {
         return source_;
@@ -82,7 +82,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr const SourceLocation &
+      [[nodiscard]] constexpr const SourceLocation &
       sourceLocation (void) const noexcept
       {
         return source_location_;
@@ -93,7 +93,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr explicit operator bool (void) const noexcept
+      [[nodiscard]] constexpr explicit operator bool (void) const noexcept
       {
         return value ();
       }

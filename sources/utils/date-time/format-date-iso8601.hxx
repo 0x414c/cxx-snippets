@@ -19,7 +19,7 @@ namespace Utils
    * @return
    */
   template <typename TClock>
-  std::string
+  [[nodiscard]] std::string
   formatDate_Iso8601 (const typename TClock::time_point & now)
   {
     using clock_type = TClock;

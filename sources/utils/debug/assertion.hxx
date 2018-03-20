@@ -54,7 +54,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr const Condition &
+      [[nodiscard]] constexpr const Condition &
       condition (void) noexcept
       {
         return condition_;

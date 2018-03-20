@@ -27,7 +27,7 @@ namespace Utils
    * @return
    */
   template <typename TX, typename TY = TX, typename TZ = TX>
-  constexpr TZ
+  [[nodiscard]] constexpr TZ
   lerp_2d (
     TX x, TY y,
     TX x_0, TX x_1, TY y_0, TY y_1,
