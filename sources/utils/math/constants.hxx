@@ -2,7 +2,7 @@
 #define UTILS_MATH_CONSTANTS_HXX
 
 
-namespace Utils::Constants
+namespace Utils::Math::Constants
 {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
