@@ -33,12 +33,12 @@ namespace Utils
       /**
        * @brief
        */
-      using self_type = Flags;
+      using underlying_type = std::underlying_type_t <flag_type>;
 
       /**
        * @brief
        */
-      using underlying_type = std::underlying_type_t <flag_type>;
+      using self_type = Flags;
 
 
     public:
@@ -123,6 +123,11 @@ namespace Utils
       }
 
 
+      /**
+       * @brief
+       * @param flags
+       * @return
+       */
       [[nodiscard]] constexpr bool
       is (const std::initializer_list <flag_type> & flags) const noexcept
       {
@@ -171,7 +176,7 @@ namespace Utils
       constexpr void
       set (flag_type flags) noexcept
       {
-        flags_ = underlying_type (flags_) | underlying_type (flags);
+        flags_ = flag_type (underlying_type (flags_) | underlying_type (flags));
       }
 
 
@@ -183,10 +188,7 @@ namespace Utils
       constexpr void
       set (const std::initializer_list <flag_type> & flags) noexcept
       {
-        for (const flag_type flag : flags)
-        {
-          set (flag);
-        }
+        set (combine_ (flags));
       }
 
 
@@ -198,7 +200,7 @@ namespace Utils
       constexpr void
       unset (flag_type flags) noexcept
       {
-        flags_ = underlying_type (flags_) ^ underlying_type (flags);
+        flags_ = flag_type (underlying_type (flags_) ^ underlying_type (flags));
       }
 
 
@@ -210,10 +212,7 @@ namespace Utils
       constexpr void
       unset (const std::initializer_list <flag_type> & flags) noexcept
       {
-        for (const flag_type flag : flags)
-        {
-          unset (flag);
-        }
+        unset (combine_ (flags));
       }
 
 
@@ -224,7 +223,7 @@ namespace Utils
       constexpr void
       reset (void) noexcept
       {
-        flags_ = flag_zero_;
+        flags_ = flag_type (underlying_zero_);
       }
 
 
@@ -307,16 +306,9 @@ namespace Utils
        * @return
        */
       constexpr bool
-      operator == (self_type && that) const noexcept
+      operator == (flag_type flags) const noexcept
       {
-        if (this == &that)
-        {
-          return true;
-        }
-        else
-        {
-          return (flags_ == that.flags_);
-        }
+        return (flags_ == flags);
       };
 
 
@@ -347,7 +339,7 @@ namespace Utils
       constexpr flag_type
       combine_ (const std::initializer_list <flag_type> & flags) const noexcept
       {
-        underlying_type all_flags { };
+        underlying_type all_flags (underlying_zero_);
         for (const flag_type flag : flags)
         {
           all_flags |= underlying_type (flag);
@@ -361,11 +353,6 @@ namespace Utils
        * @brief
        */
       flag_type flags_ { };
-
-      /**
-       * @brief
-       */
-      static constexpr flag_type flag_zero_ { };
 
       /**
        * @brief
