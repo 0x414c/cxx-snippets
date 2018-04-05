@@ -213,7 +213,8 @@ namespace Utils
   /**
    * @brief
    */
-  #define TIMER_CREATE(id, description) ::Utils::Timer (PASTE_E (timer_, id)) ((description), ::Utils::Timer::is_automatic_flag (false))
+  #define TIMER_CREATE(id, description) \
+    ::Utils::Timer (PASTE_E (timer_, id)) ((description), ::Utils::Timer::is_automatic_flag (false))
 
 
   /**
@@ -237,6 +238,17 @@ namespace Utils
       (PASTE_E (timer_, id)).logTimeElapsed (); \
     } \
     while (false)
+
+
+  #define TIMER_WRAP(id, description, ...) \
+    do \
+    { \
+      TIMER_CREATE (id, (description)); \
+      TIMER_START (id); \
+      __VA_ARGS__ \
+      TIMER_STOP (id); \
+    } \
+    while (false)
 #else // WITH_TIMERS
   #define TIMER_AUTO() (void (0))
 
@@ -245,6 +257,13 @@ namespace Utils
   #define TIMER_START(id) do { } while (false)
 
   #define TIMER_STOP(id) do { } while (false)
+
+  #define TIMER_WRAP(id, description, ...) \
+    do \
+    { \
+      __VA_ARGS__ \
+    } \
+    while (false)
 #endif // WITH_TIMERS
 
 
