@@ -115,7 +115,6 @@ namespace Utils
        */
       inline static std::size_t message_id_ { };
 
-
       /**
        * @brief
        */
