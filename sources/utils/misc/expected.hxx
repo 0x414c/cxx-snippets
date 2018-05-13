@@ -236,7 +236,7 @@ namespace Utils
       /**
        * @brief
        */
-      mutable bool was_checked_ { false };
+      mutable bool was_checked_ { };
   };
 
 
@@ -932,7 +932,10 @@ namespace Utils
         [[nodiscard]] constexpr const derived_type *
         derived_ (void) const noexcept
         {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
           return (const derived_type *) (this);
+#pragma GCC diagnostic pop
         }
 
 
@@ -943,7 +946,10 @@ namespace Utils
         [[nodiscard]] constexpr derived_type *
         derived_ (void) noexcept
         {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
           return (derived_type *) (this);
+#pragma GCC diagnostic pop
         }
     };
 
@@ -1254,7 +1260,10 @@ namespace Utils
         construct_ (ResultTag, TThatResult && that_result)
         noexcept (std::is_nothrow_constructible_v <result_type, TThatResult &&>)
         {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
           ::new ((void *) (std::addressof (get_ (Result)))) (result_type) (std::forward <TThatResult> (that_result));
+#pragma GCC diagnostic pop
         }
 
 
@@ -1268,7 +1277,10 @@ namespace Utils
         construct_ (ErrorTag, TThatError && that_error)
         noexcept (std::is_nothrow_constructible_v <error_type, TThatError &&>)
         {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
           ::new ((void *) (std::addressof (get_ (Error)))) (error_type) (std::forward <TThatError> (that_error));
+#pragma GCC diagnostic pop
         }
 
 
@@ -1438,7 +1450,10 @@ namespace Utils
         construct_ (ResultTag, TThatResult && that_result)
         noexcept (std::is_nothrow_constructible_v <result_type, TThatResult &&>)
         {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
           ::new ((void *) (std::addressof (get_ (Result)))) (result_type) (std::forward <TThatResult> (that_result));
+#pragma GCC diagnostic pop
         }
 
 
@@ -1452,7 +1467,10 @@ namespace Utils
         construct_ (ErrorTag, TThatError && that_error)
         noexcept (std::is_nothrow_constructible_v <error_type, TThatError &&>)
         {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
           ::new ((void *) (std::addressof (get_ (Error)))) (error_type) (std::forward <TThatError> (that_error));
+#pragma GCC diagnostic pop
         }
 
 
@@ -2152,7 +2170,10 @@ namespace Utils
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
-        output << "Unexpected{" << "error:" << self.error () << '}';
+        output
+          << "Unexpected{"
+          << "error:" << self.error ()
+          << '}';
 
         return output;
       }
