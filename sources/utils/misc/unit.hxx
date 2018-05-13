@@ -133,7 +133,7 @@ namespace Utils
        * @return
        */
       friend std::ostream &
-      operator << (std::ostream & output, const self_type & unit [[maybe_unused]])
+      operator << (std::ostream & output, const self_type & self [[maybe_unused]])
       {
         output << "Unit{}";
 
