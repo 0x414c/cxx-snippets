@@ -13,4 +13,4 @@
 #define PASTE_E(a, b) PASTE_NE(a, b)
 
 
-#endif // UTILS_PREPROC_PASTE_HXX
+#endif  // UTILS_PREPROC_PASTE_HXX

@@ -3,10 +3,10 @@
 
 
 #include <initializer_list> // std::initializer_list
-#include <ios> // std::{hex, showbase}
-#include <limits> // std::numeric_limits
-#include <ostream> // std::ostream
-#include <type_traits> // std::{is_enum_v, underlying_type_t, is_unsigned_v}
+#include <ios>  // std::{hex, showbase}
+#include <limits>  // std::numeric_limits
+#include <ostream>  // std::ostream
+#include <type_traits>  // std::{is_enum_v, is_unsigned_v, underlying_type_t}
 
 
 namespace Utils
@@ -100,7 +100,7 @@ namespace Utils
       {
         for (const flag_type flag : flags)
         {
-          if (!has (flag))
+          if (! has (flag))
           {
             return false;
           }
@@ -130,7 +130,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       is (const std::initializer_list <flag_type> & flags) const noexcept
       {
-        return is (combine_ (flags));
+        return (is (combine_ (flags)));
       }
 
 
@@ -152,7 +152,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       any (void) const noexcept
       {
-        return !none ();
+        return (! none ());
       }
 
 
@@ -232,7 +232,7 @@ namespace Utils
        */
       [[nodiscard]] constexpr explicit operator bool (void) const noexcept
       {
-        return any ();
+        return (any ());
       }
 
 
@@ -273,7 +273,7 @@ namespace Utils
       {
         flags_ = flags;
 
-        return *this;
+        return (* this);
       }
 
 
@@ -285,14 +285,12 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator == (const self_type & that) const noexcept
       {
-        if (this == &that)
+        if (this == (& that))
         {
           return true;
         }
-        else
-        {
-          return (flags_ == that.flags_);
-        }
+
+        return (flags_ == that.flags_);
       };
 
 
@@ -304,7 +302,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (const self_type & that) const
       {
-        return !operator == (that);
+        return (! operator == (that));
       }
 
 
@@ -328,7 +326,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (flag_type flags) const
       {
-        return !operator == (flags);
+        return (! operator == (flags));
       }
 
 
@@ -365,7 +363,7 @@ namespace Utils
           all_flags |= underlying_type (flag);
         }
 
-        return flag_type (all_flags);
+        return (flag_type (all_flags));
       }
 
 
@@ -383,4 +381,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_MISC_FLAGS_HXX
+#endif  // UTILS_MISC_FLAGS_HXX

@@ -2,7 +2,7 @@
 #define UTILS_CONFIG_RATIONALIZE_HXX
 
 
-#include <cstddef> // std::size_t
+#include <cstddef>  // std::size_t
 
 
 namespace Config::Utils::Rationalize
@@ -14,4 +14,4 @@ namespace Config::Utils::Rationalize
 }
 
 
-#endif // UTILS_CONFIG_RATIONALIZE_HXX
+#endif  // UTILS_CONFIG_RATIONALIZE_HXX

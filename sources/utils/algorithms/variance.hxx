@@ -2,10 +2,11 @@
 #define UTILS_ALGORITHMS_VARIANCE_HXX
 
 
-#include <iterator> // std::{distance, iterator_traits}
-#include <type_traits> // std::is_arithmetic_v
+#include <iterator>  // std::{distance, iterator_traits}
+#include <type_traits>  // std::is_arithmetic_v
 
-#include "../debug/assert.hxx" // ASSERT
+//#include "../debug/assert.hxx"  // ASSERT
+#include "summator.hxx" // Summator
 
 
 namespace Utils
@@ -30,28 +31,24 @@ namespace Utils
     // TODO: `std::distance' is not usable as a constexpr function yet
     // ASSERT (std::distance (first, last) > 1, "Distance between `first' and `last' must be greater than 1");
 
-    difference_type n (0);
-    value_type mean (0);
-    value_type m_2 (0);
-
+    difference_type count (0);
+    Summator <value_type> mean (0);
+    Summator <value_type> m_2 (0);
     while (first != last)
     {
-      ++n;
-
-      const value_type x (*first);
-
-      const value_type delta_1 (x - mean);
-      mean += delta_1 / value_type (n);
-
-      const value_type delta_2 (x - mean);
+      const value_type x (* first);
+      const value_type delta_1 (x - value_type (mean));
+      ++ count;
+      mean += delta_1 / value_type (count);
+      const value_type delta_2 (x - value_type (mean));
       m_2 += delta_1 * delta_2;
 
-      ++first;
+      ++ first;
     }
 
-    return (m_2 / value_type (n - 1));
+    return (value_type (m_2) / value_type (count - 1));
   }
 }
 
 
-#endif // UTILS_ALGORITHMS_VARIANCE_HXX
+#endif  // UTILS_ALGORITHMS_VARIANCE_HXX

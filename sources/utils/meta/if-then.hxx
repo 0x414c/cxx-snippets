@@ -2,7 +2,7 @@
 #define UTILS_META_IFTHEN_HXX
 
 
-#include "common.hxx" // TypeOf
+#include "common.hxx"  // TypeOf
 
 
 namespace Utils
@@ -50,4 +50,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_META_IFTHEN_HXX
+#endif  // UTILS_META_IFTHEN_HXX

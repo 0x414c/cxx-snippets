@@ -2,11 +2,11 @@
 #define UTILS_META_ALIGNEDUNIONSTORAGE_HXX
 
 
-#include <cstddef> // std::size_t
+#include <cstddef>  // std::size_t
 
-#include "../algorithms/max.hxx" // max
-#include "aligned-storage.hxx" // AlignedStorageT
-#include "common.hxx" // TypeOf
+#include "../algorithms/max.hxx"  // max
+#include "aligned-storage.hxx"  // AlignedStorageT
+#include "common.hxx"  // TypeOf
 
 
 namespace Utils
@@ -47,4 +47,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_META_ALIGNEDUNIONSTORAGE_HXX
+#endif  // UTILS_META_ALIGNEDUNIONSTORAGE_HXX

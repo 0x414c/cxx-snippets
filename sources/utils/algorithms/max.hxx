@@ -2,8 +2,8 @@
 #define UTILS_ALGORITHMS_MAX_HXX
 
 
-#include <type_traits> // std::common_type_t
-#include <utility> // std::forward
+#include <type_traits>  // std::common_type_t
+#include <utility>  // std::forward
 
 
 namespace Utils
@@ -18,7 +18,7 @@ namespace Utils
   [[nodiscard]] constexpr std::common_type_t <TFirst>
   max (TFirst && first)
   {
-    return std::forward <TFirst> (first);
+    return (std::forward <TFirst> (first));
   }
 
 
@@ -39,14 +39,12 @@ namespace Utils
   {
     if (second < first)
     {
-      return max (std::forward <TFirst> (first), std::forward <TRest> (rest) ...);
+      return (max (std::forward <TFirst> (first), std::forward <TRest> (rest) ...));
     }
-    else
-    {
-      return max (std::forward <TSecond> (second), std::forward <TRest> (rest) ...);
-    }
+
+    return (max (std::forward <TSecond> (second), std::forward <TRest> (rest) ...));
   }
 }
 
 
-#endif // UTILS_ALGORITHMS_MAX_HXX
+#endif  // UTILS_ALGORITHMS_MAX_HXX

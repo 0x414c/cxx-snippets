@@ -2,10 +2,10 @@
 #define UTILS_DEBUG_LOG_HXX
 
 
-#include "../config/logger.hxx" // ::Config::Utils::Logger::*
-#include "../logging/logger.hxx" // ::Utils::Logger::{log, log_Detailed}
-#include "source-location.hxx" // CURRENT_SOURCE_LOCATION
-#include "../preproc/stringify.hxx" // STRINGIFY_E
+#include "../config/logger.hxx"  // ::Config::Utils::Logger::*
+#include "../logging/logger.hxx"  // ::Utils::Logger::{log, log_Detailed}
+#include "../preproc/stringify.hxx"  // STRINGIFY_E
+#include "source-location.hxx"  // CURRENT_SOURCE_LOCATION
 
 
 #ifdef WITH_DEBUG_LOG
@@ -95,7 +95,7 @@
     ); \
   } \
   while (false)
-#else // WITH_DEBUG_LOG
+#else  // WITH_DEBUG_LOG
 #define LOG_F_L(format, ...) do { } while (false)
 
 #define LOG_F_NL(format, ...) do { } while (false)
@@ -109,7 +109,7 @@
 #define LOG_VAL_NL(expression) do { } while (false)
 
 #define LOG_FUNC() do { } while (false)
-#endif // WITH_DEBUG_LOG
+#endif  // WITH_DEBUG_LOG
 
 
-#endif // UTILS_DEBUG_LOG_HXX
+#endif  // UTILS_DEBUG_LOG_HXX

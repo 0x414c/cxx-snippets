@@ -2,7 +2,7 @@
 #define UTILS_MISC_UNIT_HXX
 
 
-#include <ostream> // std::ostream
+#include <ostream>  // std::ostream
 
 
 namespace Utils
@@ -74,7 +74,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (const self_type & that [[maybe_unused]]) const noexcept
       {
-        return !operator == (that);
+        return (! operator == (that));
       }
 
 
@@ -110,7 +110,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator <= (const self_type & that) const noexcept
       {
-        return !operator < (that);
+        return (! operator > (that));
       }
 
 
@@ -122,7 +122,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator >= (const self_type & that) const noexcept
       {
-        return !operator > (that);
+        return (! operator < (that));
       }
 
 
@@ -143,4 +143,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_MISC_UNIT_HXX
+#endif  // UTILS_MISC_UNIT_HXX

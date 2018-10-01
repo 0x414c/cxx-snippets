@@ -2,8 +2,8 @@
 #define UTILS_DEBUG_FATAL_HXX
 
 
-#include "crash-program.hxx" // ::Utils::crashProgram
-#include "source-location.hxx" // CURRENT_SOURCE_LOCATION
+#include "crash-program.hxx"  // ::Utils::crashProgram
+#include "source-location.hxx"  // CURRENT_SOURCE_LOCATION
 
 
 #define FATAL_L(message) \
@@ -22,4 +22,4 @@
   while (false)
 
 
-#endif // UTILS_DEBUG_FATAL_HXX
+#endif  // UTILS_DEBUG_FATAL_HXX

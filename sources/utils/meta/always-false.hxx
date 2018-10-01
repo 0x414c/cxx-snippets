@@ -2,7 +2,7 @@
 #define UTILS_META_ALWAYSFALSE_HXX
 
 
-#include "common.hxx" // ValueOf
+#include "common.hxx"  // ValueOf
 
 
 namespace Utils
@@ -28,4 +28,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_META_ALWAYSFALSE_HXX
+#endif  // UTILS_META_ALWAYSFALSE_HXX

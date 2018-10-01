@@ -1,7 +1,7 @@
-#include "condition.hxx" // Condition::*
+#include "condition.hxx"  // Condition::*
 
-#include <ios> // std::boolalpha
-#include <ostream> // std::ostream
+#include <ios>  // std::boolalpha
+#include <ostream>  // std::ostream
 
 
 namespace Utils

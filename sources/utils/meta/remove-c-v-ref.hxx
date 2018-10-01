@@ -2,9 +2,9 @@
 #define UTILS_META_REMOVECVREF_HXX
 
 
-#include <type_traits> // std::{remove_cv, remove_reference_t}
+#include <type_traits>  // std::{remove_cv, remove_reference_t}
 
-#include "common.hxx" // TypeOf
+#include "common.hxx"  // TypeOf
 
 
 namespace Utils
@@ -24,4 +24,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_META_REMOVECVREF_HXX
+#endif  // UTILS_META_REMOVECVREF_HXX

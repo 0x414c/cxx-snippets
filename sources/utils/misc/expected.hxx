@@ -2,16 +2,16 @@
 #define UTILS_MISC_EXPECTED_HXX
 
 
-#include <initializer_list> // std::initializer_list
-#include <ostream> // std::ostream
-#include <memory> // std::addressof
-#include <type_traits> // std::*
-#include <utility> // std::{forward, move}
+#include <initializer_list>  // std::initializer_list
+#include <memory>  // std::addressof
+#include <ostream>  // std::ostream
+#include <type_traits>  // std::*
+#include <utility>  // std::{forward, move}
 
-#include "../containers/c-string.hxx" // CString
-#include "../debug/fatal.hxx" // FATAL_NL
-#include "../meta/enable-copy-move.hxx" // EnableCopyMove
-#include "../meta/remove-c-v-ref.hxx" // RemoveCVRefT
+#include "../containers/c-string.hxx"  // CString
+#include "../debug/fatal.hxx"  // FATAL_NL
+#include "../meta/enable-copy-move.hxx"  // EnableCopyMove
+#include "../meta/remove-c-v-ref.hxx"  // RemoveCVRefT
 
 
 namespace Utils
@@ -163,9 +163,9 @@ namespace Utils
       /**
        * @brief
        */
-      ~CheckedNoDiscardPolicy (void) noexcept
+      ~ CheckedNoDiscardPolicy (void) noexcept
       {
-        if (!wasChecked_ ())
+        if (! wasChecked_ ())
         {
           FATAL_NL ("No instance of `Expected' must be left unchecked");
         }
@@ -204,13 +204,13 @@ namespace Utils
       self_type &
       operator = (const self_type & that) noexcept
       {
-        if (this != &that)
+        if (this != (& that))
         {
           wasChecked_ (false);
           that.wasChecked_ (true);
         }
 
-        return *this;
+        return (* this);
       }
 
 
@@ -222,13 +222,13 @@ namespace Utils
       self_type &
       operator = (self_type && that) noexcept
       {
-        if (this != &that)
+        if (this != (& that))
         {
           wasChecked_ (false);
           that.wasChecked_ (true);
         }
 
-        return *this;
+        return (* this);
       }
 
 
@@ -249,10 +249,10 @@ namespace Utils
     template <typename TType>
     inline constexpr bool IsAllowedV_ (
          std::is_object_v <TType>
-      && !std::is_array_v <TType>
+      && (! std::is_array_v <TType>)
       && std::is_destructible_v <TType>
-      && !std::is_same_v <RemoveCVRefT <TType>, ResultTag>
-      && !std::is_same_v <RemoveCVRefT <TType>, ErrorTag>
+      && (! std::is_same_v <RemoveCVRefT <TType>, ResultTag>)
+      && (! std::is_same_v <RemoveCVRefT <TType>, ErrorTag>)
     );
 
 
@@ -478,7 +478,7 @@ namespace Utils
         /**
          * @brief
          */
-        ~ResultOrError_ (void) noexcept
+        ~ ResultOrError_ (void) noexcept
         { }
 
 
@@ -690,7 +690,7 @@ namespace Utils
         [[nodiscard]] constexpr const result_type &
         get_ (ResultTag) const noexcept
         {
-          return result_or_error_.result;
+          return (result_or_error_.result);
         }
 
 
@@ -701,7 +701,7 @@ namespace Utils
         [[nodiscard]] constexpr result_type &
         get_ (ResultTag) noexcept
         {
-          return result_or_error_.result;
+          return (result_or_error_.result);
         }
 
 
@@ -712,7 +712,7 @@ namespace Utils
         [[nodiscard]] constexpr const error_type &
         get_ (ErrorTag) const noexcept
         {
-          return result_or_error_.error;
+          return (result_or_error_.error);
         }
 
 
@@ -723,7 +723,7 @@ namespace Utils
         [[nodiscard]] constexpr error_type &
         get_ (ErrorTag) noexcept
         {
-          return result_or_error_.error;
+          return (result_or_error_.error);
         }
 
 
@@ -830,7 +830,7 @@ namespace Utils
           && std::is_nothrow_copy_constructible_v <error_type>
         )
         {
-          if (this != &that)
+          if (this != (& that))
           {
             if (isResult_ ())
             {
@@ -860,7 +860,7 @@ namespace Utils
             isResult_ (that.isResult_ ());
           }
 
-          return *this;
+          return (* this);
         }
 
 
@@ -879,7 +879,7 @@ namespace Utils
           && std::is_nothrow_move_constructible_v <error_type>
         )
         {
-          if (this != &that)
+          if (this != (& that))
           {
             if (isResult_ ())
             {
@@ -909,7 +909,7 @@ namespace Utils
             isResult_ (that.isResult_ ());
           }
 
-          return *this;
+          return (* this);
         }
 
 
@@ -1026,8 +1026,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
         /**
          * @brief
@@ -1037,8 +1037,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
 
         /**
@@ -1108,8 +1108,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_copy_assignable_v <result_type>
           && std::is_nothrow_copy_assignable_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
         /**
          * @brief
@@ -1121,8 +1121,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_move_assignable_v <result_type>
           && std::is_nothrow_move_assignable_v <error_type>
-        ) =
-        default;
+        )
+        = default;
     };
 
 
@@ -1184,8 +1184,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
         /**
          * @brief
@@ -1195,8 +1195,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
 
         /**
@@ -1295,8 +1295,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_copy_assignable_v <result_type>
           && std::is_nothrow_copy_assignable_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
         /**
          * @brief
@@ -1308,8 +1308,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_move_assignable_v <result_type>
           && std::is_nothrow_move_assignable_v <error_type>
-        ) =
-        default;
+        )
+        = default;
     };
 
 
@@ -1371,8 +1371,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_copy_constructible_v <result_type>
           && std::is_nothrow_copy_constructible_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
         /**
          * @brief
@@ -1382,8 +1382,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_move_constructible_v <result_type>
           && std::is_nothrow_move_constructible_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
 
         /**
@@ -1413,7 +1413,7 @@ namespace Utils
         /**
          * @brief
          */
-        ~ExpectedStorage_ (void)
+        ~ ExpectedStorage_ (void)
         noexcept (
              std::is_nothrow_destructible_v <result_type>
           && std::is_nothrow_destructible_v <error_type>
@@ -1481,7 +1481,7 @@ namespace Utils
         destroy_ (ResultTag)
         noexcept (std::is_nothrow_destructible_v <result_type>)
         {
-          get_ (Result).~result_type ();
+          get_ (Result).~ result_type ();
         }
 
 
@@ -1492,7 +1492,7 @@ namespace Utils
         destroy_ (ErrorTag)
         noexcept (std::is_nothrow_destructible_v <error_type>)
         {
-          get_ (Error).~error_type ();
+          get_ (Error).~ error_type ();
         }
 
 
@@ -1528,8 +1528,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_copy_assignable_v <result_type>
           && std::is_nothrow_copy_assignable_v <error_type>
-        ) =
-        default;
+        )
+        = default;
 
         /**
          * @brief
@@ -1541,8 +1541,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_move_assignable_v <result_type>
           && std::is_nothrow_move_assignable_v <error_type>
-        ) =
-        default;
+        )
+        = default;
     };
 
 
@@ -1634,8 +1634,8 @@ namespace Utils
          * @brief
          */
         constexpr ExpectedBase_ (void)
-        noexcept (std::is_nothrow_default_constructible_v <safety_policy_type>) =
-        default;
+        noexcept (std::is_nothrow_default_constructible_v <safety_policy_type>)
+        = default;
 
         /**
          * @brief
@@ -1645,8 +1645,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_copy_constructible_v <storage_type>
           && std::is_nothrow_copy_constructible_v <safety_policy_type>
-        ) =
-        default;
+        )
+        = default;
 
         /**
          * @brief
@@ -1656,8 +1656,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_move_constructible_v <storage_type>
           && std::is_nothrow_move_constructible_v <safety_policy_type>
-        ) =
-        default;
+        )
+        = default;
 
 
         /**
@@ -1700,7 +1700,7 @@ namespace Utils
         [[nodiscard]] constexpr const result_type &
         result_ (void) const noexcept
         {
-          return storage_type::get_ (Result);
+          return (storage_type::get_ (Result));
         }
 
 
@@ -1711,7 +1711,7 @@ namespace Utils
         [[nodiscard]] constexpr result_type &
         result_ (void) noexcept
         {
-          return storage_type::get_ (Result);
+          return (storage_type::get_ (Result));
         }
 
 
@@ -1724,12 +1724,10 @@ namespace Utils
         {
           if (isResult_ ())
           {
-            return result_ ();
+            return (result_ ());
           }
-          else
-          {
-            FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
-          }
+
+          FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
         }
 
 
@@ -1742,12 +1740,10 @@ namespace Utils
         {
           if (isResult_ ())
           {
-            return result_ ();
+            return (result_ ());
           }
-          else
-          {
-            FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
-          }
+
+          FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
         }
 
 
@@ -1760,12 +1756,10 @@ namespace Utils
         {
           if (safety_policy_type::wasChecked_ ())
           {
-            return result_Safe_ ();
+            return (result_Safe_ ());
           }
-          else
-          {
-            FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing result");
-          }
+
+          FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing result");
         }
 
 
@@ -1778,12 +1772,10 @@ namespace Utils
         {
           if (safety_policy_type::wasChecked_ ())
           {
-            return result_Safe_ ();
+            return (result_Safe_ ());
           }
-          else
-          {
-            FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing result");
-          }
+
+          FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing result");
         }
 
 
@@ -1794,7 +1786,7 @@ namespace Utils
         [[nodiscard]] constexpr const error_type &
         error_ (void) const noexcept
         {
-          return storage_type::get_ (Error);
+          return (storage_type::get_ (Error));
         }
 
 
@@ -1805,7 +1797,7 @@ namespace Utils
         [[nodiscard]] constexpr error_type &
         error_ (void) noexcept
         {
-          return storage_type::get_ (Error);
+          return (storage_type::get_ (Error));
         }
 
 
@@ -1820,10 +1812,8 @@ namespace Utils
           {
             FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
           }
-          else
-          {
-            return error_ ();
-          }
+
+          return (error_ ());
         }
 
 
@@ -1838,10 +1828,8 @@ namespace Utils
           {
             FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
           }
-          else
-          {
-            return error_ ();
-          }
+
+          return (error_ ());
         }
 
 
@@ -1854,12 +1842,10 @@ namespace Utils
         {
           if (safety_policy_type::wasChecked_ ())
           {
-            return error_Safe_ ();
+            return (error_Safe_ ());
           }
-          else
-          {
-            FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing error");
-          }
+
+          FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing error");
         }
 
 
@@ -1872,12 +1858,10 @@ namespace Utils
         {
           if (safety_policy_type::wasChecked_ ())
           {
-            return error_Safe_ ();
+            return (error_Safe_ ());
           }
-          else
-          {
-            FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing error");
-          }
+
+          FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing error");
         }
 
 
@@ -1892,8 +1876,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_copy_assignable_v <storage_type>
           && std::is_nothrow_copy_assignable_v <safety_policy_type>
-        ) =
-        default;
+        )
+        = default;
 
         /**
          * @brief
@@ -1905,8 +1889,8 @@ namespace Utils
         noexcept (
              std::is_nothrow_move_assignable_v <storage_type>
           && std::is_nothrow_move_assignable_v <safety_policy_type>
-        ) =
-        default;
+        )
+        = default;
     };
   }
 
@@ -1940,24 +1924,24 @@ namespace Utils
        * @brief
        */
       constexpr Unexpected (void)
-      noexcept (std::is_nothrow_default_constructible_v <error_type>) =
-      default;
+      noexcept (std::is_nothrow_default_constructible_v <error_type>)
+      = default;
 
       /**
        * @brief
        * @param that
        */
       constexpr Unexpected (const self_type & that [[maybe_unused]])
-      noexcept (std::is_nothrow_copy_constructible_v <error_type>) =
-      default;
+      noexcept (std::is_nothrow_copy_constructible_v <error_type>)
+      = default;
 
       /**
        * @brief
        * @param that
        */
       constexpr Unexpected (self_type && that [[maybe_unused]])
-      noexcept (std::is_nothrow_move_constructible_v <error_type>) =
-      default;
+      noexcept (std::is_nothrow_move_constructible_v <error_type>)
+      = default;
 
 
       /**
@@ -1986,7 +1970,7 @@ namespace Utils
         typename TThatError = error_type,
         std::enable_if_t <
              std::is_constructible_v <error_type, TThatError &&>
-          && !std::is_convertible_v <TThatError &&, error_type>
+          && (! std::is_convertible_v <TThatError &&, error_type>)
         > ...
       >
       explicit constexpr Unexpected (TThatError && that_error)
@@ -2004,8 +1988,8 @@ namespace Utils
       template <
         typename TThatError = error_type,
         std::enable_if_t <
-               std::is_constructible_v <error_type, TThatError &&>
-            && !std::is_convertible_v <const TThatError &, error_type>
+             std::is_constructible_v <error_type, TThatError &&>
+          && (! std::is_convertible_v <const TThatError &, error_type>)
         > ...
       >
       explicit constexpr Unexpected (const Unexpected <TThatError> & that)
@@ -2022,7 +2006,10 @@ namespace Utils
        */
       template <
         typename TThatError = error_type,
-        std::enable_if_t <std::is_constructible_v <error_type, TThatError &&> && std::is_convertible_v <const TThatError &, error_type>> ...
+        std::enable_if_t <
+             std::is_constructible_v <error_type, TThatError &&>
+          && std::is_convertible_v <const TThatError &, error_type>
+        > ...
       >
       constexpr Unexpected (const Unexpected <TThatError> & that)
       noexcept (std::is_nothrow_constructible_v <error_type, TThatError>) :
@@ -2040,7 +2027,7 @@ namespace Utils
         typename TThatError = error_type,
         std::enable_if_t <
              std::is_constructible_v <error_type, TThatError &&>
-          && !std::is_convertible_v <TThatError &&, error_type>
+          && (! std::is_convertible_v <TThatError &&, error_type>)
         > ...
       >
       explicit constexpr Unexpected (Unexpected <TThatError> && that)
@@ -2116,8 +2103,8 @@ namespace Utils
        */
       constexpr self_type &
       operator = (const self_type & that [[maybe_unused]])
-      noexcept (std::is_nothrow_copy_assignable_v <error_type>) =
-      default;
+      noexcept (std::is_nothrow_copy_assignable_v <error_type>)
+      = default;
 
       /**
        * @brief
@@ -2126,8 +2113,8 @@ namespace Utils
        */
       constexpr self_type &
       operator = (self_type && that [[maybe_unused]])
-      noexcept (std::is_nothrow_move_assignable_v <error_type>) =
-      default;
+      noexcept (std::is_nothrow_move_assignable_v <error_type>)
+      = default;
 
 
       /**
@@ -2138,14 +2125,12 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator == (const self_type & that) const
       {
-        if (this == &that)
+        if (this == (& that))
         {
           return true;
         }
-        else
-        {
-          return (error () == that.error ());
-        }
+
+        return (error () == that.error ());
       }
 
 
@@ -2157,7 +2142,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (const self_type & that) const
       {
-        return !operator == (that);
+        return (! operator == (that));
       }
 
 
@@ -2290,11 +2275,11 @@ namespace Utils
         typename TThatResult = result_type,
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
-          && !std::is_convertible_v <TThatResult &&, result_type>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ErrorTag>
+          && (! std::is_convertible_v <TThatResult &&, result_type>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, ErrorTag>)
         > ...
       >
       explicit constexpr Expected (TThatResult && that_result)
@@ -2313,10 +2298,10 @@ namespace Utils
         typename TThatResult = result_type,
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ErrorTag>
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, ErrorTag>)
         > ...
       >
       constexpr Expected (TThatResult && that_result)
@@ -2335,7 +2320,7 @@ namespace Utils
         typename TThatError = error_type,
         std::enable_if_t <
              std::is_constructible_v <error_type, const TThatError &>
-          && !std::is_convertible_v <const TThatError &, error_type>
+          && (! std::is_convertible_v <const TThatError &, error_type>)
         > ...
       >
       explicit constexpr Expected (const Unexpected <TThatError> & unexpected)
@@ -2370,7 +2355,7 @@ namespace Utils
         typename TThatError = error_type,
         std::enable_if_t <
              std::is_constructible_v <error_type, TThatError &&>
-          && !std::is_convertible_v <TThatError &&, error_type>
+          && (! std::is_convertible_v <TThatError &&, error_type>)
         > ...
       >
       explicit constexpr Expected (Unexpected <TThatError> && unexpected)
@@ -2406,10 +2391,10 @@ namespace Utils
         typename TThatResult, typename TThatError,
         std::enable_if_t <
              std::is_constructible_v <result_type, const TThatResult &>
-          && !std::is_convertible_v <const TThatResult &, result_type>
+          && (! std::is_convertible_v <const TThatResult &, result_type>)
           && std::is_constructible_v <error_type, const TThatError &>
-          && !std::is_convertible_v <const TThatError &, error_type>
-          && !std::is_same_v <Expected <TThatResult, TThatError>, self_type>
+          && (! std::is_convertible_v <const TThatError &, error_type>)
+          && (! std::is_same_v <Expected <TThatResult, TThatError>, self_type>)
         > ...
       >
       explicit constexpr Expected (const Expected <TThatResult, TThatError> & that)
@@ -2447,7 +2432,7 @@ namespace Utils
         std::enable_if_t <
              std::is_constructible_v <result_type, const TThatResult &>
           && std::is_constructible_v <error_type, const TThatError &>
-          && !std::is_same_v <Expected <TThatResult, TThatError>, self_type>
+          && (! std::is_same_v <Expected <TThatResult, TThatError>, self_type>)
         > ...
       >
       constexpr Expected (const Expected <TThatResult, TThatError> & that)
@@ -2484,10 +2469,10 @@ namespace Utils
         typename TThatResult, typename TThatError,
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
-          && !std::is_convertible_v <TThatResult &&, result_type>
+          && (! std::is_convertible_v <TThatResult &&, result_type>)
           && std::is_constructible_v <error_type, TThatError &&>
-          && !std::is_convertible_v <TThatError &&, error_type>
-          && !std::is_same_v <Expected <TThatResult, TThatError>, self_type>
+          && (! std::is_convertible_v <TThatError &&, error_type>)
+          && (! std::is_same_v <Expected <TThatResult, TThatError>, self_type>)
         > ...
       >
       explicit constexpr Expected (Expected <TThatResult, TThatError> && that)
@@ -2525,7 +2510,7 @@ namespace Utils
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
           && std::is_constructible_v <error_type, TThatError &&>
-          && !std::is_same_v <Expected <TThatResult, TThatError>, self_type>
+          && (! std::is_same_v <Expected <TThatResult, TThatError>, self_type>)
         > ...
       >
       constexpr Expected (Expected <TThatResult, TThatError> && that)
@@ -2599,7 +2584,9 @@ namespace Utils
        */
       template <
         typename TInit, typename ... TArgs,
-        std::enable_if_t <std::is_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>> ...
+        std::enable_if_t <
+          std::is_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>
+        > ...
       >
       constexpr Expected (ErrorTag, const std::initializer_list <TInit> & init, TArgs && ... args)
       noexcept (
@@ -2632,7 +2619,7 @@ namespace Utils
       [[nodiscard]] constexpr const result_type &
       result (void) const & noexcept
       {
-        return base_type::result_Checked_ ();
+        return (base_type::result_Checked_ ());
       }
 
 
@@ -2643,7 +2630,7 @@ namespace Utils
       [[nodiscard]] constexpr result_type &
       result (void) & noexcept
       {
-        return base_type::result_Checked_ ();
+        return (base_type::result_Checked_ ());
       }
 
 
@@ -2656,7 +2643,7 @@ namespace Utils
       {
         base_type::wasChecked_ (true);
 
-        return std::move (base_type::result_Safe_ ());
+        return (std::move (base_type::result_Safe_ ()));
       }
 
 
@@ -2669,7 +2656,7 @@ namespace Utils
       {
         base_type::wasChecked_ (true);
 
-        return std::move (base_type::result_Safe_ ());
+        return (std::move (base_type::result_Safe_ ()));
       }
 
 
@@ -2680,7 +2667,7 @@ namespace Utils
       [[nodiscard]] constexpr const error_type &
       error (void) const & noexcept
       {
-        return base_type::error_Checked_ ();
+        return (base_type::error_Checked_ ());
       }
 
 
@@ -2691,7 +2678,7 @@ namespace Utils
       [[nodiscard]] constexpr error_type &
       error (void) & noexcept
       {
-        return base_type::error_Checked_ ();
+        return (base_type::error_Checked_ ());
       }
 
 
@@ -2704,7 +2691,7 @@ namespace Utils
       {
         base_type::wasChecked_ (true);
 
-        return std::move (base_type::error_Safe_ ());
+        return (std::move (base_type::error_Safe_ ()));
       }
 
 
@@ -2717,7 +2704,7 @@ namespace Utils
       {
         base_type::wasChecked_ (true);
 
-        return std::move (base_type::error_Safe_ ());
+        return (std::move (base_type::error_Safe_ ()));
       }
 
 
@@ -2733,12 +2720,10 @@ namespace Utils
         {
           base_type::wasChecked_ (true);
 
-          return base_type::result_ ();
+          return (base_type::result_ ());
         }
-        else
-        {
-          FATAL_NL (message);
-        }
+
+        FATAL_NL (message);
       }
 
 
@@ -2754,12 +2739,10 @@ namespace Utils
         {
           base_type::wasChecked_ (true);
 
-          return base_type::result_ ();
+          return (base_type::result_ ());
         }
-        else
-        {
-          FATAL_NL (message);
-        }
+
+        FATAL_NL (message);
       }
 
 
@@ -2775,12 +2758,10 @@ namespace Utils
         {
           base_type::wasChecked_ (true);
 
-          return std::move (base_type::result_ ());
+          return (std::move (base_type::result_ ()));
         }
-        else
-        {
-          FATAL_NL (message);
-        }
+
+        FATAL_NL (message);
       }
 
 
@@ -2796,12 +2777,10 @@ namespace Utils
         {
           base_type::wasChecked_ (true);
 
-          return std::move (base_type::result_ ());
+          return (std::move (base_type::result_ ()));
         }
-        else
-        {
-          FATAL_NL (message);
-        }
+
+        FATAL_NL (message);
       }
 
 
@@ -2826,7 +2805,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return base_type::result_ ();
+        return (base_type::result_ ());
       }
 
 
@@ -2851,7 +2830,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return base_type::error_ ();
+        return (base_type::error_ ());
       }
 
 
@@ -2866,7 +2845,9 @@ namespace Utils
        */
       template <
         typename TInit, typename ... TArgs,
-        std::enable_if_t <std::is_constructible_v <result_type, const std::initializer_list <TInit> &, TArgs && ...>> ...
+        std::enable_if_t <
+          std::is_constructible_v <result_type, const std::initializer_list <TInit> &, TArgs && ...>
+        > ...
       >
       constexpr result_type &
       emplace (ResultTag, const std::initializer_list <TInit> & init, TArgs && ... args)
@@ -2882,7 +2863,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return base_type::result_ ();
+        return (base_type::result_ ());
       }
 
 
@@ -2908,7 +2889,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return base_type::result_ ();
+        return (base_type::result_ ());
       }
 
 
@@ -2923,7 +2904,9 @@ namespace Utils
        */
       template <
         typename TInit, typename ... TArgs,
-        std::enable_if_t <std::is_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>> ...
+        std::enable_if_t <
+          std::is_constructible_v <error_type, const std::initializer_list <TInit> &, TArgs && ...>
+        > ...
       >
       constexpr error_type &
       emplace (ErrorTag, const std::initializer_list <TInit> & init, TArgs && ... args)
@@ -2939,7 +2922,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return base_type::error_ ();
+        return (base_type::error_ ());
       }
 
 
@@ -2968,7 +2951,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return base_type::error_ ();
+        return (base_type::error_ ());
       }
 
 
@@ -2980,7 +2963,7 @@ namespace Utils
       {
         base_type::wasChecked_ (true);
 
-        return base_type::isResult_ ();
+        return (base_type::isResult_ ());
       }
 
 
@@ -2999,7 +2982,7 @@ namespace Utils
           && std::is_constructible_v <result_type &, const TThatResult &>
           && std::is_assignable_v <error_type &, const TThatError &>
           && std::is_constructible_v <error_type &, const TThatError &>
-          && !std::is_same_v <Expected <TThatResult, TThatError>, self_type>
+          && (! std::is_same_v <Expected <TThatResult, TThatError>, self_type>)
         > ...
       >
       constexpr self_type &
@@ -3043,7 +3026,7 @@ namespace Utils
         base_type::wasChecked_ (false);
         that.wasChecked_ (true);
 
-        return *this;
+        return (* this);
       }
 
 
@@ -3062,7 +3045,7 @@ namespace Utils
           && std::is_constructible_v <result_type &, TThatResult &&>
           && std::is_assignable_v <error_type &, TThatError &&>
           && std::is_constructible_v <error_type &, TThatError &&>
-          && !std::is_same_v <self_type, Expected <TThatResult, TThatError>>
+          && (! std::is_same_v <self_type, Expected <TThatResult, TThatError>>)
         > ...
       >
       constexpr self_type &
@@ -3106,7 +3089,7 @@ namespace Utils
         base_type::wasChecked (false);
         that.wasChecked_ (true);
 
-        return *this;
+        return (* this);
       }
 
 
@@ -3122,10 +3105,10 @@ namespace Utils
         std::enable_if_t <
              std::is_constructible_v <result_type, TThatResult &&>
           && std::is_assignable_v <result_type &, TThatResult &&>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>
-          && !std::is_same_v <RemoveCVRefT <TThatResult &&>, ErrorTag>
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, self_type>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, unexpected_type>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, ResultTag>)
+          && (! std::is_same_v <RemoveCVRefT <TThatResult &&>, ErrorTag>)
         > ...
       >
       constexpr self_type &
@@ -3152,7 +3135,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return *this;
+        return (* this);
       }
 
 
@@ -3188,7 +3171,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return *this;
+        return (* this);
       }
 
 
@@ -3224,7 +3207,7 @@ namespace Utils
 
         base_type::wasChecked_ (false);
 
-        return *this;
+        return (* this);
       }
 
 
@@ -3253,12 +3236,10 @@ namespace Utils
 
           return that;
         }
-        else
-        {
-          that.wasChecked_ (true);
 
-          return that_type (*this);
-        }
+        that.wasChecked_ (true);
+
+        return (that_type (* this));
       }
 
 
@@ -3287,12 +3268,10 @@ namespace Utils
 
           return that;
         }
-        else
-        {
-          that.wasChecked_ (true);
 
-          return that_type (std::move (*this));
-        }
+        that.wasChecked_ (true);
+
+        return (that_type (std::move (* this)));
       }
 
 
@@ -3319,14 +3298,12 @@ namespace Utils
         {
           that.wasChecked_ (true);
 
-          return that_type (*this);
+          return (that_type (* this));
         }
-        else
-        {
-          base_type::wasChecked_ (true);
 
-          return that;
-        }
+        base_type::wasChecked_ (true);
+
+        return that;
       }
 
 
@@ -3353,14 +3330,12 @@ namespace Utils
         {
           that.wasChecked_ (true);
 
-          return that_type (std::move (*this));
+          return (that_type (std::move (* this)));
         }
-        else
-        {
-          base_type::wasChecked_ (true);
 
-          return that;
-        }
+        base_type::wasChecked_ (true);
+
+        return that;
       }
 
 
@@ -3372,35 +3347,27 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator == (const self_type & that) const
       {
-        if (this == &that)
+        if (this == (& that))
         {
           return true;
         }
-        else
+
+        if (base_type::isResult_ ())
         {
-          if (base_type::isResult_ ())
+          if (that.isResult_ ())
           {
-            if (that.isResult_ ())
-            {
-              return (base_type::result_ () == that.result_ ());
-            }
-            else
-            {
-              return false;
-            }
+            return (base_type::result_ () == that.result_ ());
           }
-          else
-          {
-            if (that.isResult_ ())
-            {
-              return false;
-            }
-            else
-            {
-              return (base_type::error_ () == that.error_ ());
-            }
-          }
+
+          return false;
         }
+
+        if (that.isResult_ ())
+        {
+          return false;
+        }
+
+        return (base_type::error_ () == that.error_ ());
       }
 
 
@@ -3412,7 +3379,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (const self_type & that) const
       {
-        return !operator == (that);
+        return (! operator == (that));
       }
 
 
@@ -3438,12 +3405,10 @@ namespace Utils
 
         if (base_type::isResult_ ())
         {
-          return fallback_type (base_type::result_ ());
+          return (fallback_type (base_type::result_ ()));
         }
-        else
-        {
-          return std::forward <fallback_type> (fallback);
-        }
+
+        return (std::forward <fallback_type> (fallback));
       }
 
 
@@ -3469,12 +3434,10 @@ namespace Utils
 
         if (base_type::isResult_ ())
         {
-          return fallback_type (std::move (base_type::result_ ()));
+          return (fallback_type (std::move (base_type::result_ ())));
         }
-        else
-        {
-          return std::forward <fallback_type> (fallback);
-        }
+
+        return (std::forward <fallback_type> (fallback));
       }
 
 
@@ -3485,7 +3448,7 @@ namespace Utils
       [[nodiscard]] constexpr const result_type &
       operator * (void) const & noexcept
       {
-        return base_type::result_Checked_ ();
+        return (base_type::result_Checked_ ());
       }
 
 
@@ -3496,7 +3459,7 @@ namespace Utils
       [[nodiscard]] constexpr result_type &
       operator * (void) & noexcept
       {
-        return base_type::result_Checked_ ();
+        return (base_type::result_Checked_ ());
       }
 
 
@@ -3509,7 +3472,7 @@ namespace Utils
       {
         base_type::wasChecked_ (true);
 
-        return std::move (base_type::result_Safe_ ());
+        return (std::move (base_type::result_Safe_ ()));
       }
 
 
@@ -3522,7 +3485,7 @@ namespace Utils
       {
         base_type::wasChecked_ (true);
 
-        return std::move (base_type::result_Safe_ ());
+        return (std::move (base_type::result_Safe_ ()));
       }
 
 
@@ -3533,7 +3496,7 @@ namespace Utils
       [[nodiscard]] constexpr const result_type *
       operator -> (void) const noexcept
       {
-        return std::addressof (operator * ());
+        return (std::addressof (operator * ()));
       }
 
 
@@ -3544,7 +3507,7 @@ namespace Utils
       [[nodiscard]] constexpr result_type *
       operator -> (void) noexcept
       {
-        return std::addressof (operator * ());
+        return (std::addressof (operator * ()));
       }
 
 
@@ -3574,4 +3537,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_MISC_EXPECTED_HXX
+#endif  // UTILS_MISC_EXPECTED_HXX

@@ -2,10 +2,10 @@
 #define UTILS_DEBUG_CONDITION_HXX
 
 
-#include <ostream> // std::ostream
+#include <ostream>  // std::ostream
 
-#include "../containers/c-string.hxx" // CString
-#include "source-location.hxx" // CURRENT_SOURCE_LOCATION, SourceLocation
+#include "../containers/c-string.hxx"  // CString
+#include "source-location.hxx"  // CURRENT_SOURCE_LOCATION, SourceLocation
 
 
 namespace Utils
@@ -95,7 +95,7 @@ namespace Utils
        */
       [[nodiscard]] constexpr explicit operator bool (void) const noexcept
       {
-        return value ();
+        return (value ());
       }
 
 
@@ -150,4 +150,4 @@ namespace Utils
 #define CONDITION(condition) (::Utils::Condition ((condition), (STRINGIFY_E (condition)), (CURRENT_SOURCE_LOCATION ())))
 
 
-#endif // UTILS_DEBUG_CONDITION_HXX
+#endif  // UTILS_DEBUG_CONDITION_HXX

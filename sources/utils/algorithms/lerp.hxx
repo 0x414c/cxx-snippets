@@ -2,7 +2,7 @@
 #define UTILS_ALGORITHMS_LERP_HXX
 
 
-#include <type_traits> // std::is_arithmetic_v
+#include <type_traits>  // std::is_arithmetic_v
 
 
 namespace Utils
@@ -30,4 +30,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_ALGORITHMS_LERP_HXX
+#endif  // UTILS_ALGORITHMS_LERP_HXX

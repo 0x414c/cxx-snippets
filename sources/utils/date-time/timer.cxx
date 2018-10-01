@@ -1,12 +1,12 @@
-#include <utility> // std::move
+#include "timer.hxx"  // Timer::*
 
-#include "timer.hxx" // Timer::*
+#include <utility>  // std::move
 
-#include "../config/logger.hxx" // Config::Utils::Logger::Timer_prefix
-#include "../containers/c-string.hxx" // CString
-#include "../logging/logger.hxx" // Logger::log
-#include "../misc/bool-flag.hxx" // BoolFlag
-#include "format-duration.hxx" // formatDuration
+#include "../config/logger.hxx"  // Config::Utils::Logger::Timer_prefix
+#include "../containers/c-string.hxx"  // CString
+#include "../logging/logger.hxx"  // Logger::log
+#include "../misc/bool-flag.hxx"  // BoolFlag
+#include "format-duration.hxx"  // formatDuration
 
 
 namespace Utils
@@ -39,7 +39,7 @@ namespace Utils
   }
 
 
-  Timer::~Timer (void)
+  Timer::~ Timer (void)
   {
     if (isAutomatic ())
     {

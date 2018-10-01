@@ -100,4 +100,4 @@ namespace Utils::Math::Constants
 }
 
 
-#endif // UTILS_MATH_CONSTANTS_HXX
+#endif  // UTILS_MATH_CONSTANTS_HXX

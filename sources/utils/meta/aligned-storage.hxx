@@ -2,9 +2,9 @@
 #define UTILS_META_ALIGNEDSTORAGE_HXX
 
 
-#include <cstddef> // std::{byte, size_t}
+#include <cstddef>  // std::{byte, size_t}
 
-#include "common.hxx" // TypeOf
+#include "common.hxx"  // TypeOf
 
 
 namespace Utils
@@ -40,7 +40,7 @@ namespace Utils
         /**
          * @brief
          */
-        alignas (alignment) std::byte data_[size];
+        alignas (alignment) std::byte data_ [size];
     };
   };
 
@@ -53,4 +53,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_META_ALIGNEDSTORAGE_HXX
+#endif  // UTILS_META_ALIGNEDSTORAGE_HXX

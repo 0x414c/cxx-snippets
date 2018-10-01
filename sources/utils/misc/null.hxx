@@ -37,7 +37,7 @@ namespace Utils
       /**
        * @brief
        */
-      ~Null (void) noexcept = delete;
+      ~ Null (void) noexcept = delete;
 
       /**
        * @brief
@@ -58,4 +58,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_MISC_NULL_HXX
+#endif  // UTILS_MISC_NULL_HXX

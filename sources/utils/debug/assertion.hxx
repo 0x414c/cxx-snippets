@@ -2,10 +2,10 @@
 #define UTILS_DEBUG_ASSERTION_HXX
 
 
-#include "../config/logger.hxx" // Config::Utils::Logger::{Assert_prefix, Check_prefix, Fatal_prefix}
-#include "../containers/c-string.hxx" // CString
-#include "../logging/logger.hxx" // Logger::log_Detailed
-#include "condition.hxx" // Condition
+#include "../config/logger.hxx"  // Config::Utils::Logger::{Assert_prefix, Check_prefix, Fatal_prefix}
+#include "../containers/c-string.hxx"  // CString
+#include "../logging/logger.hxx"  // Logger::log_Detailed
+#include "condition.hxx"  // Condition
 
 
 namespace Utils
@@ -69,7 +69,7 @@ namespace Utils
       constexpr void
       require (const CString & message) const
       {
-        if (!condition_)
+        if (! condition_)
         {
           assertionFailure_ ();
 
@@ -91,7 +91,7 @@ namespace Utils
       constexpr void
       check (const CString & message) const
       {
-        if (!condition_)
+        if (! condition_)
         {
           assertionFailure_ ();
 
@@ -135,4 +135,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_DEBUG_ASSERTION_HXX
+#endif  // UTILS_DEBUG_ASSERTION_HXX

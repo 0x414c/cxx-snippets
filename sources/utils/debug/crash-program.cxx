@@ -1,11 +1,11 @@
-#include <cstdlib> // std::abort
+#include "crash-program.hxx"  // crashProgram
 
-#include "crash-program.hxx" // crashProgram
+#include <cstdlib>  // std::abort
 
-#include "../config/logger.hxx" // Config::Utils::Logger::Fatal_prefix
-#include "../containers/c-string.hxx" // CString
-#include "../logging/logger.hxx" // Logger::{log, log_Detailed}
-#include "source-location.hxx" // SourceLocation
+#include "../config/logger.hxx"  // Config::Utils::Logger::Fatal_prefix
+#include "../containers/c-string.hxx"  // CString
+#include "../logging/logger.hxx"  // Logger::{log, log_Detailed}
+#include "source-location.hxx"  // SourceLocation
 
 
 namespace Utils

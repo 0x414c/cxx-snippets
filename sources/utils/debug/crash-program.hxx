@@ -2,8 +2,8 @@
 #define UTILS_DEBUG_CRASHPROGRAM_HXX
 
 
-#include "../containers/c-string.hxx" // CString
-#include "source-location.hxx" // SourceLocation
+#include "../containers/c-string.hxx"  // CString
+#include "source-location.hxx"  // SourceLocation
 
 
 namespace Utils
@@ -19,4 +19,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_DEBUG_CRASHPROGRAM_HXX
+#endif  // UTILS_DEBUG_CRASHPROGRAM_HXX

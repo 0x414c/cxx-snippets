@@ -2,13 +2,13 @@
 #define UTILS_LOGGING_SOURCELOCATION_HXX
 
 
-#include <cstddef> // std::size_t
+#include <cstddef>  // std::size_t
 
-// #include <string_view> // std::string_view
-#include <ostream> // std::ostream
+#include <ostream>  // std::ostream
+//#include <string_view>  // std::string_view
 
-#include "../config/source-location.hxx" // Config::Utils::SourceLocation::{Default_file, Default_function}
-#include "../containers/c-string.hxx" // CString
+#include "../config/source-location.hxx"  // Config::Utils::SourceLocation::{Default_file, Default_function}
+#include "../containers/c-string.hxx"  // CString
 
 
 namespace Utils
@@ -147,4 +147,4 @@ namespace Utils
 #define CURRENT_SOURCE_LOCATION() (::Utils::SourceLocation ((__PRETTY_FUNCTION__), (__FILE__), (__LINE__)))
 
 
-#endif // UTILS_LOGGING_SOURCELOCATION_HXX
+#endif  // UTILS_LOGGING_SOURCELOCATION_HXX

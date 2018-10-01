@@ -2,8 +2,8 @@
 #define UTILS_META_CHOOSE_HXX
 
 
-#include "common.hxx" // TypeOf, ValueOf
-#include "if-then-else.hxx" // IfThenElseT
+#include "common.hxx"  // TypeOf, ValueOf
+#include "if-then-else.hxx"  // IfThenElseT
 
 
 namespace Utils
@@ -31,4 +31,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_META_CHOOSE_HXX
+#endif  // UTILS_META_CHOOSE_HXX

@@ -1,8 +1,8 @@
-#include <ctime> // std::tm
+#include "time-utils.hxx"  // unixTime
 
-#include <chrono> // std::chrono::{system_clock::{time_point, now, duration}, duration_cast, nanoseconds}
+#include <ctime>  // std::tm
 
-#include "time-utils.hxx" // unixTime
+#include <chrono>  // std::chrono::{duration_cast, nanoseconds, system_clock}
 
 
 namespace Utils
@@ -19,6 +19,6 @@ namespace Utils
       std::chrono::duration_cast <std::chrono::nanoseconds> (time_since_epoch)
     );
 
-    return nanoseconds.count ();
+    return (nanoseconds.count ());
   }
 }

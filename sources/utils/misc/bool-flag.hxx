@@ -104,7 +104,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (const self_type & that) const noexcept
       {
-        return !operator == (that);
+        return (! operator == (that));
       }
 
 

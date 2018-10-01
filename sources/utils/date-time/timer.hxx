@@ -2,12 +2,12 @@
 #define UTILS_DATETIME_TIMER_HXX
 
 
-#include <chrono> // std::chrono::steady_clock
+#include <chrono>  // std::chrono::steady_clock
 
-#include "../config/timer.hxx" // Config::Utils::Timer::Default_description
-#include "../containers/c-string.hxx" // CString
-#include "../preproc/paste.hxx" // PASTE_E
-#include "../misc/bool-flag.hxx" // BoolFlag
+#include "../config/timer.hxx"  // Config::Utils::Timer::Default_description
+#include "../containers/c-string.hxx"  // CString
+#include "../misc/bool-flag.hxx"  // BoolFlag
+#include "../preproc/paste.hxx"  // PASTE_E
 
 
 namespace Utils
@@ -87,7 +87,7 @@ namespace Utils
       /**
        * @brief
        */
-      ~Timer (void);
+      ~ Timer (void);
 
       /**
        * @brief
@@ -204,67 +204,67 @@ namespace Utils
 
 
 #ifdef WITH_TIMERS
-  /**
-   * @brief
-   */
-  #define TIMER_AUTO() const ::Utils::Timer (PASTE_E (timer_, __COUNTER__)) (__PRETTY_FUNCTION__)
+/**
+ * @brief
+ */
+#define TIMER_AUTO() const ::Utils::Timer (PASTE_E (timer_, __COUNTER__)) (__PRETTY_FUNCTION__)
 
 
-  /**
-   * @brief
-   */
-  #define TIMER_CREATE(id, description) \
-    ::Utils::Timer (PASTE_E (timer_, id)) ((description), ::Utils::Timer::is_automatic_flag (false))
+/**
+ * @brief
+ */
+#define TIMER_CREATE(id, description) \
+  ::Utils::Timer (PASTE_E (timer_, id)) ((description), ::Utils::Timer::is_automatic_flag (false))
 
 
-  /**
-   * @brief
-   */
-  #define TIMER_START(id) \
-    do \
-    { \
-      (PASTE_E (timer_, id)).start (); \
-    } \
-    while (false)
+/**
+ * @brief
+ */
+#define TIMER_START(id) \
+  do \
+  { \
+    (PASTE_E (timer_, id)).start (); \
+  } \
+  while (false)
 
 
-  /**
-   * @brief
-   */
-  #define TIMER_STOP(id) \
-    do \
-    { \
-      (PASTE_E (timer_, id)).stop (); \
-      (PASTE_E (timer_, id)).logTimeElapsed (); \
-    } \
-    while (false)
+/**
+ * @brief
+ */
+#define TIMER_STOP(id) \
+  do \
+  { \
+    (PASTE_E (timer_, id)).stop (); \
+    (PASTE_E (timer_, id)).logTimeElapsed (); \
+  } \
+  while (false)
 
 
-  #define TIMER_WRAP(id, description, ...) \
-    do \
-    { \
-      TIMER_CREATE (id, (description)); \
-      TIMER_START (id); \
-      __VA_ARGS__ \
-      TIMER_STOP (id); \
-    } \
-    while (false)
-#else // WITH_TIMERS
-  #define TIMER_AUTO() (void (0))
+#define TIMER_WRAP(id, description, ...) \
+  do \
+  { \
+    TIMER_CREATE (id, (description)); \
+    TIMER_START (id); \
+    __VA_ARGS__ \
+    TIMER_STOP (id); \
+  } \
+  while (false)
+#else  // WITH_TIMERS
+#define TIMER_AUTO() (void (0))
 
-  #define TIMER_CREATE(id, description) (void (0))
+#define TIMER_CREATE(id, description) (void (0))
 
-  #define TIMER_START(id) do { } while (false)
+#define TIMER_START(id) do { } while (false)
 
-  #define TIMER_STOP(id) do { } while (false)
+#define TIMER_STOP(id) do { } while (false)
 
-  #define TIMER_WRAP(id, description, ...) \
-    do \
-    { \
-      __VA_ARGS__ \
-    } \
-    while (false)
-#endif // WITH_TIMERS
+#define TIMER_WRAP(id, description, ...) \
+  do \
+  { \
+    __VA_ARGS__ \
+  } \
+  while (false)
+#endif  // WITH_TIMERS
 
 
-#endif // UTILS_DATETIME_TIMER_HXX
+#endif  // UTILS_DATETIME_TIMER_HXX

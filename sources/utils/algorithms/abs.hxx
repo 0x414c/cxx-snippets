@@ -2,7 +2,7 @@
 #define UTILS_ALGORITHMS_ABS_HXX
 
 
-#include <type_traits> // std::is_arithmetic_v
+#include <type_traits>  // std::is_arithmetic_v
 
 
 namespace Utils
@@ -21,14 +21,12 @@ namespace Utils
 
     if (x < TArithmetic (0))
     {
-      return -x;
+      return (- x);
     }
-    else
-    {
-      return x;
-    }
+
+    return x;
   }
 }
 
 
-#endif // UTILS_ALGORITHMS_ABS_HXX
+#endif  // UTILS_ALGORITHMS_ABS_HXX

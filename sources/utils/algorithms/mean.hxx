@@ -2,10 +2,11 @@
 #define UTILS_ALGORITHMS_MEAN_HXX
 
 
-#include <iterator> // std::{distance, iterator_traits}
-#include <type_traits> // std::is_arithmetic_v
+#include <iterator>  // std::{distance, iterator_traits}
+#include <type_traits>  // std::is_arithmetic_v
 
-#include "../debug/assert.hxx" // ASSERT
+//#include "../debug/assert.hxx"  // ASSERT
+#include "summator.hxx" // Summator
 
 
 namespace Utils
@@ -31,20 +32,18 @@ namespace Utils
     // ASSERT (std::distance (first, last) > 1, "Distance between `first' and `last' must be greater than 1");
 
     difference_type count (0);
-    value_type mean (0);
-
+    Summator <value_type> mean (0);
     while (first != last)
     {
-      ++count;
+      ++ count;
+      mean += ((* first) - value_type (mean)) / value_type (count);
 
-      mean += (*first - mean) / value_type (count);
-
-      ++first;
+      ++ first;
     }
 
-    return mean;
+    return (value_type (mean));
   }
 }
 
 
-#endif // UTILS_ALGORITHMS_MEAN_HXX
+#endif  // UTILS_ALGORITHMS_MEAN_HXX

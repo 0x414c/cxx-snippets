@@ -2,11 +2,11 @@
 #define UTILS_META_TYPELIST_HXX
 
 
-#include <type_traits> // std::{is_same, negation_v}
+#include <type_traits>  // std::{is_same, negation_v}
 
-#include "common.hxx" // TypeOf, ValueOf
-#include "if-then-else.hxx" // IfThenElseT
-#include "../misc/null.hxx" // Null
+#include "../misc/null.hxx"  // Null
+#include "common.hxx"  // TypeOf, ValueOf
+#include "if-then-else.hxx"  // IfThenElseT
 
 
 namespace Utils
@@ -197,7 +197,12 @@ namespace Utils
    */
   template <typename TTypeList, typename TCompare>
   inline constexpr bool HasV (ValueOf <Has <TTypeList, TCompare>>);
+
+
+  template <typename ... TTypes>
+  struct TypeList2
+  { };
 }
 
 
-#endif // UTILS_META_TYPELIST_HXX
+#endif  // UTILS_META_TYPELIST_HXX

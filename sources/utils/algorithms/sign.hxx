@@ -2,7 +2,7 @@
 #define UTILS_ALGORITHMS_SIGN_HXX
 
 
-#include <type_traits> // std::is_signed_v
+#include <type_traits>  // std::is_signed_v
 
 
 namespace Utils
@@ -21,21 +21,17 @@ namespace Utils
 
     if (TSigned (0) < x)
     {
-      return TSigned (1);
+      return (TSigned (1));
     }
-    else
+
+    if (x < TSigned (0))
     {
-      if (x < TSigned (0))
-      {
-        return TSigned (- 1);
-      }
-      else
-      {
-        return TSigned (0);
-      }
+      return (TSigned (- 1));
     }
+
+    return (TSigned (0));
   }
 }
 
 
-#endif // UTILS_ALGORITHMS_SIGN_HXX
+#endif  // UTILS_ALGORITHMS_SIGN_HXX

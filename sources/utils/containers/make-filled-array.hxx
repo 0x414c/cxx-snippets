@@ -2,9 +2,9 @@
 #define UTILS_CONTAINERS_MAKEFILLEDARRAY_HXX
 
 
-#include <cstddef> // std::size_t
+#include <cstddef>  // std::size_t
 
-#include <array> // std::array
+#include <array>  // std::array
 
 
 namespace Utils
@@ -19,7 +19,6 @@ namespace Utils
   makeFilledArray (const TValue & value)
   {
     std::array <TValue, TSize> new_array;
-
     new_array.fill (value);
 
     return new_array;
@@ -27,4 +26,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_CONTAINERS_MAKEFILLEDARRAY_HXX
+#endif  // UTILS_CONTAINERS_MAKEFILLEDARRAY_HXX

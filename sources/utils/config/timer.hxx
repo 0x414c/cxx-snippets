@@ -2,7 +2,7 @@
 #define UTILS_CONFIG_TIMER_HXX
 
 
-#include "../containers/c-string.hxx" // CString
+#include "../containers/c-string.hxx"  // CString
 
 
 namespace Config::Utils::Timer
@@ -11,4 +11,4 @@ namespace Config::Utils::Timer
 }
 
 
-#endif // UTILS_CONFIG_TIMER_HXX
+#endif  // UTILS_CONFIG_TIMER_HXX

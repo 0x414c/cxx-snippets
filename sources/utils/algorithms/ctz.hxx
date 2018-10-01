@@ -2,10 +2,10 @@
 #define UTILS_ALGORITHMS_CTZ_HXX
 
 
-#include <cstddef> // std::size_t
-#include <cstdint> // std::{int8_t, uint8_t, int32_t, uint32_t, int64_t, uint64_t}
+#include <cstddef>  // std::size_t
+#include <cstdint>  // std::{int8_t, int32_t, int64_t, uint8_t, uint32_t, uint64_t}
 
-#include "../meta/always-false.hxx" // AlwaysFalseV
+#include "../meta/always-false.hxx"  // AlwaysFalseV
 
 
 namespace Utils
@@ -38,8 +38,7 @@ namespace Utils
     struct CtzLut_ final
     {
       static_assert (
-        AlwaysFalseV <std::size_t, TSize>,
-        "CtzLut_ <TSize>: There is no suitable template specialization available"
+        AlwaysFalseV <std::size_t, TSize>, "CtzLut_ <TSize>: There is no suitable template specialization available"
       );
     };
 
@@ -58,7 +57,7 @@ namespace Utils
       /**
        * @brief
        */
-      static constexpr std::uint8_t lut[width] { 0, 1, 2, 4, 7, 3, 6, 5 };
+      static constexpr std::uint8_t lut [width] { 0, 1, 2, 4, 7, 3, 6, 5 };
 
       /**
        * @brief
@@ -86,7 +85,7 @@ namespace Utils
       /**
        * @brief
        */
-      static constexpr std::uint8_t lut[width] { 0, 1, 2, 5, 3, 9, 6, 11, 15, 4, 8, 10, 14, 7, 13, 12 };
+      static constexpr std::uint8_t lut [width] { 0, 1, 2, 5, 3, 9, 6, 11, 15, 4, 8, 10, 14, 7, 13, 12 };
 
       /**
        * @brief
@@ -114,9 +113,9 @@ namespace Utils
       /**
        * @brief
        */
-      static constexpr std::uint8_t lut[width] {
+      static constexpr std::uint8_t lut [width] {
          0,  1,  2,  6,  3, 11,  7, 16,  4, 14, 12, 21,  8, 23, 17, 26,
-        31,  5, 10, 15, 13, 20, 22, 25, 30,  9, 19, 24, 29, 18, 28, 27
+        31,  5, 10, 15, 13, 20, 22, 25, 30,  9, 19, 24, 29, 18, 28, 27,
       };
 
       /**
@@ -145,11 +144,11 @@ namespace Utils
       /**
        * @brief
        */
-      static constexpr std::uint8_t lut[width] {
+      static constexpr std::uint8_t lut [width] {
          0,  1,  2,  7,  3, 13,  8, 19,  4, 25, 14, 28,  9, 34, 20, 40,
          5, 17, 26, 38, 15, 46, 29, 48, 10, 31, 35, 54, 21, 50, 41, 57,
         63,  6, 12, 18, 24, 27, 33, 39, 16, 37, 45, 47, 30, 53, 49, 56,
-        62, 11, 23, 32, 36, 44, 52, 55, 61, 22, 43, 51, 60, 42, 59, 58
+        62, 11, 23, 32, 36, 44, 52, 55, 61, 22, 43, 51, 60, 42, 59, 58,
       };
 
       /**
@@ -179,12 +178,10 @@ namespace Utils
 
     if (x != 0)
     {
-      return lut_type::lut[((x & - x) * lut_type::factor) >> lut_type::shift];
+      return (lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift]);
     }
-    else
-    {
-      return lut_type::width;
-    }
+
+    return (lut_type::width);
   }
 
 
@@ -197,7 +194,7 @@ namespace Utils
   [[nodiscard]] constexpr std::uint8_t
   ctz (std::int8_t x) noexcept
   {
-    return ctz (std::uint8_t (x));
+    return (ctz (std::uint8_t (x)));
   }
 
 
@@ -215,12 +212,10 @@ namespace Utils
 
     if (x != 0)
     {
-      return lut_type::lut[((x & - x) * lut_type::factor) >> lut_type::shift];
+      return (lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift]);
     }
-    else
-    {
-      return lut_type::width;
-    }
+
+    return (lut_type::width);
   }
 
 
@@ -233,7 +228,7 @@ namespace Utils
   [[nodiscard]] constexpr std::uint8_t
   ctz (std::int16_t x) noexcept
   {
-    return ctz (std::uint16_t (x));
+    return (ctz (std::uint16_t (x)));
   }
 
 
@@ -251,12 +246,10 @@ namespace Utils
 
     if (x != 0)
     {
-      return lut_type::lut[((x & - x) * lut_type::factor) >> lut_type::shift];
+      return (lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift]);
     }
-    else
-    {
-      return lut_type::width;
-    }
+
+    return (lut_type::width);
   }
 
 
@@ -269,7 +262,7 @@ namespace Utils
   constexpr std::uint8_t
   ctz (std::int32_t x) noexcept
   {
-    return ctz (std::uint32_t (x));
+    return (ctz (std::uint32_t (x)));
   }
 
 
@@ -287,12 +280,10 @@ namespace Utils
 
     if (x != 0)
     {
-      return lut_type::lut[((x & - x) * lut_type::factor) >> lut_type::shift];
+      return (lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift]);
     }
-    else
-    {
-      return lut_type::width;
-    }
+
+    return (lut_type::width);
   }
 
 
@@ -305,9 +296,9 @@ namespace Utils
   constexpr std::uint8_t
   ctz (std::int64_t x) noexcept
   {
-    return ctz (std::uint64_t (x));
+    return (ctz (std::uint64_t (x)));
   }
 }
 
 
-#endif // UTILS_ALGORITHMS_CTZ_HXX
+#endif  // UTILS_ALGORITHMS_CTZ_HXX

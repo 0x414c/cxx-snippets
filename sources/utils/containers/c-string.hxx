@@ -2,11 +2,11 @@
 #define UTILS_CONTAINERS_CSTRING_HXX
 
 
-#include <cstddef> // std::size_t
+#include <cstddef>  // std::size_t
 
-#include <type_traits> // std::is_same_v
+#include <type_traits>  // std::is_same_v
 
-// #include "../debug/assert.hxx" // ASSERT
+//#include "../debug/assert.hxx"  // ASSERT
 
 
 namespace Utils
@@ -64,7 +64,7 @@ namespace Utils
        * @param data
        */
       template <std::size_t TSize>
-      constexpr BasicCString (const char_type (& data)[TSize]) noexcept :
+      constexpr BasicCString (const char_type (& data) [TSize]) noexcept :
         data_ (data),
         size_ (TSize - 1)
       { }
@@ -98,7 +98,7 @@ namespace Utils
        */
       [[nodiscard]] constexpr operator const char_type * (void) const noexcept
       {
-        return data ();
+        return (data ());
       }
 
 
@@ -127,9 +127,9 @@ namespace Utils
       [[nodiscard]] constexpr char_type
       operator [] (std::size_t pos) const noexcept
       {
-        // ASSERT (pos < size (), "`pos' must be less than `size ()'");
+        //ASSERT (pos < size (), "`pos' must be less than `size ()'");
 
-        return data ()[pos];
+        return (data () [pos]);
       }
 
 
@@ -168,4 +168,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_CONTAINERS_CSTRING_HXX
+#endif  // UTILS_CONTAINERS_CSTRING_HXX

@@ -83,4 +83,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_META_COMMON_HXX
+#endif  // UTILS_META_COMMON_HXX

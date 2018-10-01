@@ -2,11 +2,11 @@
 #define UTILS_ALGORITHMS_SUMMATOR_HXX
 
 
-#include <ostream> // std::ostream
-#include <type_traits> // std::{is_arithmetic_v, is_floating_point_v, is_integral_v}
+#include <ostream>  // std::ostream
+#include <type_traits>  // std::{is_arithmetic_v, is_floating_point_v, is_integral_v}
 
-#include "../meta/choose.hxx" // ChooseT
-#include "../meta/if-then.hxx" // IfThen
+#include "../meta/choose.hxx"  // ChooseT
+#include "../meta/if-then.hxx"  // IfThen
 
 
 namespace Utils
@@ -117,7 +117,7 @@ namespace Utils
       {
         sum_ = new_initial_value;
 
-        return *this;
+        return (* this);
       }
 
 
@@ -277,7 +277,7 @@ namespace Utils
         sum_ = new_initial_value;
         correction_ = term_zero_;
 
-        return *this;
+        return (* this);
       }
 
 
@@ -375,7 +375,7 @@ namespace Utils
        */
       [[nodiscard]] constexpr explicit operator term_type (void) const noexcept
       {
-        return summation_policy_.total ();
+        return (summation_policy_.total ());
       }
 
 
@@ -406,7 +406,7 @@ namespace Utils
       {
         summation_policy_ = new_initial_value;
 
-        return *this;
+        return (* this);
       }
 
 
@@ -420,7 +420,7 @@ namespace Utils
       {
         summation_policy_.add (term);
 
-        return *this;
+        return (* this);
       }
 
 
@@ -432,9 +432,9 @@ namespace Utils
       constexpr self_type &
       operator -= (term_type term) noexcept
       {
-        summation_policy_.add (-term);
+        summation_policy_.add (- term);
 
-        return *this;
+        return (* this);
       }
 
 
@@ -465,4 +465,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_ALGORITHMS_SUMMATOR_HXX
+#endif  // UTILS_ALGORITHMS_SUMMATOR_HXX

@@ -1,6 +1,6 @@
-#include <ostream> // std::ostream
+#include "source-location.hxx"  // SourceLocation::*
 
-#include "source-location.hxx" // SourceLocation::*
+#include <ostream>  // std::ostream
 
 
 namespace Utils

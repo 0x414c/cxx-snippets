@@ -2,7 +2,7 @@
 #define UTILS_META_ENABLECOPYMOVE_HXX
 
 
-#include "always-false.hxx" // AlwaysFalseV
+#include "always-false.hxx"  // AlwaysFalseV
 
 
 namespace Utils
@@ -374,4 +374,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_META_ENABLECOPYMOVE_HXX
+#endif  // UTILS_META_ENABLECOPYMOVE_HXX

@@ -2,7 +2,7 @@
 #define UTILS_LANG_WEAKSCOPEDENUM_HXX
 
 
-#include <type_traits> // std::{enable_if_t, is_enum_v, underlying_type_t}
+#include <type_traits>  // std::{enable_if_t, is_enum_v, underlying_type_t}
 
 
 namespace Utils::Lang::WeakScopedEnum
@@ -17,9 +17,9 @@ namespace Utils::Lang::WeakScopedEnum
   [[nodiscard]] constexpr std::underlying_type_t <TEnum>
   operator + (TEnum x) noexcept
   {
-    return std::underlying_type_t <TEnum> (x);
+    return (std::underlying_type_t <TEnum> (x));
   }
 }
 
 
-#endif // UTILS_LANG_WEAKSCOPEDENUM_HXX
+#endif  // UTILS_LANG_WEAKSCOPEDENUM_HXX

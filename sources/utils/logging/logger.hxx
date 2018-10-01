@@ -2,16 +2,16 @@
 #define UTILS_LOGGING_LOGGER_HXX
 
 
-#include <cstddef> // std::size_t
+#include <cstddef>  // std::size_t
 
-// #include <string_view> // std::string_view
-#include <iostream> // std::{ostream, clog}
+#include <iostream>  // std::{clog, ostream}
+//#include <string_view>  // std::string_view
 
-#include <fmt/format.h> // fmt::print
-#include <fmt/ostream.h> // fmt::print[std::ostream]
+#include <fmt/format.h>  // fmt::print
+#include <fmt/ostream.h>  // fmt::print[std::ostream]
 
-#include "../containers/c-string.hxx" // CString
-#include "../debug/source-location.hxx" // SourceLocation
+#include "../containers/c-string.hxx"  // CString
+#include "../debug/source-location.hxx"  // SourceLocation
 
 
 namespace Utils
@@ -58,7 +58,7 @@ namespace Utils
       static void
       log (const CString & prefix, const CString & format, const TArgs & ... args)
       {
-        ++message_id_;
+        ++ message_id_;
 
         fmt::print (
           output_stream_, "{0:d}/{1:s} {2:s}\n",
@@ -82,7 +82,7 @@ namespace Utils
         const CString & prefix, const CString & format, const TArgs & ... args
       )
       {
-        ++message_id_;
+        ++ message_id_;
 
         fmt::print (
           output_stream_, "{0:d}/{1:s} {2:s} (in `{3:s}' at `{4:s}:{5:d}')\n",
@@ -123,4 +123,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_LOGGING_LOGGER_HXX
+#endif  // UTILS_LOGGING_LOGGER_HXX

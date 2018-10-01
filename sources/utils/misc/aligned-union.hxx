@@ -2,11 +2,11 @@
 #define UTILS_MISC_ALIGNEDUNION_HXX
 
 
-#include <memory> // std::addressof
-#include <type_traits> // std::*
-#include <utility> // std::forward
+#include <memory>  // std::addressof
+#include <type_traits>  // std::*
+#include <utility>  // std::{forward, launder}
 
-#include "../meta/aligned-union-storage.hxx" // AlignedUnionStorageT
+#include "../meta/aligned-union-storage.hxx"  // AlignedUnionStorageT
 
 
 namespace Utils
@@ -20,7 +20,7 @@ namespace Utils
     template <typename TType>
     inline constexpr bool IsAllowedV_ (
          std::is_object_v <TType>
-      && !std::is_array_v <TType>
+      && (! std::is_array_v <TType>)
       && std::is_destructible_v <TType>
     );
   }
@@ -76,7 +76,7 @@ namespace Utils
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
-        return *get_ <TType> ();
+        return (* get_ <TType> ());
       }
 
 
@@ -91,7 +91,7 @@ namespace Utils
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
-        return *get_ <TType> ();
+        return (* get_ <TType> ());
       }
 
 
@@ -112,7 +112,7 @@ namespace Utils
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
         static_assert (std::is_constructible_v <TType, TArgs && ...>);
 
-        return *construct_ <TType, TArgs ...> (get_ (), std::forward <TArgs> (args) ...);
+        return (* construct_ <TType, TArgs ...> (get_ (), std::forward <TArgs> (args) ...));
       }
 
 
@@ -120,7 +120,7 @@ namespace Utils
        * @brief
        * @tparam TType
        * @tparam TArgs
-       * @param args
+       * @param arg
        * @return
        */
       template <typename TType, typename TArg, std::enable_if_t <std::is_assignable_v <TType &, TArg &&>> ...>
@@ -133,7 +133,7 @@ namespace Utils
 
         get <TType> () = std::forward <TArg> (arg);
 
-        return get <TType> ();
+        return (get <TType> ());
       }
 
 
@@ -177,7 +177,7 @@ namespace Utils
       const void *
       get_ (void) const noexcept
       {
-        return std::addressof (storage_);
+        return (std::launder (std::addressof (storage_)));
       }
 
 
@@ -188,7 +188,7 @@ namespace Utils
       void *
       get_ (void) noexcept
       {
-        return std::addressof (storage_);
+        return (std::launder (std::addressof (storage_)));
       }
 
 
@@ -203,7 +203,10 @@ namespace Utils
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
-        return (const TType *) (get_ ());
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+        return ((const TType *) (get_ ()));
+#pragma GCC diagnostic pop
       }
 
 
@@ -218,7 +221,10 @@ namespace Utils
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
-        return (TType *) (get_ ());
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+        return ((TType *) (get_ ()));
+#pragma GCC diagnostic pop
       }
 
 
@@ -240,7 +246,7 @@ namespace Utils
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
         static_assert (std::is_constructible_v <TType, TArgs && ...>);
 
-        return ::new (address) (TType) (std::forward <TArgs> (args) ...);
+        return (::new (address) (TType) (std::forward <TArgs> (args) ...));
       }
 
 
@@ -255,7 +261,7 @@ namespace Utils
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
-        get_ <TType> ()->TType::~TType ();
+        get_ <TType> ()->TType::~ TType ();
       }
 
 

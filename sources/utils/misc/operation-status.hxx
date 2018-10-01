@@ -12,9 +12,9 @@ namespace Utils
     Indeterminate = 0,
     Success = 1 << 0,
     Failure = 1 << 1,
-    Nothing = 1 << 2
+    Nothing = 1 << 2,
   };
 }
 
 
-#endif // UTILS_MISC_OPERATIONSTATUS_HXX
+#endif  // UTILS_MISC_OPERATIONSTATUS_HXX

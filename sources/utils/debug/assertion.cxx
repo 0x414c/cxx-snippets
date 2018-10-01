@@ -1,7 +1,8 @@
-#include <cstdlib> // std::abort
+#include "assertion.hxx"  // Assertion::*
 
-#include "assertion.hxx" // Assertion::*
-#include "crash-program.hxx" // crashProgram
+#include <cstdlib>  // std::abort
+
+#include "crash-program.hxx"  // crashProgram
 
 
 namespace Utils

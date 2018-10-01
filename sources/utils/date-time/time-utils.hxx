@@ -2,9 +2,9 @@
 #define UTILS_DATETIME_TIMEUTILS_HXX
 
 
-#include <ctime> // std::tm
+#include <ctime>  // std::tm
 
-#include <chrono> // std::chrono::nanoseconds::rep
+#include <chrono>  // std::chrono::nanoseconds::rep
 
 
 namespace Utils
@@ -30,8 +30,8 @@ namespace Utils
      * Take care to avoid integer overflow in leap day calculations,
      *   but it's OK to assume that `x' and `y' are close to each other.
      */
-    const int x4 ((x.tm_year >> 2) + (1900 >> 2) - !(x.tm_year & 3));
-    const int y4 ((y.tm_year >> 2) + (1900 >> 2) - !(y.tm_year & 3));
+    const int x4 ((x.tm_year >> 2) + (1900 >> 2) - (! (x.tm_year & 3)));
+    const int y4 ((y.tm_year >> 2) + (1900 >> 2) - (! (y.tm_year & 3)));
     const int x100 (x4 / 25 - (x4 % 25 < 0));
     const int y100 (y4 / 25 - (y4 % 25 < 0));
     const int x400 (x100 >> 2);
@@ -49,4 +49,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_DATETIME_TIMEUTILS_HXX
+#endif  // UTILS_DATETIME_TIMEUTILS_HXX
