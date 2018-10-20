@@ -23,7 +23,7 @@ namespace Utils
       /**
        * @brief
        */
-      constexpr Unit (void) noexcept = default;
+      constexpr Unit () noexcept = default;
 
       /**
        * @brief
@@ -74,7 +74,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (const self_type & that [[maybe_unused]]) const noexcept
       {
-        return (! operator == (that));
+        return ! operator == (that);
       }
 
 
@@ -110,7 +110,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator <= (const self_type & that) const noexcept
       {
-        return (! operator > (that));
+        return ! operator > (that);
       }
 
 
@@ -122,7 +122,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator >= (const self_type & that) const noexcept
       {
-        return (! operator < (that));
+        return ! operator < (that);
       }
 
 

@@ -21,7 +21,7 @@ namespace Utils
 
     if (x < TArithmetic (0))
     {
-      return (- x);
+      return - x;
     }
 
     return x;

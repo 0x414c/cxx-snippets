@@ -29,7 +29,7 @@ namespace Utils
       /**
        * @brief
        */
-      constexpr SourceLocation (void) noexcept = default;
+      constexpr SourceLocation () noexcept = default;
 
       /**
        * @brief
@@ -62,7 +62,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr const CString &
-      function (void) const noexcept
+      function () const noexcept
       {
         return function_;
       }
@@ -73,7 +73,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr const CString &
-      file (void) const noexcept
+      file () const noexcept
       {
         return file_;
       }
@@ -84,7 +84,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr std::size_t
-      line (void) const noexcept
+      line () const noexcept
       {
         return line_;
       }

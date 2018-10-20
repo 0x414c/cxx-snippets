@@ -178,10 +178,10 @@ namespace Utils
 
     if (x != 0)
     {
-      return (lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift]);
+      return lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift];
     }
 
-    return (lut_type::width);
+    return lut_type::width;
   }
 
 
@@ -194,7 +194,7 @@ namespace Utils
   [[nodiscard]] constexpr std::uint8_t
   ctz (std::int8_t x) noexcept
   {
-    return (ctz (std::uint8_t (x)));
+    return ctz (std::uint8_t (x));
   }
 
 
@@ -212,10 +212,10 @@ namespace Utils
 
     if (x != 0)
     {
-      return (lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift]);
+      return lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift];
     }
 
-    return (lut_type::width);
+    return lut_type::width;
   }
 
 
@@ -228,7 +228,7 @@ namespace Utils
   [[nodiscard]] constexpr std::uint8_t
   ctz (std::int16_t x) noexcept
   {
-    return (ctz (std::uint16_t (x)));
+    return ctz (std::uint16_t (x));
   }
 
 
@@ -246,10 +246,10 @@ namespace Utils
 
     if (x != 0)
     {
-      return (lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift]);
+      return lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift];
     }
 
-    return (lut_type::width);
+    return lut_type::width;
   }
 
 
@@ -262,7 +262,7 @@ namespace Utils
   constexpr std::uint8_t
   ctz (std::int32_t x) noexcept
   {
-    return (ctz (std::uint32_t (x)));
+    return ctz (std::uint32_t (x));
   }
 
 
@@ -280,10 +280,10 @@ namespace Utils
 
     if (x != 0)
     {
-      return (lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift]);
+      return lut_type::lut [((x & (- x)) * lut_type::factor) >> lut_type::shift];
     }
 
-    return (lut_type::width);
+    return lut_type::width;
   }
 
 
@@ -296,7 +296,7 @@ namespace Utils
   constexpr std::uint8_t
   ctz (std::int64_t x) noexcept
   {
-    return (ctz (std::uint64_t (x)));
+    return ctz (std::uint64_t (x));
   }
 }
 

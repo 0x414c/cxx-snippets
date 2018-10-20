@@ -11,7 +11,7 @@
 namespace Utils
 {
   [[noreturn]] void
-  crashProgram (void) noexcept
+  crashProgram () noexcept
   {
     std::abort ();
   }

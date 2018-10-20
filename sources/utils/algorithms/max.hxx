@@ -18,7 +18,7 @@ namespace Utils
   [[nodiscard]] constexpr std::common_type_t <TFirst>
   max (TFirst && first)
   {
-    return (std::forward <TFirst> (first));
+    return std::forward <TFirst> (first);
   }
 
 
@@ -39,10 +39,10 @@ namespace Utils
   {
     if (second < first)
     {
-      return (max (std::forward <TFirst> (first), std::forward <TRest> (rest) ...));
+      return max (std::forward <TFirst> (first), std::forward <TRest> (rest) ...);
     }
 
-    return (max (std::forward <TSecond> (second), std::forward <TRest> (rest) ...));
+    return max (std::forward <TSecond> (second), std::forward <TRest> (rest) ...);
   }
 }
 

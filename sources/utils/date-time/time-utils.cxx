@@ -8,7 +8,7 @@
 namespace Utils
 {
   std::chrono::nanoseconds::rep
-  unixTime (void)
+  unixTime ()
   {
     using clock_type = std::chrono::system_clock;
 
@@ -19,6 +19,6 @@ namespace Utils
       std::chrono::duration_cast <std::chrono::nanoseconds> (time_since_epoch)
     );
 
-    return (nanoseconds.count ());
+    return nanoseconds.count ();
   }
 }

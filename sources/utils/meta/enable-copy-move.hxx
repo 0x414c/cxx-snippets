@@ -29,7 +29,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = delete;
 
@@ -51,7 +51,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = delete;
 
@@ -73,7 +73,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = delete;
 
@@ -95,7 +95,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = delete;
 
@@ -117,7 +117,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = delete;
 
@@ -139,7 +139,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = delete;
 
@@ -161,7 +161,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = delete;
 
@@ -183,7 +183,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = delete;
 
@@ -205,7 +205,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = default;
 
@@ -227,7 +227,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = default;
 
@@ -249,7 +249,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = default;
 
@@ -271,7 +271,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = default;
 
@@ -293,7 +293,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = default;
 
@@ -315,7 +315,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = default;
 
@@ -337,7 +337,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = default;
 
@@ -359,7 +359,7 @@ namespace Utils
 
 
     protected:
-      constexpr EnableCopyMove (void) noexcept = default;
+      constexpr EnableCopyMove () noexcept = default;
 
       constexpr EnableCopyMove (const self_type &) noexcept = default;
 

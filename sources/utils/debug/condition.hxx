@@ -26,7 +26,7 @@ namespace Utils
       /**
        * @brief
        */
-      constexpr Condition (void) noexcept = delete;
+      constexpr Condition () noexcept = delete;
 
       /**
        * @brief
@@ -61,7 +61,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr bool
-      value (void) const noexcept
+      value () const noexcept
       {
         return value_;
       }
@@ -72,7 +72,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr const CString &
-      source (void) const noexcept
+      source () const noexcept
       {
         return source_;
       }
@@ -83,7 +83,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr const SourceLocation &
-      sourceLocation (void) const noexcept
+      sourceLocation () const noexcept
       {
         return source_location_;
       }
@@ -93,9 +93,9 @@ namespace Utils
        * @brief
        * @return
        */
-      [[nodiscard]] constexpr explicit operator bool (void) const noexcept
+      [[nodiscard]] constexpr explicit operator bool () const noexcept
       {
-        return (value ());
+        return value ();
       }
 
 

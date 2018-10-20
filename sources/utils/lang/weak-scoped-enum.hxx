@@ -17,7 +17,7 @@ namespace Utils::Lang::WeakScopedEnum
   [[nodiscard]] constexpr std::underlying_type_t <TEnum>
   operator + (TEnum x) noexcept
   {
-    return (std::underlying_type_t <TEnum> (x));
+    return std::underlying_type_t <TEnum> (x);
   }
 }
 

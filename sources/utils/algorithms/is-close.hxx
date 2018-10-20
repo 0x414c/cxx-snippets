@@ -32,8 +32,8 @@ namespace Utils
   {
     static_assert (std::is_floating_point_v <TFloatingPoint>);
 
-    ASSERT (! (rel_tol < TFloatingPoint (0)), "`rel_tol' must not be less than 0");
-    ASSERT (! (abs_tol < TFloatingPoint (0)), "`abs_tol' must not be less than 0");
+    ASSERT (! (rel_tol < TFloatingPoint (0)), "`rel_tol' must not be less than `0'");
+    ASSERT (! (abs_tol < TFloatingPoint (0)), "`abs_tol' must not be less than `0'");
 
     if (std::isfinite (x) && std::isfinite (y))
     {
@@ -47,16 +47,14 @@ namespace Utils
 
       const TFloatingPoint abs_diff (abs (x - y));
 
-      return (
-           (abs_diff <= abs_tol)
-        || (abs_diff <= (rel_tol * abs (x)))
-        || (abs_diff <= (rel_tol * abs (y)))
-      );
+      return (abs_diff <= abs_tol)
+          || (abs_diff <= (rel_tol * abs (x)))
+          || (abs_diff <= (rel_tol * abs (y)));
     }
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"
-    return (x == y);
+    return x == y;
 #pragma GCC diagnostic pop
   }
 }

@@ -50,7 +50,7 @@ namespace Utils
       /**
        * @brief
        */
-      AlignedUnion (void) noexcept = default;
+      AlignedUnion () noexcept = default;
 
       /**
        * @brief
@@ -72,11 +72,11 @@ namespace Utils
        */
       template <typename TType>
       const TType &
-      get (void) const noexcept
+      get () const noexcept
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
-        return (* get_ <TType> ());
+        return * get_ <TType> ();
       }
 
 
@@ -87,11 +87,11 @@ namespace Utils
        */
       template <typename TType>
       TType &
-      get (void) noexcept
+      get () noexcept
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
-        return (* get_ <TType> ());
+        return * get_ <TType> ();
       }
 
 
@@ -112,7 +112,7 @@ namespace Utils
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
         static_assert (std::is_constructible_v <TType, TArgs && ...>);
 
-        return (* construct_ <TType, TArgs ...> (get_ (), std::forward <TArgs> (args) ...));
+        return * construct_ <TType, TArgs ...> (get_ (), std::forward <TArgs> (args) ...);
       }
 
 
@@ -133,7 +133,7 @@ namespace Utils
 
         get <TType> () = std::forward <TArg> (arg);
 
-        return (get <TType> ());
+        return get <TType> ();
       }
 
 
@@ -143,7 +143,7 @@ namespace Utils
        */
       template <typename TType>
       void
-      destroy (void)
+      destroy ()
       noexcept (std::is_nothrow_destructible_v <TType>)
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
@@ -175,9 +175,9 @@ namespace Utils
        * @return
        */
       const void *
-      get_ (void) const noexcept
+      get_ () const noexcept
       {
-        return (std::launder (std::addressof (storage_)));
+        return std::launder (std::addressof (storage_));
       }
 
 
@@ -186,9 +186,9 @@ namespace Utils
        * @return
        */
       void *
-      get_ (void) noexcept
+      get_ () noexcept
       {
-        return (std::launder (std::addressof (storage_)));
+        return std::launder (std::addressof (storage_));
       }
 
 
@@ -199,13 +199,13 @@ namespace Utils
        */
       template <typename TType>
       const TType *
-      get_ (void) const noexcept
+      get_ () const noexcept
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-        return ((const TType *) (get_ ()));
+        return (const TType *) get_ ();
 #pragma GCC diagnostic pop
       }
 
@@ -217,13 +217,13 @@ namespace Utils
        */
       template <typename TType>
       TType *
-      get_ (void) noexcept
+      get_ () noexcept
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-        return ((TType *) (get_ ()));
+        return (TType *) get_ ();
 #pragma GCC diagnostic pop
       }
 
@@ -246,7 +246,7 @@ namespace Utils
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);
         static_assert (std::is_constructible_v <TType, TArgs && ...>);
 
-        return (::new (address) (TType) (std::forward <TArgs> (args) ...));
+        return ::new (address) (TType) (std::forward <TArgs> (args) ...);
       }
 
 
@@ -256,7 +256,7 @@ namespace Utils
        */
       template <typename TType>
       void
-      destroy_ (void)
+      destroy_ ()
       noexcept (std::is_nothrow_destructible_v <TType>)
       {
         static_assert (AlignedUnionInternals_::IsAllowedV_ <TType>);

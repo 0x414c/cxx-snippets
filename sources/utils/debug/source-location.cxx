@@ -10,9 +10,9 @@ namespace Utils
   {
     output
       << "SourceLocation{"
-      << "function:" << self.function_
-      << ";file:" << self.file_
-      << ";line:" << self.line_
+      << "function:" << self.function ()
+      << ";file:" << self.file ()
+      << ";line:" << self.line ()
       << '}';
 
     return output;

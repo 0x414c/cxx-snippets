@@ -21,15 +21,15 @@ namespace Utils
 
     if (TSigned (0) < x)
     {
-      return (TSigned (1));
+      return TSigned (1);
     }
 
     if (x < TSigned (0))
     {
-      return (TSigned (- 1));
+      return TSigned (- 1);
     }
 
-    return (TSigned (0));
+    return TSigned (0);
   }
 }
 

@@ -43,7 +43,7 @@ namespace Utils
       /**
        * @brief
        */
-      constexpr BasicCString (void) noexcept = delete;
+      constexpr BasicCString () noexcept = delete;
 
       /**
        * @brief
@@ -75,7 +75,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr const char_type *
-      data (void) const noexcept
+      data () const noexcept
       {
         return data_;
       }
@@ -86,7 +86,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr std::size_t
-      size (void) const noexcept
+      size () const noexcept
       {
         return size_;
       }
@@ -96,9 +96,9 @@ namespace Utils
        * @brief
        * @return
        */
-      [[nodiscard]] constexpr operator const char_type * (void) const noexcept
+      [[nodiscard]] constexpr operator const char_type * () const noexcept
       {
-        return (data ());
+        return data ();
       }
 
 
@@ -129,7 +129,7 @@ namespace Utils
       {
         //ASSERT (pos < size (), "`pos' must be less than `size ()'");
 
-        return (data () [pos]);
+        return data () [pos];
       }
 
 

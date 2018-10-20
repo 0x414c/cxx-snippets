@@ -36,7 +36,8 @@ namespace Utils
         )
       + (now_as_local_tm.tm_sec - now_as_utc_tm.tm_sec)
     );
-    const int date_diff_in_days (now_as_local_tm.tm_mday - now_as_utc_tm.tm_mday);  // -1, 0 or 1
+    const int date_diff_in_days (now_as_local_tm.tm_mday - now_as_utc_tm.tm_mday);  // - 1, 0 or 1
+
     if ((date_diff_in_days == 1) || (date_diff_in_days < (- 1)))
     {
       time_diff_in_seconds += 24 * 60 * 60;
@@ -48,6 +49,7 @@ namespace Utils
         time_diff_in_seconds -= 24 * 60 * 60;
       }
     }
+
     if (now_as_local_tm.tm_isdst == 1) {
       if (time_diff_in_seconds >= 0)
       {
@@ -72,7 +74,7 @@ namespace Utils
       memory_writer.write ("{0:0=+3d}:{1:0>2d}", time_diff_hours, time_diff_minutes);
     }
 
-    return (memory_writer.str ());
+    return memory_writer.str ();
   }
 }
 

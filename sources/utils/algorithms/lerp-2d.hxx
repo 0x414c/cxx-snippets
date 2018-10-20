@@ -41,7 +41,7 @@ namespace Utils
     const TZ z_0 (lerp (x, x_0, x_1, z_0_0, z_1_0));
     const TZ z_1 (lerp (x, x_0, x_1, z_0_1, z_1_1));
 
-    return (lerp (y, y_0, y_1, z_0, z_1));
+    return lerp (y, y_0, y_1, z_0, z_1);
   }
 }
 

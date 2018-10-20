@@ -26,7 +26,7 @@ namespace Utils
       /**
        * @brief
        */
-      constexpr Assertion (void) noexcept = delete;
+      constexpr Assertion () noexcept = delete;
 
       /**
        * @brief
@@ -55,7 +55,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr const Condition &
-      condition (void) noexcept
+      condition () noexcept
       {
         return condition_;
       }
@@ -122,10 +122,10 @@ namespace Utils
 
     private:
       void
-      assertionFailure_ (void) const noexcept;
+      assertionFailure_ () const noexcept;
 
       [[noreturn]] void
-      crashProgram_ (void) const noexcept;
+      crashProgram_ () const noexcept;
 
       /**
        * @brief

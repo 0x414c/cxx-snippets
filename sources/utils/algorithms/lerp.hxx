@@ -25,7 +25,7 @@ namespace Utils
     static_assert (std::is_arithmetic_v <TX>);
     static_assert (std::is_arithmetic_v <TY>);
 
-    return (y_0 + (x - x_0) * (y_1 - y_0) / (x_1 - x_0));
+    return y_0 + (x - x_0) * (y_1 - y_0) / (x_1 - x_0);
   }
 }
 

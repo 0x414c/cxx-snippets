@@ -32,7 +32,7 @@ namespace Utils
       /**
        * @brief
        */
-      Logger (void) noexcept = delete;
+      Logger () noexcept = delete;
 
       /**
        * @brief

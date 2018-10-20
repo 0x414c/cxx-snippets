@@ -45,7 +45,7 @@ namespace Utils
       /**
        * @brief
        */
-      constexpr Flags (void) noexcept = default;
+      constexpr Flags () noexcept = default;
 
       /**
        * @brief
@@ -86,7 +86,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       has (flag_type flags) const noexcept
       {
-        return ((underlying_type (flags_) & underlying_type (flags)) != underlying_zero_);
+        return (underlying_type (flags_) & underlying_type (flags)) != underlying_zero_;
       }
 
 
@@ -118,7 +118,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       is (flag_type flags) const noexcept
       {
-        return (flags_ == flags);
+        return flags_ == flags;
       }
 
 
@@ -130,7 +130,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       is (const std::initializer_list <flag_type> & flags) const noexcept
       {
-        return (is (combine_ (flags)));
+        return is (combine_ (flags));
       }
 
 
@@ -139,9 +139,9 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr bool
-      none (void) const noexcept
+      none () const noexcept
       {
-        return (underlying_type (flags_) == underlying_zero_);
+        return underlying_type (flags_) == underlying_zero_;
       }
 
 
@@ -150,9 +150,9 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr bool
-      any (void) const noexcept
+      any () const noexcept
       {
-        return (! none ());
+        return ! none ();
       }
 
 
@@ -161,9 +161,9 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr bool
-      all (void) const noexcept
+      all () const noexcept
       {
-        return (underlying_type (flags_) == std::numeric_limits <underlying_type>::max ());
+        return underlying_type (flags_) == std::numeric_limits <underlying_type>::max ();
       }
 
 
@@ -220,7 +220,7 @@ namespace Utils
        * @return
        */
       constexpr void
-      reset (void) noexcept
+      reset () noexcept
       {
         flags_ = flag_type (underlying_zero_);
       }
@@ -230,9 +230,9 @@ namespace Utils
        * @brief
        * @return
        */
-      [[nodiscard]] constexpr explicit operator bool (void) const noexcept
+      [[nodiscard]] constexpr explicit operator bool () const noexcept
       {
-        return (any ());
+        return any ();
       }
 
 
@@ -240,7 +240,7 @@ namespace Utils
        * @brief
        * @return
        */
-      [[nodiscard]] constexpr explicit operator flag_type (void) const noexcept
+      [[nodiscard]] constexpr explicit operator flag_type () const noexcept
       {
         return flags_;
       }
@@ -273,7 +273,7 @@ namespace Utils
       {
         flags_ = flags;
 
-        return (* this);
+        return * this;
       }
 
 
@@ -285,13 +285,13 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator == (const self_type & that) const noexcept
       {
-        if (this == (& that))
+        if (this == & that)
         {
           return true;
         }
 
-        return (flags_ == that.flags_);
-      };
+        return flags_ == that.flags_;
+      }
 
 
       /**
@@ -302,7 +302,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (const self_type & that) const
       {
-        return (! operator == (that));
+        return ! operator == (that);
       }
 
 
@@ -314,8 +314,8 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator == (flag_type flags) const noexcept
       {
-        return (flags_ == flags);
-      };
+        return flags_ == flags;
+      }
 
 
       /**
@@ -326,7 +326,7 @@ namespace Utils
       [[nodiscard]] constexpr bool
       operator != (flag_type flags) const
       {
-        return (! operator == (flags));
+        return ! operator == (flags);
       }
 
 
@@ -363,7 +363,7 @@ namespace Utils
           all_flags |= underlying_type (flag);
         }
 
-        return (flag_type (all_flags));
+        return flag_type (all_flags);
       }
 
 

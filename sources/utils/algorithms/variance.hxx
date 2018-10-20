@@ -28,8 +28,8 @@ namespace Utils
 
     static_assert (std::is_arithmetic_v <value_type>);
 
-    // TODO: `std::distance' is not usable as a constexpr function yet
-    // ASSERT (std::distance (first, last) > 1, "Distance between `first' and `last' must be greater than 1");
+    // TODO: `std::distance' is not usable as a constexpr function yet.
+    // ASSERT (std::distance (first, last) > 1, "Distance between `first' and `last' must be greater than `1'");
 
     difference_type count (0);
     Summator <value_type> mean (0);
@@ -46,7 +46,7 @@ namespace Utils
       ++ first;
     }
 
-    return (value_type (m_2) / value_type (count - 1));
+    return value_type (m_2) / value_type (count - 1);
   }
 }
 

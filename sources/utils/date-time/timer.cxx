@@ -11,7 +11,7 @@
 
 namespace Utils
 {
-  Timer::Timer (void)
+  Timer::Timer ()
   {
     initialize_ ();
   }
@@ -39,7 +39,7 @@ namespace Utils
   }
 
 
-  Timer::~ Timer (void)
+  Timer::~ Timer ()
   {
     if (isAutomatic ())
     {
@@ -49,21 +49,21 @@ namespace Utils
 
 
   const CString &
-  Timer::description (void) const noexcept
+  Timer::description () const noexcept
   {
     return description_;
   }
 
 
   bool
-  Timer::isAutomatic (void) const noexcept
+  Timer::isAutomatic () const noexcept
   {
     return is_automatic_;
   }
 
 
   Timer::clock_type::time_point
-  Timer::timeStarted (void) const
+  Timer::timeStarted () const
   {
     return time_started_;
   }
@@ -77,7 +77,7 @@ namespace Utils
 
 
   Timer::clock_type::time_point
-  Timer::timeStopped (void) const
+  Timer::timeStopped () const
   {
     return time_stopped_;
   }
@@ -91,14 +91,14 @@ namespace Utils
 
 
   Timer::clock_type::duration
-  Timer::timeElapsed (void) const
+  Timer::timeElapsed () const
   {
-    return (timeStopped () - timeStarted ());
+    return timeStopped () - timeStarted ();
   }
 
 
   void
-  Timer::logTimeElapsed (void) const
+  Timer::logTimeElapsed () const
   {
     Logger::log (
       Config::Utils::Logger::Timer_prefix, "Timer `{0}': time elapsed: {1}",
@@ -108,14 +108,14 @@ namespace Utils
 
 
   void
-  Timer::start (void)
+  Timer::start ()
   {
     timeStarted_ (clock_type::now ());
   }
 
 
   void
-  Timer::stop (void)
+  Timer::stop ()
   {
     timeStopped_ (clock_type::now ());
 
@@ -127,7 +127,7 @@ namespace Utils
 
 
   void
-  Timer::initialize_ (void)
+  Timer::initialize_ ()
   {
     if (isAutomatic ())
     {

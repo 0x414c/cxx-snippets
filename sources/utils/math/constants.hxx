@@ -2,26 +2,27 @@
 #define UTILS_MATH_CONSTANTS_HXX
 
 
+// TODO: Rename => `Constant'
 namespace Utils::Math::Constants
 {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
   /**
-   * @brief Euler's number (e).
+   * @brief e.
    * @tparam TArithmetic
    */
   template <typename TArithmetic>
   inline constexpr TArithmetic E { 2.718281828459045235360287471352662498l };
 
   /**
-   * @brief Binary logarithm of `e'.
+   * @brief Binary logarithm of e.
    * @tparam TArithmetic
    */
   template <typename TArithmetic>
   inline constexpr TArithmetic Lb_e { 1.442695040888963407359924681001892137l };
 
   /**
-   * @brief Common (base 10) logarithm of `e'.
+   * @brief Base 10 logarithm of e.
    * @tparam TArithmetic
    */
   template <typename TArithmetic>
@@ -42,7 +43,7 @@ namespace Utils::Math::Constants
   inline constexpr TArithmetic Ln_10 { 2.302585092994045684017991454684364208l };
 
   /**
-   * @brief Archimedes' constant (π).
+   * @brief π.
    * @tparam TArithmetic
    */
   template <typename TArithmetic>

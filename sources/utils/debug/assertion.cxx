@@ -8,13 +8,13 @@
 namespace Utils
 {
   [[noreturn]] void
-  Assertion::crashProgram_ (void) const noexcept
+  Assertion::crashProgram_ () const noexcept
   {
     crashProgram ();
   }
 
 
   void
-  Assertion::assertionFailure_ (void) const noexcept
+  Assertion::assertionFailure_ () const noexcept
   { }
 }

@@ -40,7 +40,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr NaiveSummationPolicy (void) noexcept = default;
+      constexpr NaiveSummationPolicy () noexcept = default;
 
       /**
        * @brief
@@ -73,7 +73,7 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr term_type
-      total (void) const noexcept
+      total () const noexcept
       {
         return sum_;
       }
@@ -117,7 +117,7 @@ namespace Utils
       {
         sum_ = new_initial_value;
 
-        return (* this);
+        return * this;
       }
 
 
@@ -158,7 +158,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr CompensatingSummationPolicy (void) noexcept = default;
+      constexpr CompensatingSummationPolicy () noexcept = default;
 
       /**
        * @brief
@@ -192,9 +192,9 @@ namespace Utils
        * @return
        */
       [[nodiscard]] constexpr term_type
-      total (void) const noexcept
+      total () const noexcept
       {
-        return (sum_ + correction_);
+        return sum_ + correction_;
       }
 
 
@@ -277,7 +277,7 @@ namespace Utils
         sum_ = new_initial_value;
         correction_ = term_zero_;
 
-        return (* this);
+        return * this;
       }
 
 
@@ -340,7 +340,7 @@ namespace Utils
        * @brief
        * @return
        */
-      constexpr Summator (void) noexcept = default;
+      constexpr Summator () noexcept = default;
 
       /**
        * @brief
@@ -373,9 +373,9 @@ namespace Utils
        * TODO: [1;0] Explicit?
        * @return
        */
-      [[nodiscard]] constexpr explicit operator term_type (void) const noexcept
+      [[nodiscard]] constexpr explicit operator term_type () const noexcept
       {
-        return (summation_policy_.total ());
+        return summation_policy_.total ();
       }
 
 
@@ -406,7 +406,7 @@ namespace Utils
       {
         summation_policy_ = new_initial_value;
 
-        return (* this);
+        return * this;
       }
 
 
@@ -420,7 +420,7 @@ namespace Utils
       {
         summation_policy_.add (term);
 
-        return (* this);
+        return * this;
       }
 
 
@@ -434,7 +434,7 @@ namespace Utils
       {
         summation_policy_.add (- term);
 
-        return (* this);
+        return * this;
       }
 
 

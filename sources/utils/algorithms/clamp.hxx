@@ -12,12 +12,12 @@ namespace Utils
   /**
    * @brief
    * NOTE: The result is undefined if `x_min' is greater than `x_max'.
-   * NOTE: If `x' is equivalent to either bound, returns a reference to `x', not the bound.
+   * NOTE: If `x' compares equivalent to either bound, returns a reference to `x', not the bound.
    * NOTE: Can be implemented
-   *   as `return (std::max (x_min, std::min (x_max, x)));'
-   *   or `return (std::min (std::max (x, x_min), x_max));'
-   *   or `return ((x_max < x) ? x_max : ((x < x_min) ? x_min : x));'
-   *   or `return ((x < x_min) ? x_min : ((x_max < x) ? x_max : x));'.
+   *   as `return std::max (x_min, std::min (x_max, x));'
+   *   or `return std::min (std::max (x, x_min), x_max);'
+   *   or `return (x_max < x) ? x_max : ((x < x_min) ? x_min : x);'
+   *   or `return (x < x_min) ? x_min : ((x_max < x) ? x_max : x);'.
    * @tparam TX
    * @param x
    * @param x_min

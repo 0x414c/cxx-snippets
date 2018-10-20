@@ -78,7 +78,7 @@ namespace Utils
       memory_writer.write ("{0:s}{1:d}ns", ((is_first) ? "" : " "), duration_nanoseconds.count ());
     }
 
-    return (memory_writer.str ());
+    return memory_writer.str ();
   }
 }
 

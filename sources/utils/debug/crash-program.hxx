@@ -9,7 +9,7 @@
 namespace Utils
 {
   [[noreturn]] void
-  crashProgram (void) noexcept;
+  crashProgram () noexcept;
 
   [[noreturn]] void
   crashProgram (const CString & message) noexcept;

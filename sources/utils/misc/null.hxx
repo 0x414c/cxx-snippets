@@ -20,7 +20,7 @@ namespace Utils
       /**
        * @brief
        */
-      explicit constexpr Null (void) noexcept = delete;
+      explicit constexpr Null () noexcept = delete;
 
       /**
        * @brief
@@ -37,7 +37,7 @@ namespace Utils
       /**
        * @brief
        */
-      ~ Null (void) noexcept = delete;
+      ~ Null () noexcept = delete;
 
       /**
        * @brief

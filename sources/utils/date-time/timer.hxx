@@ -47,7 +47,7 @@ namespace Utils
        * @brief
        * @return
        */
-      Timer (void);
+      Timer ();
 
       /**
        * @brief
@@ -87,60 +87,60 @@ namespace Utils
       /**
        * @brief
        */
-      ~ Timer (void);
+      ~ Timer ();
 
       /**
        * @brief
        * @return
        */
       [[nodiscard]] const CString &
-      description (void) const noexcept;
+      description () const noexcept;
 
       /**
        * @brief
        * @return
        */
       [[nodiscard]] bool
-      isAutomatic (void) const noexcept;
+      isAutomatic () const noexcept;
 
       /**
        * @brief
        * @return
        */
       [[nodiscard]] clock_type::time_point
-      timeStarted (void) const;
+      timeStarted () const;
 
       /**
        * @brief
        * @return
        */
       [[nodiscard]] clock_type::time_point
-      timeStopped (void) const;
+      timeStopped () const;
 
       /**
        * @brief
        * @return
        */
       [[nodiscard]] clock_type::duration
-      timeElapsed (void) const;
+      timeElapsed () const;
 
       /**
        * @brief
        */
       void
-      logTimeElapsed (void) const;
+      logTimeElapsed () const;
 
       /**
        * @brief
        */
       void
-      start (void);
+      start ();
 
       /**
        * @brief
        */
       void
-      stop (void);
+      stop ();
 
       /**
        * @brief
@@ -178,7 +178,7 @@ namespace Utils
        * @brief
        */
       void
-      initialize_ (void);
+      initialize_ ();
 
       /**
        * @brief
