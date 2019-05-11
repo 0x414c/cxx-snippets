@@ -2158,10 +2158,7 @@ namespace Utils
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
-        output
-          << "Unexpected{"
-          << "error:" << self.error ()
-          << '}';
+        output << "Unexpected{error:" << self.error () << '}';
 
         return output;
       }

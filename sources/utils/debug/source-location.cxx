@@ -9,11 +9,9 @@ namespace Utils
   operator << (std::ostream & output, const SourceLocation::self_type & self)
   {
     output
-      << "SourceLocation{"
-      << "function:" << self.function ()
+      << "SourceLocation{function:" << self.function ()
       << ";file:" << self.file ()
-      << ";line:" << self.line ()
-      << '}';
+      << ";line:" << self.line () << '}';
 
     return output;
   }

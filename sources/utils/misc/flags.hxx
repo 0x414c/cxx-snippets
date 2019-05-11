@@ -339,10 +339,7 @@ namespace Utils
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
-        output
-          << "Flags{"
-          << std::hex << std::showbase << underlying_type (self.flags_)
-          << '}';
+        output << "Flags{" << std::hex << std::showbase << underlying_type (self.flags_) << '}';
 
         return output;
       }

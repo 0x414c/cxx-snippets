@@ -10,11 +10,9 @@ namespace Utils
   operator << (std::ostream & output, const Condition::self_type & self)
   {
     output
-      << "Condition{"
-      << "value:" << std::boolalpha << self.value ()
+      << "Condition{value:" << std::boolalpha << self.value ()
       << ";source:" << self.source ()
-      << ";source_location:" << self.sourceLocation ()
-      << '}';
+      << ";source_location:" << self.sourceLocation () << '}';
 
     return output;
   }

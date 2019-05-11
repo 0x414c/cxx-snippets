@@ -447,10 +447,7 @@ namespace Utils
       friend std::ostream &
       operator << (std::ostream & output, const self_type & self)
       {
-        output
-          << "Summator{"
-          << "total:" << self.summation_policy_.total ()
-          << '}';
+        output << "Summator{" << self.summation_policy_.total () << '}';
 
         return output;
       }
