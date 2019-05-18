@@ -65,7 +65,7 @@
   { \
     ::Utils::Logger::log_Detailed ( \
       (CURRENT_SOURCE_LOCATION ()), ::Config::Utils::Logger::Value_prefix, \
-      "`{0:s}' == `{1}'", (STRINGIFY_E (expression)), (expression) \
+      "`{0:s}'  ==  `{1}'", (STRINGIFY_E (expression)), (expression) \
     ); \
   } \
   while (false)
@@ -78,7 +78,7 @@
   do \
   { \
     ::Utils::Logger::log ( \
-      ::Config::Utils::Logger::Value_prefix, "`{0:s}' == `{1}'", (STRINGIFY_E (expression)), (expression) \
+      ::Config::Utils::Logger::Value_prefix, "`{0:s}'  ==  `{1}'", (STRINGIFY_E (expression)), (expression) \
     ); \
   } \
   while (false)

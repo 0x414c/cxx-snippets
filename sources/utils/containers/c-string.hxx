@@ -127,7 +127,7 @@ namespace Utils
       [[nodiscard]] constexpr char_type
       operator [] (std::size_t pos) const noexcept
       {
-        //ASSERT (pos < size (), "`pos' must be less than `size ()'");
+        //ASSERT (pos < size (), "`pos'  must be less than  `size ()'");
 
         return data () [pos];
       }

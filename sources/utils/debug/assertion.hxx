@@ -75,7 +75,7 @@ namespace Utils
 
           Logger::log_Detailed (
             condition_.sourceLocation (), Config::Utils::Logger::Assert_prefix,
-            "Assertion `{0:s}' failed: `{1:s}'", condition_.source (), message
+            "Assertion  `{0:s}'  failed:  `{1:s}'", condition_.source (), message
           );
 
           crashProgram_ ();
@@ -97,7 +97,7 @@ namespace Utils
 
           Logger::log_Detailed (
             condition_.sourceLocation (), Config::Utils::Logger::Check_prefix,
-            "Check `{0:s}' failed: `{1:s}'", condition_.source (), message
+            "Check  `{0:s}'  failed:  `{1:s}'", condition_.source (), message
           );
         }
       }

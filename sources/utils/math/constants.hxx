@@ -2,7 +2,6 @@
 #define UTILS_MATH_CONSTANTS_HXX
 
 
-// TODO: Rename => `Constant'
 namespace Utils::Math::Constants
 {
 #pragma GCC diagnostic push

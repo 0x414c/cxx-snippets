@@ -28,8 +28,8 @@ namespace Utils
 
   /**
    * @brief Unsafe union-like class that holds static uninitialized storage and provides methods for constructing,
-   *   accessing and destroying objects of different types in that storage.
-   * NOTE: [2] Does not manage memory by itself and does not track types of active objects!
+   *   accessing  &  destroying objects of different types in that storage.
+   * NOTE:  [2]  Doesn't manage memory by itself  &  doesn't track types of active objects!
    * @tparam TTypes
    */
   template <typename ... TTypes>

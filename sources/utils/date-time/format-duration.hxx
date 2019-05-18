@@ -12,7 +12,7 @@ namespace Utils
 {
   /**
    * @brief
-   * TODO: [0;1] Make code as short & clean as possible.
+   * TODO:  [0;1]  Make code as short  &  clean as possible.
    * @param duration
    * @return
    */
@@ -21,6 +21,7 @@ namespace Utils
   formatDuration (TDuration duration)
   {
     using namespace std::chrono;
+
     using namespace std::chrono_literals;
 
 

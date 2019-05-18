@@ -713,3 +713,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+
+/cmake-build-debug/

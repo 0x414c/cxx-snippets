@@ -6,7 +6,7 @@
 #include <type_traits>  // std::is_arithmetic_v
 
 //#include "../debug/assert.hxx"  // ASSERT
-#include "summator.hxx" // Summator
+#include "summator.hxx"  // Summator
 
 
 namespace Utils
@@ -28,8 +28,8 @@ namespace Utils
 
     static_assert (std::is_arithmetic_v <value_type>);
 
-    // TODO: `std::distance' is not usable as a constexpr function yet.
-    // ASSERT (std::distance (first, last) > 1, "Distance between `first' and `last' must be greater than `1'");
+    // TODO:  `std::distance'  isn't usable as a constexpr function yet.
+    //ASSERT (std::distance (first, last) > 1, "Distance between  `first'  &  `last'  must be greater than  `1'");
 
     difference_type count (0);
     Summator <value_type> mean (0);

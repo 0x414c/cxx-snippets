@@ -197,11 +197,6 @@ namespace Utils
    */
   template <typename TTypeList, typename TCompare>
   inline constexpr bool HasV (ValueOf <Has <TTypeList, TCompare>>);
-
-
-  template <typename ... TTypes>
-  struct TypeList2
-  { };
 }
 
 

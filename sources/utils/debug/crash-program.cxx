@@ -20,7 +20,7 @@ namespace Utils
   [[noreturn]] void
   crashProgram (const CString & message) noexcept
   {
-    Logger::log (Config::Utils::Logger::Fatal_prefix, "Fatal error: `{0:s}'", message);
+    Logger::log (Config::Utils::Logger::Fatal_prefix, "Fatal error:  `{0:s}'", message);
 
     crashProgram ();
   }
@@ -29,7 +29,7 @@ namespace Utils
   [[noreturn]] void
   crashProgram (const CString & message, const SourceLocation & source_location) noexcept
   {
-    Logger::log_Detailed (source_location, Config::Utils::Logger::Fatal_prefix, "Fatal error: `{0:s}'", message);
+    Logger::log_Detailed (source_location, Config::Utils::Logger::Fatal_prefix, "Fatal error:  `{0:s}'", message);
 
     crashProgram ();
   }

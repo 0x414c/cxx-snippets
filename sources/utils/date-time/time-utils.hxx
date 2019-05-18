@@ -29,7 +29,7 @@ namespace Utils
     /*
      * Compute intervening leap days correctly even if year is negative.
      * Take care to avoid integer overflow in leap day calculations,
-     *   but it's OK to assume that `x' and `y' are close to each other.
+     *   but it's OK to assume that  `x'  &  `y'  are close to each other.
      */
     const int x_4 ((x.tm_year >> 2) + (1'900 >> 2) - (! (x.tm_year & 3)));
     const int y_4 ((y.tm_year >> 2) + (1'900 >> 2) - (! (y.tm_year & 3)));

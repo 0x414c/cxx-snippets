@@ -170,7 +170,7 @@ namespace Utils
       {
         if (! wasChecked_ ())
         {
-          FATAL_NL ("No instance of `Expected' must be left unchecked");
+          FATAL_NL ("No instance of  `Expected'  must be left unchecked");
         }
       }
 
@@ -1730,7 +1730,7 @@ namespace Utils
             return result_ ();
           }
 
-          FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
+          FATAL_NL ("Cannot access result because this instance of  `Expected'  was initialized as an error");
         }
 
 
@@ -1746,7 +1746,7 @@ namespace Utils
             return result_ ();
           }
 
-          FATAL_NL ("Cannot access result because this instance of `Expected' was initialized as an error");
+          FATAL_NL ("Cannot access result because this instance of  `Expected'  was initialized as an error");
         }
 
 
@@ -1762,7 +1762,7 @@ namespace Utils
             return result_Safe_ ();
           }
 
-          FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing result");
+          FATAL_NL ("Instance of  `Expected'  must be checked for being an error before accessing result");
         }
 
 
@@ -1778,7 +1778,7 @@ namespace Utils
             return result_Safe_ ();
           }
 
-          FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing result");
+          FATAL_NL ("Instance of  `Expected'  must be checked for being an error before accessing result");
         }
 
 
@@ -1813,7 +1813,7 @@ namespace Utils
         {
           if (isResult_ ())
           {
-            FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
+            FATAL_NL ("Cannot access error because this instance of  `Expected'  was initialized as a result");
           }
 
           return error_ ();
@@ -1829,7 +1829,7 @@ namespace Utils
         {
           if (isResult_ ())
           {
-            FATAL_NL ("Cannot access error because this instance of `Expected' was initialized as a result");
+            FATAL_NL ("Cannot access error because this instance of  `Expected'  was initialized as a result");
           }
 
           return error_ ();
@@ -1848,7 +1848,7 @@ namespace Utils
             return error_Safe_ ();
           }
 
-          FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing error");
+          FATAL_NL ("Instance of  `Expected'  must be checked for being an error before accessing error");
         }
 
 
@@ -1864,7 +1864,7 @@ namespace Utils
             return error_Safe_ ();
           }
 
-          FATAL_NL ("Instance of `Expected' must be checked for being an error before accessing error");
+          FATAL_NL ("Instance of  `Expected'  must be checked for being an error before accessing error");
         }
 
 

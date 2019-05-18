@@ -3,7 +3,7 @@
 
 
 #include <cstddef>  // std::size_t
-#include <cstdint>  // std::{int8_t, int32_t, int64_t, uint8_t, uint32_t, uint64_t}
+#include <cstdint>  // std::*
 
 #include "../meta/always-false.hxx"  // AlwaysFalseV
 
@@ -21,7 +21,7 @@ namespace Utils
   ctz (TIntegral x) noexcept
   {
     static_assert (
-      AlwaysFalseV <TIntegral>, "ctz <TIntegral>: There is no suitable template specialization available"
+      AlwaysFalseV <TIntegral>, "ctz <TIntegral>:  There's no suitable template specialization available"
     );
 
     return 0;
@@ -38,7 +38,7 @@ namespace Utils
     struct CtzLut_ final
     {
       static_assert (
-        AlwaysFalseV <std::size_t, TSize>, "CtzLut_ <TSize>: There is no suitable template specialization available"
+        AlwaysFalseV <std::size_t, TSize>, "CtzLut_ <TSize>:  There's no suitable template specialization available"
       );
     };
 

@@ -36,7 +36,7 @@ namespace Utils
         )
       + (now_as_local_tm.tm_sec - now_as_utc_tm.tm_sec)
     );
-    const int date_diff_in_days (now_as_local_tm.tm_mday - now_as_utc_tm.tm_mday);  // - 1, 0 or 1
+    const int date_diff_in_days (now_as_local_tm.tm_mday - now_as_utc_tm.tm_mday);  // - 1,  0  or  1.
 
     if ((date_diff_in_days == 1) || (date_diff_in_days < (- 1)))
     {
@@ -79,4 +79,4 @@ namespace Utils
 }
 
 
-#endif // UTILS_DATETIME_FORMATDDATEISO8601_HXX
+#endif  // UTILS_DATETIME_FORMATDDATEISO8601_HXX

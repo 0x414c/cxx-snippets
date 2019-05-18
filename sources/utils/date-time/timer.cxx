@@ -101,7 +101,7 @@ namespace Utils
   Timer::logTimeElapsed () const
   {
     Logger::log (
-      Config::Utils::Logger::Timer_prefix, "Timer `{0}': time elapsed: {1}",
+      Config::Utils::Logger::Timer_prefix, "Timer  `{0}':  time elapsed:  {1}",
       description_, formatDuration (timeElapsed ())
     );
   }

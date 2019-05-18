@@ -14,10 +14,10 @@ namespace Utils
 {
   /**
    * @brief Measures execution time using high resolution clock.
-   * Logs elapsed time on destruction (in automatic mode only).
-   * TODO: [0;1] `clock_type' as a template parameter.
-   * TODO: [1;1] Split to two classes: manual and automatic.
-   * TODO: [1;2] Add file and line to the description.
+   * Logs elapsed time on destruction  (in automatic mode only).
+   * TODO:  [0;1]  `clock_type'  as a template parameter.
+   * TODO:  [1;1]  Split to two classes:  manual  &  automatic.
+   * TODO:  [1;2]  Add file  &  line to the description.
    */
   class Timer final
   {

@@ -15,8 +15,8 @@ namespace Utils
     static_assert (
          AlwaysFalseV <bool, TCopyConstructible, TCopyAssignable, TMoveConstructible, TMoveAssignable>
       && AlwaysFalseV <TTag>,
-      "EnableCopyMove <TCopyConstructible, TCopyAssignable, TMoveConstructible, TMoveAssignable, TTag>: "
-      "There is no suitable template specialization available"
+      "EnableCopyMove <TCopyConstructible, TCopyAssignable, TMoveConstructible, TMoveAssignable, TTag>:  "
+      "There's no suitable template specialization available"
     );
   };
 
